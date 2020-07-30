@@ -1,0 +1,1 @@
+This folder contains basic data for goalies for the last 10 years in the form of 10 npy files.
