@@ -32,7 +32,7 @@ parser.add_argument('--w',    type = int, default = 0, help = 'Wins Multiplier')
 parser.add_argument('--l',    type = int, default = 0, help = 'Losses Multiplier')
 parser.add_argument('--sa',   type = int, default = 0, help = 'Shots Against Multiplier')
 parser.add_argument('--ga',   type = int, default = 0, help = 'Goals Against Multiplier')
-parser.add_argument('--ega',  type = int, default = 0, help = 'Empty Net Goals Multiplier')
+parser.add_argument('--ega',  type = int, default = 0, help = 'Empty Net Goals Against Multiplier')
 parser.add_argument('--sv',   type = int, default = 0, help = 'Saves Multiplier')
 parser.add_argument('--so',   type = int, default = 0, help = 'Shutouts Multiplier') # 3
 parser.add_argument('--otl',  type = int, default = 0, help = 'Overtime Losses Multiplier') # 2
