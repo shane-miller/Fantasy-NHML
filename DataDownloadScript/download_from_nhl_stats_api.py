@@ -105,8 +105,8 @@ position_tag = ''
 
 ### DATA SCRAPING ###
 # Download data from the API the NHL uses for nhl.com/stats
-base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1%20and%20gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
-base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22savePct%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D%5D&start=0&limit=100&factCayenneExp=gamesPlayed%3E=1%20and%20gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22savePct%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
 
 
