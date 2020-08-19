@@ -99,7 +99,7 @@ defenceman_tag = 'D'
 year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
 year_lower_bound = f'{datetime.now().year - 5}{datetime.now().year - 4}'
 
-start_position = '0'
+start_position = 0
 
 
 ### DATA SCRAPING ###
@@ -109,24 +109,29 @@ base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=fals
 
 
 
-records = requests.get(base_skater_url.format(skater_summary, start_position, left_wing_tag, year_upper_bound, year_lower_bound)).json()
+temp = requests.get(base_skater_url.format(skater_summary, start_position, center_tag, year_upper_bound, year_lower_bound)).json()
+total_length = int(temp.get('total'))
+#center_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
+#center_report_list = [skater_summary, skater_fo_percentage, skater_fo_wl, skater_gfga, skater_misc, skater_penalties, skater_pk, skater_pp, skater_puck_possession, skater_sat_count, skater_sat_percentages, skater_scoring_per_60, skater_scoring_per_game, skater_toi]
+center_report_list = [skater_summary, skater_fo_percentage, skater_fo_wl, skater_gfga, skater_misc, skater_penalties, skater_pk, skater_pp, skater_puck_possession, skater_sat_percentages, skater_scoring_per_60, skater_scoring_per_game, skater_toi]
+center_records = {'total': total_length}
+for i in reversed(center_report_list):
+	temp = {}
+	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+		temp2 = requests.get(base_skater_url.format(i, j, center_tag, year_upper_bound, year_lower_bound)).json()
+		if(temp.get('data') == None):
+			temp.update({'data': temp2.get('data')})
+		else:
+			temp.update({'data': temp.get('data') + temp2.get('data')})
 
-# todo: increment the start in the url each time by 100 so we don't get the same 100 players every time
-# todo: add url for defensement and forwards
-# todo: set date range to be last 5 years by getting the previous year rather than hard-coding it
+	for k in range(total_length):
+		if(center_records.get('data') == None):
+			center_records.update({'data': temp.get('data')})
+		else:
+			center_records.get('data')[k].update(temp.get('data')[k])
 
-for i in range(int(records['total']/100)+1):
-	players = records['data']
-	print(players)
-    # todo: concatenate the json data together in a numpy array
+print(json.dumps(center_records.get('data')[0], sort_keys = True, indent = 4))
 
+
+# todo: do the same for defensement and goals
 # todo: save a .npy file for each forward, defense, and goalie and save the files to the correct folders in /data
-
-
-#get 5 season prior to this season loops
-#-get current year then use previos 5 years
-#-add argument for length to go back
-	#url_forward temp string
-	#formulate api request
-	#get data
-	#change year
