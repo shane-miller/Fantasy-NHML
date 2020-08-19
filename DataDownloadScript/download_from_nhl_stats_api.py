@@ -109,8 +109,6 @@ base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=fals
 
 
 
-
-
 records = requests.get(base_skater_url.format(skater_summary, start_position, left_wing_tag, year_upper_bound, year_lower_bound)).json()
 
 # todo: increment the start in the url each time by 100 so we don't get the same 100 players every time
