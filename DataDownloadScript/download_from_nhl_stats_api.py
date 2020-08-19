@@ -99,20 +99,19 @@ defenceman_tag = 'D'
 year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
 year_lower_bound = f'{datetime.now().year - 5}{datetime.now().year - 4}'
 
-report = ''
-position_tag = ''
+start_position = '0'
 
 
 ### DATA SCRAPING ###
 # Download data from the API the NHL uses for nhl.com/stats
-base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1%20and%20gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
-base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22savePct%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
 
 
 
 
-records = requests.get(base_skater_url.format(skater_summary, left_wing_tag, year_upper_bound, year_lower_bound)).json()
+records = requests.get(base_skater_url.format(skater_summary, start_position, left_wing_tag, year_upper_bound, year_lower_bound)).json()
 
 # todo: increment the start in the url each time by 100 so we don't get the same 100 players every time
 # todo: add url for defensement and forwards
