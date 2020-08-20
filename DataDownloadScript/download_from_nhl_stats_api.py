@@ -1,8 +1,9 @@
+from datetime import datetime
+from tqdm import tqdm
 import numpy as np
 import requests
 import argparse
 import json
-from datetime import datetime
 
 ### PARSER ###
 # Get fantasy point multiplier values from the command line.
@@ -108,14 +109,16 @@ base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=fals
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
 
-
+# Center Processing
 temp = requests.get(base_skater_url.format(skater_summary, start_position, center_tag, year_upper_bound, year_lower_bound)).json()
 total_length = int(temp.get('total'))
 #center_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-#center_report_list = [skater_summary, skater_fo_percentage, skater_fo_wl, skater_gfga, skater_misc, skater_penalties, skater_pk, skater_pp, skater_puck_possession, skater_sat_count, skater_sat_percentages, skater_scoring_per_60, skater_scoring_per_game, skater_toi]
-center_report_list = [skater_summary, skater_fo_percentage, skater_fo_wl, skater_gfga, skater_misc, skater_penalties, skater_pk, skater_pp, skater_puck_possession, skater_sat_percentages, skater_scoring_per_60, skater_scoring_per_game, skater_toi]
+#center_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
+center_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
 center_records = {'total': total_length}
-for i in reversed(center_report_list):
+
+print('Processing Centers:')
+for i in tqdm(center_report_list):
 	temp = {}
 	for j in range(start_position, int(total_length/100)*100 + 99, 100):
 		temp2 = requests.get(base_skater_url.format(i, j, center_tag, year_upper_bound, year_lower_bound)).json()
@@ -130,8 +133,57 @@ for i in reversed(center_report_list):
 		else:
 			center_records.get('data')[k].update(temp.get('data')[k])
 
-print(json.dumps(center_records.get('data')[0], sort_keys = True, indent = 4))
+#print(json.dumps(center_records.get('data')[0], sort_keys = True, indent = 4))
+
+# Left Wing Processing
+temp = requests.get(base_skater_url.format(skater_summary, start_position, left_wing_tag, year_upper_bound, year_lower_bound)).json()
+total_length = int(temp.get('total'))
+#left_wing_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
+#left_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+left_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+left_wing_records = {'total': total_length}
+
+print('Processing Left Wings:')
+for i in tqdm(left_wing_report_list):
+	temp = {}
+	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+		temp2 = requests.get(base_skater_url.format(i, j, left_wing_tag, year_upper_bound, year_lower_bound)).json()
+		if(temp.get('data') == None):
+			temp.update({'data': temp2.get('data')})
+		else:
+			temp.update({'data': temp.get('data') + temp2.get('data')})
+
+	for k in range(total_length):
+		if(left_wing_records.get('data') == None):
+			left_wing_records.update({'data': temp.get('data')})
+		else:
+			left_wing_records.get('data')[k].update(temp.get('data')[k])
 
 
-# todo: do the same for defensement and goals
+# Right Wing Processing
+temp = requests.get(base_skater_url.format(skater_summary, start_position, right_wing_tag, year_upper_bound, year_lower_bound)).json()
+total_length = int(temp.get('total'))
+#right_wing_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
+#right_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+right_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+right_wing_records = {'total': total_length}
+
+print('Processing Right Wings:')
+for i in tqdm(right_wing_report_list):
+	temp = {}
+	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+		temp2 = requests.get(base_skater_url.format(i, j, right_wing_tag, year_upper_bound, year_lower_bound)).json()
+		if(temp.get('data') == None):
+			temp.update({'data': temp2.get('data')})
+		else:
+			temp.update({'data': temp.get('data') + temp2.get('data')})
+
+	for k in range(total_length):
+		if(right_wing_records.get('data') == None):
+			right_wing_records.update({'data': temp.get('data')})
+		else:
+			right_wing_records.get('data')[k].update(temp.get('data')[k])
+
+print('done')
+# todo: do the same for defensement and goalies
 # todo: save a .npy file for each forward, defense, and goalie and save the files to the correct folders in /data
