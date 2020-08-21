@@ -176,5 +176,19 @@ def main():
 	}
 	#print(json.dumps(wing_records.get('data')[0], sort_keys = True, indent = 4))
 
+	# Defenceman Processing
+	# defenceman_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
+	#defenceman_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+	defenceman_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
+	defenceman_records = api_helper(base_skater_url, defenceman_tag, defenceman_report_list, year_upper_bound, year_lower_bound)
+	#print(json.dumps(defenceman_records.get('data')[0], sort_keys = True, indent = 4))
+
+	# Goalie Processing
+	goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
+	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
+	#print(json.dumps(goalie_records.get('data')[0], sort_keys = True, indent = 4))
+
+	# todo: save a .npy file for each forward, defense, and goalie and save the files to the correct folders in /data
+
 if __name__ == "__main__":
     main()
