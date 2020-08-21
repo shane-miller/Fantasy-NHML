@@ -118,9 +118,9 @@ center_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60
 center_records = {'total': total_length}
 
 print('Processing Centers:')
-for i in tqdm(center_report_list):
+for i in center_report_list:
 	temp = {}
-	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+	for j in tqdm(range(start_position, int(total_length/100)*100 + 99, 100), desc='Batch Querying for Report Type ' + i):
 		temp2 = requests.get(base_skater_url.format(i, j, center_tag, year_upper_bound, year_lower_bound)).json()
 		if(temp.get('data') == None):
 			temp.update({'data': temp2.get('data')})
@@ -143,10 +143,10 @@ total_length = int(temp.get('total'))
 left_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
 left_wing_records = {'total': total_length}
 
-print('Processing Left Wings:')
-for i in tqdm(left_wing_report_list):
+print('\nProcessing Left Wings:')
+for i in left_wing_report_list:
 	temp = {}
-	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+	for j in tqdm(range(start_position, int(total_length/100)*100 + 99, 100), desc='Batch Querying for Report Type ' + i):
 		temp2 = requests.get(base_skater_url.format(i, j, left_wing_tag, year_upper_bound, year_lower_bound)).json()
 		if(temp.get('data') == None):
 			temp.update({'data': temp2.get('data')})
@@ -168,10 +168,10 @@ total_length = int(temp.get('total'))
 right_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
 right_wing_records = {'total': total_length}
 
-print('Processing Right Wings:')
-for i in tqdm(right_wing_report_list):
+print('\nProcessing Right Wings:')
+for i in right_wing_report_list:
 	temp = {}
-	for j in range(start_position, int(total_length/100)*100 + 99, 100):
+	for j in tqdm(range(start_position, int(total_length/100)*100 + 99, 100), desc='Batch Querying for Report Type ' + i):
 		temp2 = requests.get(base_skater_url.format(i, j, right_wing_tag, year_upper_bound, year_lower_bound)).json()
 		if(temp.get('data') == None):
 			temp.update({'data': temp2.get('data')})
