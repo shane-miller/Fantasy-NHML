@@ -1,6 +1,7 @@
 # Fantasy-NHML
-A machine learning based fantasy hockey draft helper.
-- Run download_from_nhl_stats.py to download last 5 years of stats for active players to respective data folders.
+### A machine learning based fantasy hockey draft helper.
+
+#### Info:
 - In order to handle player injuries or other misc reasons games had to be missed, the fantasy point value used for training will be the following equation:
 
 
@@ -13,3 +14,6 @@ A machine learning based fantasy hockey draft helper.
 or could be "simplified" to
 
 ![equation](https://latex.codecogs.com/gif.latex?%28%5Cfrac%7B2ab&plus;246a%7D%7B5b%7D%29)
+
+#### How to Run:
+- Run download_from_nhl_stats.py to download last 5 years of stats for active players to respective data folders.
