@@ -147,6 +147,22 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	return records
 
 
+# Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
+def calculate_fantasy_points(player, tag):
+	fantasy_total = 0
+
+	# Check tag for if goalie
+		# Calculate goalie stats
+	# If not goalie do other stats
+		# Calculate skater stats
+
+	## Of Note: ESPN classifies into 'skater' and 'goalie' for stat calculations
+	## This means that wingers and defencemen can get points for faceoffs
+	## Probably should not remove those stats then...
+
+	return fantasy_total
+
+
 def main():
 	### DATA SCRAPING ###
 	# Download data from the API the NHL uses for nhl.com/stats
