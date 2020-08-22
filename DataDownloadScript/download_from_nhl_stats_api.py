@@ -92,11 +92,11 @@ goalie_summary = 'summary'
 goalie_advanced = 'advanced'
 goalie_saves_by_strength = 'savesByStrength'
 
-left_wing_tag = 'L'
-right_wing_tag = 'R'
-center_tag = 'C'
-defenceman_tag = 'D'
-goalie_tag = 'G'
+left_wing_tag = ['L', 'Left Wings']
+right_wing_tag = ['R', 'Right Wings']
+center_tag = ['C', 'Centers']
+defenceman_tag = ['D', 'Defencemen']
+goalie_tag = ['G', 'Goalies']
 
 year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
 year_lower_bound = f'{datetime.now().year - 5}{datetime.now().year - 4}'
@@ -112,11 +112,11 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	if(tag == goalie_tag):
 		temp = requests.get(base_url.format(report_list[0], 0, year_upper_bound, year_lower_bound)).json()
 	else:
-		temp = requests.get(base_url.format(report_list[0], 0, tag, year_upper_bound, year_lower_bound)).json()
+		temp = requests.get(base_url.format(report_list[0], 0, tag[0], year_upper_bound, year_lower_bound)).json()
 	total_length = int(temp.get('total'))
 	records = {'total': total_length}
 
-	print('Processing ' + tag + ':')
+	print('Processing ' + tag[1] + ':')
 	for i in report_list:
 		temp = {}
 		for j in tqdm(range(0, total_length + 1, 100), desc='Batch Querying for Report Type ' + i):
@@ -124,7 +124,7 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 			if(tag == goalie_tag):
 				temp2 = requests.get(base_url.format(i, j, year_upper_bound, year_lower_bound)).json()
 			else:
-				temp2 = requests.get(base_url.format(i, j, tag, year_upper_bound, year_lower_bound)).json()
+				temp2 = requests.get(base_url.format(i, j, tag[0], year_upper_bound, year_lower_bound)).json()
 			if(temp.get('data') == None):
 				temp.update({'data': temp2.get('data')})
 			else:
