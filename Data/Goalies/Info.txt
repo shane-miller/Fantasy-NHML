@@ -6,7 +6,6 @@ goalieFullName
 lastName
 playerId
 seasonId
-teamAbbrevs
 assists
 completeGamePct
 completeGames
@@ -40,7 +39,6 @@ shGoalsAgainst
 shSavePct
 shSaves
 shShotsAgainst
-shootsCatches
 shotsAgainst
 shotsAgainstPer60
 shutouts
