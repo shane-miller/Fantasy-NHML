@@ -3,6 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import requests
 import argparse
+import pathlib
 import json
 
 ### PARSER ###
@@ -24,7 +25,6 @@ parser.add_argument('--gwg',  type = int, default = 0, help = 'Game Winning Goal
 parser.add_argument('--fow',  type = int, default = 0, help = 'Faceoffs Won Multiplier')
 parser.add_argument('--fol',  type = int, default = 0, help = 'Faceoffs Lost Multiplier')
 parser.add_argument('--shft', type = int, default = 0, help = 'Shifts Multiplier')
-parser.add_argument('--hat',  type = int, default = 0, help = 'Hat Tricks Multiplier')
 parser.add_argument('--sog',  type = int, default = 0, help = 'Shots on Goal Multiplier')
 parser.add_argument('--hit',  type = int, default = 0, help = 'Hits Multiplier')
 parser.add_argument('--blk',  type = int, default = 0, help = 'Blocked Shots Multiplier')
@@ -34,7 +34,6 @@ parser.add_argument('--w',    type = int, default = 0, help = 'Wins Multiplier')
 parser.add_argument('--l',    type = int, default = 0, help = 'Losses Multiplier')
 parser.add_argument('--sa',   type = int, default = 0, help = 'Shots Against Multiplier')
 parser.add_argument('--ga',   type = int, default = 0, help = 'Goals Against Multiplier')
-parser.add_argument('--ega',  type = int, default = 0, help = 'Empty Net Goals Against Multiplier')
 parser.add_argument('--sv',   type = int, default = 0, help = 'Saves Multiplier')
 parser.add_argument('--so',   type = int, default = 0, help = 'Shutouts Multiplier') # 3
 parser.add_argument('--otl',  type = int, default = 0, help = 'Overtime Losses Multiplier') # 2
@@ -56,7 +55,6 @@ gwg_multiplier  = args.gwg
 fow_multiplier  = args.fow
 fol_multiplier  = args.fol
 shft_multiplier = args.shft
-hat_multiplier  = args.hat
 sog_multiplier  = args.sog
 hit_multiplier  = args.hit
 blk_multiplier  = args.blk
@@ -66,7 +64,6 @@ w_multiplier    = args.w
 l_multiplier    = args.l
 sa_multiplier   = args.sa
 ga_multiplier   = args.ga
-ega_multiplier  = args.ega
 sv_multiplier   = args.sv
 so_multiplier   = args.so
 otl_multiplier  = args.otl
@@ -143,20 +140,65 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	if(tag == goalie_tag):
 		for player in records.get('data'):
 			player.pop('ties')
+			player.pop('shootsCatches')
+			player.pop('teamAbbrevs')
+	else:
+		for player in records.get('data'):
+			player.pop('positionCode')
+			player.pop('shootsCatches')
+			player.pop('teamAbbrevs')
 
 	return records
 
 
 # Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
-def calculate_fantasy_points(player, tag):
-	fantasy_total = 0
+def calculate_fantasy_points(players, tag):
+	fantasy_points_list = []
+	for player in players:
+		fantasy_total = 0
 
-	# Check tag for if goalie
-		# Calculate goalie stats
-	# If not goalie do other stats
-		# Calculate skater stats
+		key_names = []
+		if(tag == 'goalie'):
+			key_names = [['gamesStarted', gs_multiplier], ['wins', w_multiplier], ['losses', l_multiplier], ['shotsAgainst', sa_multiplier],
+						 ['goalsAgainst', ga_multiplier], ['saves', sv_multiplier], ['shutouts', so_multiplier], ['otLosses', otl_multiplier]]
+		else:
+			#parser.add_argument('--hit',  type = int, default = 0, help = 'Hits Multiplier')
+			#parser.add_argument('--blk',  type = int, default = 0, help = 'Blocked Shots Multiplier')
+			#parser.add_argument('--defp', type = int, default = 0, help = 'Defensemen Points Multiplier')
+			key_names = [['goals', g_multiplier], ['assists', a_multiplier], ['points', pts_multiplier], ['plusMinus', pm_multiplier],
+						 ['penaltyMinutes', pim_multiplier], ['ppGoals', ppg_multiplier], ['ppAssists', ppa_multiplier], ['ppPoints', ppp_multiplier],
+						 ['shGoals', shg_multiplier], ['shAssists', sha_multiplier], ['shPoints', shp_multiplier], ['gameWinningGoals', gwg_multiplier],
+						 ['totalFaceoffWins', fow_multiplier], ['totalFaceoffLosses', fol_multiplier], ['shifts', shft_multiplier], ['shots', sog_multiplier],
+						 ['hits', hit_multiplier], ['blockedShots', blk_multiplier]]
 
-	return fantasy_total
+		if(tag == 'defenceman'):
+			key_names.append(['points'], defp_multiplier)
+
+		for key in key_names:
+			fantasy_total = fantasy_total + (player.get(key[0]) * key[1])
+
+		# See readme for explanation on this equation
+		a = fantasy_total
+		b = int(player.get('gamesPlayed'))
+		fantasy_total = ((2*a*b) + 246*a)/(5*b)
+
+		fantasy_points_list.append(fantasy_total)
+
+	current_file_path = pathlib.Path(__file__).parent.absolute()
+	path = current_file_path.parents[0] / 'Data'
+
+	if(tag == 'center'):
+		path = path / 'Centers'
+	elif(tag == 'wing'):
+		path = path / 'Wings'
+	elif(tag == 'defenceman'):
+		path = path / 'Defencemen'
+	elif(tag == 'goalie'):
+		path = path / 'Goalies'
+
+	path = path / f'{seasonId}_fantasy_points'
+
+	np.save(path, fantasy_points_list)
 
 
 def get_playerId(player):
@@ -169,7 +211,6 @@ def filter_list_by_year(player_list, year):
 	filtered_list.sort(key=get_playerId)
 
 	return filtered_list
-
 
 
 # Prints out the json for a players stats given in a dictionary
@@ -195,12 +236,13 @@ def main():
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 
-	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defencemam'], [goalie_records, 'goalie']]
+	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(5, 0, -1):
 			filtered_list = filter_list_by_year(records[0].get('data'), f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
 			save_yearly_data(filtered_list, records[1])
-			calculate_fantasy_points(filtered_list, records[1])
+			if(year != 5):
+				calculate_fantasy_points(filtered_list, records[1])
 
 
 if __name__ == "__main__":

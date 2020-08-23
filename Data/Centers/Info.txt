@@ -6,7 +6,6 @@ skaterFullName
 lastName
 playerId
 seasonId
-teamAbbrevs
 assists
 assists5v5
 assistsPer605v5
@@ -91,7 +90,6 @@ points
 points5v5
 pointsPer605v5
 pointsPerGame
-positionCode
 powerPlayGoalFor
 powerPlayGoalsAgainst
 powerPlayTimeOnIcePerGame
@@ -164,7 +162,6 @@ shifts
 shiftsPerGame
 shootingPct
 shootingPct5v5
-shootsCatches
 shortHandedGoalsAgainst
 shortHandedGoalsFor
 shortHandedTimeOnIcePerGame
