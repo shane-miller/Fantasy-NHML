@@ -163,6 +163,11 @@ def calculate_fantasy_points(player, tag):
 	return fantasy_total
 
 
+# Filters a list of players by a given year
+def filter_list_by_year(player_list, year):
+	return [player for player in player_list if player.get('seasonId') == int(year)]
+
+
 # Prints out the json for a players stats given in a dictionary
 def print_stats(player):
 	print(json.dumps(player, sort_keys = True, indent = 4))
