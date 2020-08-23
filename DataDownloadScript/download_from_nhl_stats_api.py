@@ -104,6 +104,10 @@ year_lower_bound = f'{datetime.now().year - 5}{datetime.now().year - 4}'
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22goalieFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
+# skater_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
+#skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
+skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
+goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
 
 
 # Function that queries the nhle api the required number of times and joins the data into one json record
@@ -136,11 +140,7 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 			else:
 				records.get('data')[k].update(temp.get('data')[k])
 
-	if(tag != center_tag and tag != goalie_tag):
-		for player in records.get('data'):
-			player.pop('faceoffWinPct')
-			player.pop('faceoffPct5v5')
-	elif(tag == goalie_tag):
+	if(tag == goalie_tag):
 		for player in records.get('data'):
 			player.pop('ties')
 
@@ -163,46 +163,28 @@ def calculate_fantasy_points(player, tag):
 	return fantasy_total
 
 
+def print_stats(player_dict):
+	print(json.dumps(player_dict, sort_keys = True, indent = 4))
+
+
 def main():
 	### DATA SCRAPING ###
 	# Download data from the API the NHL uses for nhl.com/stats
-
-	# Center Processing
-	# center_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-	#center_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
-	center_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
-	center_records = api_helper(base_skater_url, center_tag, center_report_list, year_upper_bound, year_lower_bound)
-	#print(json.dumps(center_records.get('data')[0], sort_keys = True, indent = 4))
-
-	# Wing Processing
-	# left_wing_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-	#left_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	left_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	left_wing_records = api_helper(base_skater_url, left_wing_tag, left_wing_report_list, year_upper_bound, year_lower_bound)
-
-	# right_wing_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-	#right_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	right_wing_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	right_wing_records = api_helper(base_skater_url, right_wing_tag, right_wing_report_list, year_upper_bound, year_lower_bound)
+	center_records = api_helper(base_skater_url, center_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
 
 	# Join Wing Lists Together
 	wing_records = {
 		'data': left_wing_records.get('data') + right_wing_records.get('data'),
 		'total': left_wing_records.get('total') + right_wing_records.get('total')
 	}
-	#print(json.dumps(wing_records.get('data')[0], sort_keys = True, indent = 4))
 
-	# Defenceman Processing
-	# defenceman_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-	#defenceman_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	defenceman_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_summary]
-	defenceman_records = api_helper(base_skater_url, defenceman_tag, defenceman_report_list, year_upper_bound, year_lower_bound)
-	#print(json.dumps(defenceman_records.get('data')[0], sort_keys = True, indent = 4))
-
-	# Goalie Processing
-	goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
-	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
-	#print(json.dumps(goalie_records.get('data')[0], sort_keys = True, indent = 4))
+	# Printing example
+	print_stats(center_records.get('data')[0])
+	
 
 	# todo: save a .npy file for each forward, defense, and goalie and save the files to the correct folders in /data
 
