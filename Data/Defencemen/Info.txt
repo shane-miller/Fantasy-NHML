@@ -1,7 +1,12 @@
-This folder contains basic data for defensemen for the last 5 years.
+This folder contains basic data for defencemen for the last 5 years.
 
 Order of defenceman data:
 
+skaterFullName
+lastName
+playerId
+seasonId
+teamAbbrevs
 assists
 assists5v5
 assistsPer605v5
@@ -9,9 +14,17 @@ assistsPerGame
 blockedShots
 blockedShotsPer60
 blocksPerGame
+defensiveZoneFaceoffLosses
+defensiveZoneFaceoffPct
+defensiveZoneFaceoffWins
+defensiveZoneFaceoffs
 emptyNetAssists
 emptyNetGoals
 emptyNetPoints
+evFaceoffPct
+evFaceoffs
+evFaceoffsLost
+evFaceoffsWon
 evGoals
 evPoints
 evTimeOnIce
@@ -21,6 +34,8 @@ evenStrengthGoalsAgainst
 evenStrengthGoalsFor
 evenStrengthGoalsForPct
 evenStrengthTimeOnIcePerGame
+faceoffPct5v5
+faceoffWinPct
 firstGoals
 gameMisconductPenalties
 gameWinningGoals
@@ -37,7 +52,6 @@ hitsPer60
 hitsPerGame
 individualSatForPer60
 individualShotsForPer60
-lastName Bratt
 majorPenalties
 matchPenalties
 minorPenalties
@@ -50,6 +64,14 @@ missedShots
 netMinorPenaltiesPer60
 netPenalties
 netPenaltiesPer60
+neutralZoneFaceoffLosses
+neutralZoneFaceoffPct
+neutralZoneFaceoffWins
+neutralZoneFaceoffs
+offensiveZoneFaceoffLosses
+offensiveZoneFaceoffPct
+offensiveZoneFaceoffWins
+offensiveZoneFaceoffs
 offensiveZoneStartPct5v5
 onIceShootingPct
 onIceShootingPct5v5
@@ -57,14 +79,13 @@ otGoals
 otTimeOnIce
 otTimeOnIcePerOtGame
 penalties
-naltiesDrawn
+penaltiesDrawn
 penaltiesDrawnPer60
 penaltiesTakenPer60
 penaltyMinutes
 penaltyMinutesPerGame
 penaltyMinutesPerTimeOnIce
 penaltySecondsPerGame
-playerId
 plusMinus
 points
 points5v5
@@ -72,9 +93,13 @@ pointsPer605v5
 pointsPerGame
 positionCode
 powerPlayGoalFor
-owerPlayGoalsAgainst
+powerPlayGoalsAgainst
 powerPlayTimeOnIcePerGame
 ppAssists
+ppFaceoffPct
+ppFaceoffs
+ppFaceoffsLost
+ppFaceoffsWon
 ppGoals
 ppGoalsAgainstPer60
 ppGoalsForPer60
@@ -87,11 +112,11 @@ ppPrimaryAssists
 ppPrimaryAssistsPer60
 ppSecondaryAssists
 ppSecondaryAssistsPer60
-pShootingPct
+ppShootingPct
 ppShots
 ppShotsPer60
 ppTimeOnIce
-pTimeOnIcePctPerGame
+ppTimeOnIcePctPerGame
 ppTimeOnIcePerGame
 primaryAssists5v5
 primaryAssistsPer605v5
@@ -111,11 +136,14 @@ satRelative
 satRelative5v5
 satTied
 satTotal
-seasonId
 secondaryAssists5v5
 secondaryAssistsPer605v5
 secondaryAssistsPerGame
 shAssists
+shFaceoffPct
+shFaceoffs
+shFaceoffsLost
+shFaceoffsWon
 shGoals
 shGoalsPer60
 shIndividualSatFor
@@ -142,16 +170,17 @@ shortHandedGoalsFor
 shortHandedTimeOnIcePerGame
 shots
 shotsPerGame
-skaterFullName
 skaterSavePct5v5
 skaterShootingPlusSavePct5v5
 takeaways
 takeawaysPer60
-teamAbbrevs
 timeOnIce
 timeOnIcePerGame
 timeOnIcePerGame5v5
 timeOnIcePerShift
+totalFaceoffLosses
+totalFaceoffWins
+totalFaceoffs
 totalPrimaryAssists
 totalSecondaryAssists
 usatAgainst

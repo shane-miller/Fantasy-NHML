@@ -1,7 +1,12 @@
-This folder contains basic data for forwards for the last 5 years.
+This folder contains basic data for centers for the last 5 years.
 
 Order of center data:
 
+skaterFullName
+lastName
+playerId
+seasonId
+teamAbbrevs
 assists
 assists5v5
 assistsPer605v5
@@ -47,7 +52,6 @@ hitsPer60
 hitsPerGame
 individualSatForPer60
 individualShotsForPer60
-lastName
 majorPenalties
 matchPenalties
 minorPenalties
@@ -82,7 +86,6 @@ penaltyMinutes
 penaltyMinutesPerGame
 penaltyMinutesPerTimeOnIce
 penaltySecondsPerGame
-playerId
 plusMinus
 points
 points5v5
@@ -133,7 +136,6 @@ satRelative
 satRelative5v5
 satTied
 satTotal
-seasonId
 secondaryAssists5v5
 secondaryAssistsPer605v5
 secondaryAssistsPerGame
@@ -168,12 +170,10 @@ shortHandedGoalsFor
 shortHandedTimeOnIcePerGame
 shots
 shotsPerGame
-skaterFullName
 skaterSavePct5v5
 skaterShootingPlusSavePct5v5
 takeaways
 takeawaysPer60
-teamAbbrevs
 timeOnIce
 timeOnIcePerGame
 timeOnIcePerGame5v5
