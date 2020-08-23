@@ -143,6 +143,13 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	if(tag == goalie_tag):
 		for player in records.get('data'):
 			player.pop('ties')
+			player.pop('shootsCatches')
+			player.pop('teamAbbrevs')
+	else:
+		for player in records.get('data'):
+			player.pop('positionCode')
+			player.pop('shootsCatches')
+			player.pop('teamAbbrevs')
 
 	return records
 
