@@ -199,14 +199,10 @@ def calculate_fantasy_points(players, tag):
 	np.save(path, fantasy_points_list)
 
 
-def get_playerId(player):
-	return player.get('playerId')
-
-
 # Filters a list of players by a given year
 def filter_list_by_year(player_list, year):
 	filtered_list = [player for player in player_list if player.get('seasonId') == int(year)]
-	filtered_list.sort(key=get_playerId)
+	filtered_list.sort(key=lambda x: x.get('playerId'))
 
 	return filtered_list
 
