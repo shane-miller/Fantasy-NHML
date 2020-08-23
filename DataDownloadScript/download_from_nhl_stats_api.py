@@ -153,7 +153,7 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 
 
 # Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
-def calculate_fantasy_points(players, tag):
+def calculate_fantasy_points(players, tag, seasonId):
 	fantasy_points_list = []
 	for player in players:
 		fantasy_total = 0
@@ -272,10 +272,11 @@ def main():
 	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(5, 0, -1):
-			filtered_list = filter_list_by_year(records[0].get('data'), f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
-			save_yearly_data(filtered_list, records[1], f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
+			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
+			filtered_list = filter_list_by_year(records[0].get('data'), seasonId)
+			save_yearly_data(filtered_list, records[1], seasonId)
 			if(year != 5):
-				calculate_fantasy_points(filtered_list, records[1])
+				calculate_fantasy_points(filtered_list, records[1], seasonId)
 
 
 if __name__ == "__main__":
