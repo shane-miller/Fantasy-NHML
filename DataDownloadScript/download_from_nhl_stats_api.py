@@ -195,6 +195,12 @@ def main():
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 
+	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defencemam'], [goalie_records, 'goalie']]
+	for records in records_list:
+		for year in range(5, 0, -1):
+			filtered_list = filter_list_by_year(records[0].get('data'), f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
+			save_yearly_data(filtered_list, records[1])
+			calculate_fantasy_points(filtered_list, records[1])
 
 
 if __name__ == "__main__":
