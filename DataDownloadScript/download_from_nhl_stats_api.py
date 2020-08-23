@@ -156,16 +156,20 @@ def calculate_fantasy_points(player, tag):
 	# If not goalie do other stats
 		# Calculate skater stats
 
-	## Of Note: ESPN classifies into 'skater' and 'goalie' for stat calculations
-	## This means that wingers and defencemen can get points for faceoffs
-	## Probably should not remove those stats then...
-
 	return fantasy_total
+
+
+def get_playerId(player):
+	return player.get('playerId')
 
 
 # Filters a list of players by a given year
 def filter_list_by_year(player_list, year):
-	return [player for player in player_list if player.get('seasonId') == int(year)]
+	filtered_list = [player for player in player_list if player.get('seasonId') == int(year)]
+	filtered_list.sort(key=get_playerId)
+
+	return filtered_list
+
 
 
 # Prints out the json for a players stats given in a dictionary
@@ -189,10 +193,9 @@ def main():
 	}
 
 	# Printing example
-	print_stats(center_records.get('data')[0])
-	
+	#print_stats(center_records.get('data')[0])
 
-	# todo: save a .npy file for each forward, defense, and goalie and save the files to the correct folders in /data
+
 
 if __name__ == "__main__":
     main()
