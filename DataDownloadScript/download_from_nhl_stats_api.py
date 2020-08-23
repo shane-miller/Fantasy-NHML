@@ -11,17 +11,17 @@ import json
 # Get fantasy point multiplier values from the command line.
 parser = argparse.ArgumentParser(description = 'Fantasy Settings')
 
-parser.add_argument('--g',    type = int, default = 0, help = 'Goals Multiplier') # 3
-parser.add_argument('--a',    type = int, default = 0, help = 'Assists Multiplier') # 2
+parser.add_argument('--g',    type = int, default = 0, help = 'Goals Multiplier')
+parser.add_argument('--a',    type = int, default = 0, help = 'Assists Multiplier')
 parser.add_argument('--pts',  type = int, default = 0, help = 'Points Multiplier')
 parser.add_argument('--pm',   type = int, default = 0, help = '+/- Multiplyer')
 parser.add_argument('--pim',  type = int, default = 0, help = 'Penalty Minutes Multiplier')
 parser.add_argument('--ppg',  type = int, default = 0, help = 'Power Play Goals Multiplier')
 parser.add_argument('--ppa',  type = int, default = 0, help = 'Power Play Assists Multiplier')
-parser.add_argument('--ppp',  type = int, default = 0, help = 'Power Play Points Multiplier') # 1
+parser.add_argument('--ppp',  type = int, default = 0, help = 'Power Play Points Multiplier')
 parser.add_argument('--shg',  type = int, default = 0, help = 'Short Handed Goal Multiplier')
 parser.add_argument('--sha',  type = int, default = 0, help = 'Short Handed Assist Multiplier')
-parser.add_argument('--shp',  type = int, default = 0, help = 'Short Handed Point Multiplier') # 2
+parser.add_argument('--shp',  type = int, default = 0, help = 'Short Handed Point Multiplier')
 parser.add_argument('--gwg',  type = int, default = 0, help = 'Game Winning Goal Multiplier')
 parser.add_argument('--fow',  type = int, default = 0, help = 'Faceoffs Won Multiplier')
 parser.add_argument('--fol',  type = int, default = 0, help = 'Faceoffs Lost Multiplier')
@@ -31,13 +31,13 @@ parser.add_argument('--hit',  type = int, default = 0, help = 'Hits Multiplier')
 parser.add_argument('--blk',  type = int, default = 0, help = 'Blocked Shots Multiplier')
 parser.add_argument('--defp', type = int, default = 0, help = 'Defensemen Points Multiplier')
 parser.add_argument('--gs',   type = int, default = 0, help = 'Games Started Multiplier')
-parser.add_argument('--w',    type = int, default = 0, help = 'Wins Multiplier') # 5
+parser.add_argument('--w',    type = int, default = 0, help = 'Wins Multiplier')
 parser.add_argument('--l',    type = int, default = 0, help = 'Losses Multiplier')
 parser.add_argument('--sa',   type = int, default = 0, help = 'Shots Against Multiplier')
 parser.add_argument('--ga',   type = int, default = 0, help = 'Goals Against Multiplier')
 parser.add_argument('--sv',   type = int, default = 0, help = 'Saves Multiplier')
-parser.add_argument('--so',   type = int, default = 0, help = 'Shutouts Multiplier') # 3
-parser.add_argument('--otl',  type = int, default = 0, help = 'Overtime Losses Multiplier') # 2
+parser.add_argument('--so',   type = int, default = 0, help = 'Shutouts Multiplier')
+parser.add_argument('--otl',  type = int, default = 0, help = 'Overtime Losses Multiplier')
 
 args = parser.parse_args()
 
@@ -170,7 +170,7 @@ def calculate_fantasy_points(players, tag, seasonId):
 						 ['hits', hit_multiplier], ['blockedShots', blk_multiplier]]
 
 		if(tag == 'defenceman'):
-			key_names.append(['points'], defp_multiplier)
+			key_names.append(['points', defp_multiplier])
 
 		for key in key_names:
 			fantasy_total = fantasy_total + (player.get(key[0]) * key[1])
