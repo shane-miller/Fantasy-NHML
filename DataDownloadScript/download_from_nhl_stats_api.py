@@ -163,9 +163,6 @@ def calculate_fantasy_points(players, tag):
 			key_names = [['gamesStarted', gs_multiplier], ['wins', w_multiplier], ['losses', l_multiplier], ['shotsAgainst', sa_multiplier],
 						 ['goalsAgainst', ga_multiplier], ['saves', sv_multiplier], ['shutouts', so_multiplier], ['otLosses', otl_multiplier]]
 		else:
-			#parser.add_argument('--hit',  type = int, default = 0, help = 'Hits Multiplier')
-			#parser.add_argument('--blk',  type = int, default = 0, help = 'Blocked Shots Multiplier')
-			#parser.add_argument('--defp', type = int, default = 0, help = 'Defensemen Points Multiplier')
 			key_names = [['goals', g_multiplier], ['assists', a_multiplier], ['points', pts_multiplier], ['plusMinus', pm_multiplier],
 						 ['penaltyMinutes', pim_multiplier], ['ppGoals', ppg_multiplier], ['ppAssists', ppa_multiplier], ['ppPoints', ppp_multiplier],
 						 ['shGoals', shg_multiplier], ['shAssists', sha_multiplier], ['shPoints', shp_multiplier], ['gameWinningGoals', gwg_multiplier],
