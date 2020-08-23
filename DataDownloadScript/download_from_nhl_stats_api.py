@@ -175,10 +175,11 @@ def calculate_fantasy_points(players, tag, seasonId):
 		for key in key_names:
 			fantasy_total = fantasy_total + (player.get(key[0]) * key[1])
 
-		# See readme for explanation on this equation
-		a = fantasy_total
-		b = int(player.get('gamesPlayed'))
-		fantasy_total = ((2*a*b) + 246*a)/(5*b)
+		if(tag != 'goalie'):
+			# See readme for explanation on this equation
+			a = fantasy_total
+			b = int(player.get('gamesPlayed'))
+			fantasy_total = ((2*a*b) + 246*a)/(5*b)
 
 		fantasy_points_list.append(fantasy_total)
 
