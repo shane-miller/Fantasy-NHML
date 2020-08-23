@@ -163,8 +163,6 @@ def calculate_fantasy_points(player, tag):
 	return fantasy_total
 
 
-def print_stats(player_dict):
-	print(json.dumps(player_dict, sort_keys = True, indent = 4))
 # Prints out the json for a players stats given in a dictionary
 def print_stats(player):
 	print(json.dumps(player, sort_keys = True, indent = 4))
