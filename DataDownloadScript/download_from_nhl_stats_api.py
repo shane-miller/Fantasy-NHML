@@ -6,6 +6,7 @@ import argparse
 import pathlib
 import json
 
+
 ### PARSER ###
 # Get fantasy point multiplier values from the command line.
 parser = argparse.ArgumentParser(description = 'Fantasy Settings')
@@ -213,9 +214,48 @@ def filter_list_by_year(player_list, year):
 	return filtered_list
 
 
+# Saves the data for for the given year and tag into an np file into the correct folder
+def save_yearly_data(player_list, tag, seasonId):
+	final_list = []
+	for player in player_list:
+		temp_list = []
+
+		if(tag == 'goalie'):
+			temp_list.append(player.pop('goalieFullName'))
+		else:
+			temp_list.append(player.pop('skaterFullName'))
+		
+		temp_list.append(player.pop('lastName'))
+		temp_list.append(player.pop('playerId'))
+		temp_list.append(player.pop('seasonId'))
+		
+		player_stats_list = [(k,v) for k,v in player.items()]
+		player_stats_list.sort(key=lambda x: x[0])
+		
+		for stat in player_stats_list:
+			temp_list.append(stat[1])
+		
+		final_list.append(temp_list)
+
+	current_file_path = pathlib.Path(__file__).parent.absolute()
+	path = current_file_path.parents[0] / 'Data'
+
+	if(tag == 'center'):
+		path = path / 'Centers'
+	elif(tag == 'wing'):
+		path = path / 'Wings'
+	elif(tag == 'defenceman'):
+		path = path / 'Defencemen'
+	elif(tag == 'goalie'):
+		path = path /'Goalies'
+
+	path = path / f'{seasonId}_data'
+	np.save(path, final_list)
+
+
 # Prints out the json for a players stats given in a dictionary
 def print_stats(player):
-	print(json.dumps(player, sort_keys = True, indent = 4))
+	print(json.dumps(player, sort_keys = False, indent = 4))
 
 
 def main():
@@ -235,12 +275,12 @@ def main():
 
 	# Printing example
 	#print_stats(center_records.get('data')[0])
-
+	
 	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(5, 0, -1):
 			filtered_list = filter_list_by_year(records[0].get('data'), f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
-			save_yearly_data(filtered_list, records[1])
+			save_yearly_data(filtered_list, records[1], f'{datetime.now().year - year}{datetime.now().year - (year - 1)}')
 			if(year != 5):
 				calculate_fantasy_points(filtered_list, records[1])
 
