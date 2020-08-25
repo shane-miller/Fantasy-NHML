@@ -218,6 +218,10 @@ def sort_dictionary_data(player_list, tag):
 		
 		final_list.append(temp_list)
 
+
+# Saves player data and fantasy points into their Data/{position} folders
+def save_files(running_data_list, running_points_list, most_recent_data):
+	# minor shrugging still
 	current_file_path = pathlib.Path(__file__).parent.absolute()
 	path = current_file_path.parents[0] / 'Data'
 
@@ -232,10 +236,6 @@ def sort_dictionary_data(player_list, tag):
 
 	path = path / f'{seasonId}_data'
 	np.save(path, final_list)
-
-
-def save_files(running_data_list, running_points_list, most_recent_data):
-	# shrug for now
 
 
 # Prints out the json for a players stats given in a dictionary
