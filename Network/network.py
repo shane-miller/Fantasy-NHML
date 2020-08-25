@@ -35,11 +35,9 @@ weight_decay = args.weight_decay
 lr_step_size = args.lr_step_size
 batch_size = args.batch_size
 normalize = args.normalize
-use_seed = args.use_seed
 momentum = args.momentum
 lr_decay = args.lr_decay
 epochs = args.epochs
-seed = args.seed
 name = args.name
 lr = args.lr
 
