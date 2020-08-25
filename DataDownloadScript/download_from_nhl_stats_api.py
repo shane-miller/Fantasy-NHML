@@ -96,8 +96,10 @@ center_tag = ['C', 'Centers']
 defenceman_tag = ['D', 'Defencemen']
 goalie_tag = ['G', 'Goalies']
 
+num_years = 10
+
 year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
-year_lower_bound = f'{datetime.now().year - 5}{datetime.now().year - 4}'
+year_lower_bound = f'{datetime.now().year - num_years}{datetime.now().year - (num_years - 1)}'
 
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22goalieFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=active%3D1%20and%20gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
@@ -272,11 +274,11 @@ def main():
 	
 	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
-		for year in range(5, 0, -1):
+		for year in range(num_years, 0, -1):
 			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
 			filtered_list = filter_list_by_year(records[0].get('data'), seasonId)
 			save_yearly_data(filtered_list, records[1], seasonId)
-			if(year != 5):
+			if(year != num_years):
 				calculate_fantasy_points(filtered_list, records[1], seasonId)
 
 
