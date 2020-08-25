@@ -271,7 +271,7 @@ def main():
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 	
-	records_list = [[center_records, 'center']]#, [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
+	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
 			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
