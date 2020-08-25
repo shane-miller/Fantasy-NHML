@@ -271,14 +271,27 @@ def main():
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 	
+
+	# create running list of all data for each position. starts empty and gets added to throughout loop.
+	# create running list of fantasy results for each position. starts empty and gets added to throughout the loop.
 	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
 			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
+
+			# filter list on 'year' var
+			# also filter list on ('year' var - 1) if 'year' var != 0
+			# sort player data on player id
+			# remove player data if their player id is not in next year's player id list
+			# calculate fantasy results based on remaining players in list
+			# append player data to running data list
+			# append fantasy data to running fantasy point list
+			# if 'year' var == 0, do not calculate fantasy points, sort players by player id, and save to a separate file without adding to running list
 			filtered_list = filter_list_by_year(records[0].get('data'), seasonId)
 			save_yearly_data(filtered_list, records[1], seasonId)
 			if(year != num_years):
 				calculate_fantasy_points(filtered_list, records[1], seasonId)
+	# save all running lists to respective locations
 
 
 if __name__ == "__main__":
