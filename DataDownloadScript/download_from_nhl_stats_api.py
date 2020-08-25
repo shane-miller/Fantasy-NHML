@@ -154,7 +154,7 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 
 
 # Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
-def calculate_fantasy_points(players, tag, seasonId):
+def calculate_fantasy_points(players, tag):
 	fantasy_points_list = []
 	for player in players:
 		fantasy_total = 0
@@ -184,21 +184,7 @@ def calculate_fantasy_points(players, tag, seasonId):
 
 		fantasy_points_list.append(fantasy_total)
 
-	current_file_path = pathlib.Path(__file__).parent.absolute()
-	path = current_file_path.parents[0] / 'Data'
-
-	if(tag == 'center'):
-		path = path / 'Centers'
-	elif(tag == 'wing'):
-		path = path / 'Wings'
-	elif(tag == 'defenceman'):
-		path = path / 'Defencemen'
-	elif(tag == 'goalie'):
-		path = path / 'Goalies'
-
-	path = path / f'{seasonId}_fantasy_points'
-
-	np.save(path, fantasy_points_list)
+	return fantasy_points_list
 
 
 # Filters a list of players by a given year
@@ -248,6 +234,10 @@ def save_yearly_data(player_list, tag, seasonId):
 	np.save(path, final_list)
 
 
+def save_files(running_data_list, running_points_list, most_recent_data):
+	# shrug for now
+
+
 # Prints out the json for a players stats given in a dictionary
 def print_stats(player):
 	print(json.dumps(player, sort_keys = False, indent = 4))
@@ -274,19 +264,19 @@ def main():
 	running_data_list = [[], [], [], []]
 	running_points_list = [[], [], [], []]
 	most_recent_data = []
-	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
+	records_list = [[center_records, 'center', 0], [wing_records, 'wing', 1], [defenceman_records, 'defenceman', 2], [goalie_records, 'goalie', 3]]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
 			season_id = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
 			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
 			
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
-			current_year_data = sort_data(current_year_data)
+			current_year_data = sort_dictionary_data(current_year_data)
 
 			if(year != 0):
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
-				next_year_data = sort_data(next_year_data)
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
+				next_year_data = sort_dictionary_data(next_year_data)
 				current_year_data = remove_players(current_year_data, next_year_data)
 
 				running_data_list[records[2]].append(current_year_data)
