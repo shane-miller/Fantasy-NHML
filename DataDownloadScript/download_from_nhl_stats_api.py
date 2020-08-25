@@ -221,21 +221,27 @@ def sort_dictionary_data(player_list, tag):
 
 # Saves player data and fantasy points into their Data/{position} folders
 def save_files(running_data_list, running_points_list, most_recent_data):
-	# minor shrugging still
 	current_file_path = pathlib.Path(__file__).parent.absolute()
 	path = current_file_path.parents[0] / 'Data'
 
-	if(tag == 'center'):
-		path = path / 'Centers'
-	elif(tag == 'wing'):
-		path = path / 'Wings'
-	elif(tag == 'defenceman'):
-		path = path / 'Defencemen'
-	elif(tag == 'goalie'):
-		path = path /'Goalies'
+	center_path = path / 'Centers'
+	wing_path = path / 'Wings'
+	defenceman_path = path / 'Defencemen'
+	goalie_path = path /'Goalies'
 
-	path = path / f'{seasonId}_data'
-	np.save(path, final_list)
+	np.save(center_path / 'player_data', running_data_list[0])
+	np.save(center_path / 'fantasy_points_data', running_points_list[0])
+
+	np.save(wing_path / 'player_data', running_data_list[1])
+	np.save(wing_path / 'fantasy_points_data', running_points_list[1])
+
+	np.save(defneceman_path / 'player_data', running_data_list[2])
+	np.save(defneceman_path / 'fantasy_points_data', running_points_list[2])
+
+	np.save(goalie_path / 'player_data', running_data_list[3])
+	np.save(goalie_path / 'fantasy_points_data', running_points_list[3])
+
+	np.save(path / 'most_recent_season_data', most_recent_data)
 
 
 # Prints out the json for a players stats given in a dictionary
