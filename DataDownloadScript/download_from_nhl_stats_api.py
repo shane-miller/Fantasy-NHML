@@ -195,8 +195,8 @@ def filter_list_by_year(player_list, year):
 	return filtered_list
 
 
-# Saves the data for for the given year and tag into an np file into the correct folder
-def save_yearly_data(player_list, tag, seasonId):
+# Changes player dictionary into a list and sorts the list according to the info.txt file in the data folder
+def sort_dictionary_data(player_list, tag):
 	final_list = []
 	for player in player_list:
 		temp_list = []
@@ -271,12 +271,12 @@ def main():
 			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
 			
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
-			current_year_data = sort_dictionary_data(current_year_data)
+			current_year_data = sort_dictionary_data(current_year_data, records[1])
 
 			if(year != 0):
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
-				next_year_data = sort_dictionary_data(next_year_data)
+				next_year_data = sort_dictionary_data(next_year_data, records[1])
 				current_year_data = remove_players(current_year_data, next_year_data)
 
 				running_data_list[records[2]].append(current_year_data)
