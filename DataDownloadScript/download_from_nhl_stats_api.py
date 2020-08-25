@@ -271,27 +271,31 @@ def main():
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 	
-
-	# create running list of all data for each position. starts empty and gets added to throughout loop.
-	# create running list of fantasy results for each position. starts empty and gets added to throughout the loop.
+	running_data_list = [[], [], [], []]
+	running_points_list = [[], [], [], []]
+	most_recent_data = []
 	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
-			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
+			season_id = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
+			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
+			
+			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
+			current_year_data = sort_data(current_year_data)
 
-			# filter list on 'year' var
-			# also filter list on ('year' var - 1) if 'year' var != 0
-			# sort player data on player id
-			# remove player data if their player id is not in next year's player id list
-			# calculate fantasy results based on remaining players in list
-			# append player data to running data list
-			# append fantasy data to running fantasy point list
-			# if 'year' var == 0, do not calculate fantasy points, sort players by player id, and save to a separate file without adding to running list
-			filtered_list = filter_list_by_year(records[0].get('data'), seasonId)
-			save_yearly_data(filtered_list, records[1], seasonId)
-			if(year != num_years):
-				calculate_fantasy_points(filtered_list, records[1], seasonId)
-	# save all running lists to respective locations
+			if(year != 0):
+				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
+				next_year_data = sort_data(next_year_data)
+				next_year_points = calculate_fantasy_points(next_year_data, records[1])
+				current_year_data = remove_players(current_year_data, next_year_data)
+
+				running_data_list[records[2]].append(current_year_data)
+				running_points_list[records[2]].append(next_year_points)
+			else:
+				most_recent_data = current_year_data
+
+	save_files(running_data_list, running_points_list, most_recent_data)
+
 
 
 if __name__ == "__main__":
