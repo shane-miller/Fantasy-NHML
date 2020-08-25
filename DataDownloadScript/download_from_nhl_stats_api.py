@@ -101,12 +101,11 @@ num_years = 10
 year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
 year_lower_bound = f'{datetime.now().year - num_years}{datetime.now().year - (num_years - 1)}'
 
-base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22skaterFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
-base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22lastName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22goalieFullName%22,%22direction%22:%22ASC_CI%22%7D,%7B%22property%22:%22seasonId%22,%22direction%22:%22DESC%22%7D%5D&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
 # skater_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-#skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
-skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
+skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
 goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
 
 
@@ -258,21 +257,21 @@ def main():
 	### DATA SCRAPING ###
 	# Download data from the API the NHL uses for nhl.com/stats
 	center_records = api_helper(base_skater_url, center_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
+	#left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	#right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	#defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	#goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
 
 	# Join Wing Lists Together
 	wing_records = {
-		'data': left_wing_records.get('data') + right_wing_records.get('data'),
-		'total': left_wing_records.get('total') + right_wing_records.get('total')
+		#'data': left_wing_records.get('data') + right_wing_records.get('data'),
+		#'total': left_wing_records.get('total') + right_wing_records.get('total')
 	}
 
 	# Printing example
 	#print_stats(center_records.get('data')[0])
 	
-	records_list = [[center_records, 'center'], [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
+	records_list = [[center_records, 'center']]#, [wing_records, 'wing'], [defenceman_records, 'defenceman'], [goalie_records, 'goalie']]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
 			seasonId = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
