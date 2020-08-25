@@ -257,15 +257,15 @@ def main():
 	### DATA SCRAPING ###
 	# Download data from the API the NHL uses for nhl.com/stats
 	center_records = api_helper(base_skater_url, center_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	#left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	#right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	#defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	#goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
+	left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
+	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
 
 	# Join Wing Lists Together
 	wing_records = {
-		#'data': left_wing_records.get('data') + right_wing_records.get('data'),
-		#'total': left_wing_records.get('total') + right_wing_records.get('total')
+		'data': left_wing_records.get('data') + right_wing_records.get('data'),
+		'total': left_wing_records.get('total') + right_wing_records.get('total')
 	}
 
 	# Printing example
