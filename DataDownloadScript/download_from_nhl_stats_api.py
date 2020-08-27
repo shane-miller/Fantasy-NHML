@@ -221,6 +221,25 @@ def sort_dictionary_data(player_list, tag):
 	return final_list
 
 
+def remove_players(current_year_data, next_year_data):
+	current_year_player_id_list = [player[2] for player in current_year_data]
+	next_year_player_id_list = [player['playerId'] for player in next_year_data]
+
+	matching_ids = list(set(current_year_player_id_list) & set(next_year_player_id_list))
+
+	matching_current_year_players = []
+	for player in current_year_data:
+		if player[2] in matching_ids:
+			matching_current_year_players.append(player)
+
+	matching_next_year_players = []
+	for player in next_year_data:
+		if player['playerId'] in matching_ids:
+			matching_next_year_players.append(player)
+
+	return matching_current_year_players, matching_next_year_players
+
+
 # Saves player data and fantasy points into their Data/{position} folders
 def save_files(running_data_list, running_points_list, most_recent_data):
 	current_file_path = pathlib.Path(__file__).parent.absolute()
@@ -244,20 +263,6 @@ def save_files(running_data_list, running_points_list, most_recent_data):
 	np.save(goalie_path / 'fantasy_points_data', running_points_list[3])
 
 	np.save(path / 'most_recent_season_data', most_recent_data)
-
-
-def remove_players(current_year_data, next_year_data):
-
-	# still need to remove players from nexy_year_data if their playerid isn't in current_year_data
-	
-	nexy_year_player_id_list = [player['playerId'] for player in next_year_data]
-
-	matching_players = []
-	for player in current_year_data:
-		if player[2] in nexy_year_player_id_list:
-			matching_players.append(player)
-
-	return matching_players
 
 
 # Prints out the json for a players stats given in a dictionary
@@ -297,8 +302,9 @@ def main():
 
 			if(year != 0):
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
+				current_year_data, next_year_data = remove_players(current_year_data, next_year_data)
+
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
-				current_year_data = remove_players(current_year_data, next_year_data)
 
 				running_data_list[records[2]].append(current_year_data)
 				running_points_list[records[2]].append(next_year_points)
