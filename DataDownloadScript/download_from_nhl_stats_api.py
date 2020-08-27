@@ -218,6 +218,8 @@ def sort_dictionary_data(player_list, tag):
 		
 		final_list.append(temp_list)
 
+	return final_list
+
 
 # Saves player data and fantasy points into their Data/{position} folders
 def save_files(running_data_list, running_points_list, most_recent_data):
@@ -235,8 +237,8 @@ def save_files(running_data_list, running_points_list, most_recent_data):
 	np.save(wing_path / 'player_data', running_data_list[1])
 	np.save(wing_path / 'fantasy_points_data', running_points_list[1])
 
-	np.save(defneceman_path / 'player_data', running_data_list[2])
-	np.save(defneceman_path / 'fantasy_points_data', running_points_list[2])
+	np.save(defenceman_path / 'player_data', running_data_list[2])
+	np.save(defenceman_path / 'fantasy_points_data', running_points_list[2])
 
 	np.save(goalie_path / 'player_data', running_data_list[3])
 	np.save(goalie_path / 'fantasy_points_data', running_points_list[3])
