@@ -98,9 +98,6 @@ goalie_tag = ['G', 'Goalies']
 
 num_years = 10
 
-year_upper_bound = f'{datetime.now().year - 1}{datetime.now().year}'
-year_lower_bound = f'{datetime.now().year - num_years}{datetime.now().year - (num_years - 1)}'
-
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
@@ -109,7 +106,22 @@ skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60
 goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
 
 
-# Function that queries the nhle api the required number of times and joins the data into one json record
+# With the help of api_helper this queries the nhle api the required number of times and joins the data into one json record
+def api_main(base_url, tag, report_list, num_years):
+	final_records = {
+		'data': [],
+		'total': 0
+	}
+
+	for i in range(num_years, 0, -1):
+		seasonId = f'{datetime.now().year - i}{datetime.now().year - (i - 1)}'
+		temp = api_helper(base_url, tag, report_list, seasonId, seasonId)
+		final_records.update({'data': final_records.get('data') + temp.get('data')})
+		final_records.update({'total': final_records.get('total') + temp.get('total')})
+
+	return final_records
+
+
 def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	temp = {}
 	if(tag == goalie_tag):
@@ -273,11 +285,11 @@ def print_stats(player):
 def main():
 	### DATA SCRAPING ###
 	# Download data from the API the NHL uses for nhl.com/stats
-	center_records = api_helper(base_skater_url, center_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	left_wing_records = api_helper(base_skater_url, left_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	right_wing_records = api_helper(base_skater_url, right_wing_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	defenceman_records = api_helper(base_skater_url, defenceman_tag, skater_report_list, year_upper_bound, year_lower_bound)
-	goalie_records = api_helper(base_goalie_url, goalie_tag, goalie_report_list, year_upper_bound, year_lower_bound)
+	center_records = api_main(base_skater_url, center_tag, skater_report_list, num_years)
+	left_wing_records = api_main(base_skater_url, left_wing_tag, skater_report_list, num_years)
+	right_wing_records = api_main(base_skater_url, right_wing_tag, skater_report_list, num_years)
+	defenceman_records = api_main(base_skater_url, defenceman_tag, skater_report_list, num_years)
+	goalie_records = api_main(base_goalie_url, goalie_tag, goalie_report_list, num_years)
 
 	# Join Wing Lists Together
 	wing_records = {
