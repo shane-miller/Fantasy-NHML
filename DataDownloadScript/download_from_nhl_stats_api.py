@@ -302,7 +302,7 @@ def main():
 	
 	running_data_list = [[], [], [], []]
 	running_points_list = [[], [], [], []]
-	most_recent_data = []
+	most_recent_data = [[], [], [], []]
 	records_list = [[center_records, 'center', 0], [wing_records, 'wing', 1], [defenceman_records, 'defenceman', 2], [goalie_records, 'goalie', 3]]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
@@ -321,7 +321,7 @@ def main():
 				running_data_list[records[2]].append(current_year_data)
 				running_points_list[records[2]].append(next_year_points)
 			else:
-				most_recent_data = current_year_data
+				most_recent_data[records[2]] = current_year_data
 
 	save_files(running_data_list, running_points_list, most_recent_data)
 
