@@ -132,9 +132,9 @@ def api_helper(base_url, tag, report_list, year_upper_bound, year_lower_bound):
 	records = {'total': total_length}
 
 	print('Processing ' + tag[1] + ':')
-	for i in report_list:
+	for i in tqdm(report_list, desc='Batch Querying for seasonId ' + year_upper_bound):
 		temp = {}
-		for j in tqdm(range(0, total_length + 1, 100), desc='Batch Querying for Report Type ' + i):
+		for j in range(0, total_length + 1, 100):
 			temp2 = {}
 			if(tag == goalie_tag):
 				temp2 = requests.get(base_url.format(i, j, year_upper_bound, year_lower_bound)).json()
