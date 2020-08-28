@@ -312,7 +312,7 @@ def main():
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
 			current_year_data = sort_dictionary_data(current_year_data, records[1])
 
-			if(year != 0):
+			if(year != 1):
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
 				current_year_data, next_year_data = remove_players(current_year_data, next_year_data)
 
