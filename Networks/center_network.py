@@ -183,3 +183,7 @@ val_accuracy = np.average(difference_array)
 print('Test Loss =', (test_avg_loss))
 print('Test Accuracy =', (correct / test_num))
 print('Time taken =', (time.time() - t0))
+
+
+##### Save Weights #####
+torch.save(net.state_dict(), current_file_path.parents[0] / 'ModelWeights' / 'Center_Weights' + ".pth")
