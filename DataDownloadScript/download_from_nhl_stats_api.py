@@ -254,15 +254,13 @@ def remove_players(current_year_data, next_year_data):
 
 def filter_stats(player_list, keep_stats):
 	temp_player_list = []
+	non_stat_list = []
 	for player in player_list:
 		temp_player = player.copy()
+		temp_player.pop(1)
+		temp_player.pop(2)
+		non_stat_list.append([temp_player.pop(0), temp_player.pop(0)])
 		temp_player_list.append(temp_player)
-
-	non_stat_list = []
-	for player in temp_player_list:
-		player.pop(1)
-		player.pop(2)
-		non_stat_list.append([player.pop(0), player.pop(0)])
 
 	if keep_stats:
 		return temp_player_list
