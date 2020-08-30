@@ -8,37 +8,7 @@ import torch
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 import numpy as np
-
-import importlib
 import time
-
-import argparse
-
-
-##### Argument Parsing ######
-# Get values from the command line.
-parser = argparse.ArgumentParser(description='Fantasy NHML')
-
-parser.add_argument('--epochs',        type=int,   default=50,       help='Number of epochs')
-parser.add_argument('--batch_size',    type=int,   default=100,      help='Batch Size')
-parser.add_argument('--lr',            type=float, default=0.01,     help='Initial learning rate')
-parser.add_argument('--momentum',      type=float, default=0.4,      help='Momentum for network')
-parser.add_argument('--weight_decay',  type=float, default=0.25,     help='Weight decay for network')
-parser.add_argument('--name',          type=str,   default="result", help='Name to name all the exported files of the network')
-parser.add_argument('--normalize',     type=bool,  default=False,    help='Whether to use normalized data')
-parser.add_argument('--lr_decay',      type=float, default=1.0,      help='LR decay')
-parser.add_argument('--lr_step_size',  type=float, default=10,       help='LR decay step size')
-
-args = parser.parse_args()
-
-weight_decay = args.weight_decay
-lr_step_size = args.lr_step_size
-batch_size = args.batch_size
-normalize = args.normalize
-momentum = args.momentum
-lr_decay = args.lr_decay
-epochs = args.epochs
-lr = args.lr
 
 
 ##### Confirm Cuda Is Available #####
@@ -96,5 +66,118 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
 
+        return x
 
 
+##### Initialize Network #####
+net = Net()
+
+if cuda.is_available():
+    net = net.cuda()
+
+criterion = nn.MSELoss
+optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.002, weight_decay=0)
+
+
+##### Training Loop #####
+t0 = time.time()
+
+print("Beginning Training:")
+for epoch in tqdm(range(100), desc='Epoch', epoch):
+    net.train()
+    running_loss_train = []
+    for i, data in enumerate(train_loader, 0):
+        stats, points = data
+
+        stats = stats.float()
+        points = points.float()
+
+        if cuda.is_available():
+            stats = stats.cuda()
+            points = points.cuda()
+
+        optimizer.zero_grad()
+
+        outputs = net(stats)
+
+        loss = criterion(outputs, points)
+        loss.backward()
+
+        optimizer.step()
+
+        running_loss_train.append(loss.item())
+
+    avg_loss = np.mean(np.array([running_loss_train]))
+
+
+    net.eval()
+    running_loss_eval = []
+    difference_array = []
+
+    for i, data in enumerate(val_loader, 0):
+        stats, points = data
+
+        stats = stats.float()
+        points = points.float()
+
+        if cuda.is_available():
+            stats = stats.cuda()
+            points = points.cuda()
+
+        outputs = net(stats)
+        loss = criterion(outputs, points)
+        running_loss_eval.append(loss.item())
+
+        for j in range(0, len(outputs)):
+            prediction = outputs[j]
+            ground_truth = points[j]
+
+            difference_array.append(np.absolute(ground_truth - prediction))
+
+    eval_avg_loss = np.mean(np.array([running_loss_eval]))
+    val_accuracy = np.average(difference_array)
+
+    print("Epoch:", epoch, "| Avg Loss:", avg_loss,
+          "\n         | Test Avg Loss:", eval_avg_loss,
+          "\n         | Eval Avg Difference:", val_accuracy)
+
+    if cuda.is_available():
+        cuda.empty_cache()
+
+    scheduler.step()
+
+
+##### Test Data Evaluation #####
+net.eval()
+
+running_loss_test = []
+difference_array = []
+
+for i, data in enumerate(val_loader, 0):
+    stats, points = data
+
+    stats = stats.float()
+    points = points.float()
+
+    if cuda.is_available():
+        stats = stats.cuda()
+        points = points.cuda()
+
+    outputs = net(stats)
+    loss = criterion(outputs, points)
+    running_loss_test.append(loss.item())
+
+    for j in range(0, len(outputs)):
+        prediction = outputs[j]
+        ground_truth = points[j]
+
+        difference_array.append(np.absolute(ground_truth - prediction))
+
+test_avg_loss = np.mean(np.array([running_loss_test]))
+val_accuracy = np.average(difference_array)
+
+
+##### Results #####
+print("Test Loss =", (test_avg_loss))
+print("Test Accuracy =", (correct / test_num))
+print("Time taken =", (time.time() - t0))
