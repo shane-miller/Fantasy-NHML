@@ -23,6 +23,8 @@ path = current_file_path.parents[0] / 'Data' / 'Centers'
 data = np.load(path / 'player_data.npy', allow_pickle=True)
 points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
+data = torch.from_numpy(data)
+points = torch.from_numpy(points)
 
 ##### Dataset Definition #####
 class PlayerDataset(data.Dataset):
