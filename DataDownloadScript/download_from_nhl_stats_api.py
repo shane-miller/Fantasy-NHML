@@ -252,8 +252,26 @@ def remove_players(current_year_data, next_year_data):
 	return matching_current_year_players, matching_next_year_players
 
 
+def filter_stats(player_list, keep_stats):
+	temp_player_list = []
+	for player in player_list:
+		temp_player = player.copy()
+		temp_player_list.append(temp_player)
+
+	non_stat_list = []
+	for player in temp_player_list:
+		player.pop(1)
+		player.pop(2)
+		non_stat_list.append([player.pop(0), player.pop(0)])
+
+	if keep_stats:
+		return temp_player_list
+	else:
+		return non_stat_list
+
+
 # Saves player data and fantasy points into their Data/{position} folders
-def save_files(running_data_list, running_points_list, most_recent_data):
+def save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names):
 	current_file_path = pathlib.Path(__file__).parent.absolute()
 	path = current_file_path.parents[0] / 'Data'
 
@@ -275,6 +293,7 @@ def save_files(running_data_list, running_points_list, most_recent_data):
 	np.save(goalie_path / 'fantasy_points_data', running_points_list[3])
 
 	np.save(path / 'most_recent_season_data', most_recent_data)
+	np.save(path / 'most_recent_season_data_names', most_recent_data_names)
 
 
 # Prints out the json for a players stats given in a dictionary
@@ -303,6 +322,7 @@ def main():
 	running_data_list = [[], [], [], []]
 	running_points_list = [[], [], [], []]
 	most_recent_data = [[], [], [], []]
+	most_recent_data_names = [[], [], [], []]
 	records_list = [[center_records, 'center', 0], [wing_records, 'wing', 1], [defenceman_records, 'defenceman', 2], [goalie_records, 'goalie', 3]]
 	for records in records_list:
 		for year in range(num_years, 0, -1):
@@ -318,12 +338,13 @@ def main():
 
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
 
-				running_data_list[records[2]].append(current_year_data)
+				running_data_list[records[2]].append(filter_stats(current_year_data, True))
 				running_points_list[records[2]].append(next_year_points)
 			else:
-				most_recent_data[records[2]] = current_year_data
+				most_recent_data[records[2]] = filter_stats(current_year_data, True)
+				most_recent_data_names[records[2]] = filter_stats(current_year_data, False)
 
-	save_files(running_data_list, running_points_list, most_recent_data)
+	save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names)
 
 
 if __name__ == "__main__":
