@@ -12,7 +12,7 @@ import time
 
 
 ##### Confirm Cuda Is Available #####
-print("Cuda Available:", cuda.is_available(), '\n')
+print('Cuda Available:', cuda.is_available(), '\n')
 
 
 ##### Load Data #####
@@ -82,8 +82,10 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.002, weight_decay=0
 ##### Training Loop #####
 t0 = time.time()
 
-print("Beginning Training:")
-for epoch in tqdm(range(100), desc='Epoch', epoch):
+print('Beginning Training:')
+epochs = tqdm(range(100))
+for epoch in epochs:
+    epochs.set_description('Epoch:', epoch)
     net.train()
     running_loss_train = []
     for i, data in enumerate(train_loader, 0):
@@ -137,9 +139,9 @@ for epoch in tqdm(range(100), desc='Epoch', epoch):
     eval_avg_loss = np.mean(np.array([running_loss_eval]))
     val_accuracy = np.average(difference_array)
 
-    print("Epoch:", epoch, "| Avg Loss:", avg_loss,
-          "\n         | Test Avg Loss:", eval_avg_loss,
-          "\n         | Eval Avg Difference:", val_accuracy)
+    print('Epoch:', epoch, '| Avg Loss:', avg_loss,
+          '\n         | Test Avg Loss:', eval_avg_loss,
+          '\n         | Eval Avg Difference:', val_accuracy)
 
     if cuda.is_available():
         cuda.empty_cache()
@@ -178,6 +180,6 @@ val_accuracy = np.average(difference_array)
 
 
 ##### Results #####
-print("Test Loss =", (test_avg_loss))
-print("Test Accuracy =", (correct / test_num))
-print("Time taken =", (time.time() - t0))
+print('Test Loss =', (test_avg_loss))
+print('Test Accuracy =', (correct / test_num))
+print('Time taken =', (time.time() - t0))
