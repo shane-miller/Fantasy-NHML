@@ -252,7 +252,7 @@ def remove_players(current_year_data, next_year_data):
 	return matching_current_year_players, matching_next_year_players
 
 
-def filter_stats(player_list, keep_stats):
+def filter_stats(player_list):
 	temp_player_list = []
 	non_stat_list = []
 	for player in player_list:
@@ -262,10 +262,8 @@ def filter_stats(player_list, keep_stats):
 		non_stat_list.append([temp_player.pop(0), temp_player.pop(0)])
 		temp_player_list.append(temp_player)
 
-	if keep_stats:
-		return temp_player_list
-	else:
-		return non_stat_list
+	return non_stat_list, temp_player_list
+
 
 
 # Saves player data and fantasy points into their Data/{position} folders
@@ -296,7 +294,7 @@ def save_files(running_data_list, running_points_list, most_recent_data, most_re
 
 # Prints out the json for a players stats given in a dictionary
 def print_stats(player):
-	print(json.dumps(player, sort_keys = False, indent = 4))
+	print(json.dumps(player, sort_keys=False, indent=4))
 
 
 def main():
@@ -336,11 +334,10 @@ def main():
 
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
 
-				running_data_list[records[2]].append(filter_stats(current_year_data, True))
+				_, current_year_data = filter_stats(current_year_data)
 				running_points_list[records[2]].append(next_year_points)
 			else:
-				most_recent_data[records[2]] = filter_stats(current_year_data, True)
-				most_recent_data_names[records[2]] = filter_stats(current_year_data, False)
+				player_names, current_year_data = filter_stats(current_year_data)
 
 	save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names)
 
