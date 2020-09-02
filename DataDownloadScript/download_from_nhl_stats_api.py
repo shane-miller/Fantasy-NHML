@@ -264,6 +264,20 @@ def filter_stats(player_list):
 
 	return non_stat_list, temp_player_list
 
+#converts all data to a float and replaces None value with 0
+def convert_data_to_float(player_list):
+	final_list = []
+	for player in player_list:
+		temp_list = []
+		for value in player:
+			if (value == None):
+				temp_list.append(0.0)
+			else:
+				temp_list.append(float(value))
+
+		final_list.append(temp_list)
+
+	return final_list
 
 
 # Saves player data and fantasy points into their Data/{position} folders
@@ -335,9 +349,14 @@ def main():
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
 
 				_, current_year_data = filter_stats(current_year_data)
+				current_year_data = convert_data_to_float(current_year_data)
+
+				running_data_list[records[2]].append(current_year_data)
 				running_points_list[records[2]].append(next_year_points)
 			else:
 				player_names, current_year_data = filter_stats(current_year_data)
+				most_recent_data[records[2]] = convert_data_to_float(current_year_data)
+				most_recent_data_names[records[2]] = player_names
 
 	save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names)
 
