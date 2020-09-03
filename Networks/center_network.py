@@ -6,7 +6,6 @@ import torch.nn as nn
 import torch
 
 from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 import numpy as np
 import pathlib
 import time
@@ -20,7 +19,7 @@ print('Cuda Available:', cuda.is_available(), '\n')
 current_file_path = pathlib.Path(__file__).parent.absolute()
 path = current_file_path.parents[0] / 'Data' / 'Centers'
 
-data = np.load(path / 'player_data.npy', allow_pickle=True)
+stats = np.load(path / 'player_data.npy', allow_pickle=True)
 points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
 
@@ -41,7 +40,7 @@ class PlayerDataset(data.Dataset):
 
 
 ##### Dataset Initialization #####
-data_train, data_test, points_train, points_test = train_test_split(data, points, test_size=0.3)
+data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 data_train, data_val, points_train, points_val = train_test_split(data_train, points_train, test_size=0.285)
 
 train_all = PlayerDataset(data_train, points_train)
@@ -76,7 +75,7 @@ net = Net()
 if cuda.is_available():
     net = net.cuda()
 
-criterion = nn.MSELoss
+criterion = nn.MSELoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.002, weight_decay=0)
 
 
@@ -84,9 +83,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.002, weight_decay=0
 t0 = time.time()
 
 print('Beginning Training:')
-epochs = tqdm(range(100))
-for epoch in epochs:
-    epochs.set_description('Epoch:', epoch)
+for epoch in range(100):
     net.train()
     running_loss_train = []
     for i, data in enumerate(train_loader, 0):
@@ -102,6 +99,7 @@ for epoch in epochs:
         optimizer.zero_grad()
 
         outputs = net(stats)
+        outputs = torch.reshape(outputs, (-1,))
 
         loss = criterion(outputs, points)
         loss.backward()
@@ -128,6 +126,10 @@ for epoch in epochs:
             points = points.cuda()
 
         outputs = net(stats)
+        outputs = torch.reshape(outputs, (-1,))
+
+        breakpoint()
+        
         loss = criterion(outputs, points)
         running_loss_eval.append(loss.item())
 
@@ -135,7 +137,7 @@ for epoch in epochs:
             prediction = outputs[j]
             ground_truth = points[j]
 
-            difference_array.append(np.absolute(ground_truth - prediction))
+            difference_array.append(np.absolute(ground_truth.detach().numpy() - prediction.detach().numpy()))
 
     eval_avg_loss = np.mean(np.array([running_loss_eval]))
     val_accuracy = np.average(difference_array)
@@ -146,8 +148,6 @@ for epoch in epochs:
 
     if cuda.is_available():
         cuda.empty_cache()
-
-    scheduler.step()
 
 
 ##### Test Data Evaluation #####
@@ -167,6 +167,8 @@ for i, data in enumerate(val_loader, 0):
         points = points.cuda()
 
     outputs = net(stats)
+    outputs = torch.reshape(outputs, (-1,))
+
     loss = criterion(outputs, points)
     running_loss_test.append(loss.item())
 
@@ -174,17 +176,17 @@ for i, data in enumerate(val_loader, 0):
         prediction = outputs[j]
         ground_truth = points[j]
 
-        difference_array.append(np.absolute(ground_truth - prediction))
+        difference_array.append(np.absolute(ground_truth.detach().numpy() - prediction.detach().numpy()))
 
 test_avg_loss = np.mean(np.array([running_loss_test]))
-val_accuracy = np.average(difference_array)
+test_accuracy = np.average(difference_array)
 
 
 ##### Results #####
-print('Test Loss =', (test_avg_loss))
-print('Test Accuracy =', (correct / test_num))
+print('Test Loss =', test_avg_loss)
+print('Test Accuracy =', test_accuracy)
 print('Time taken =', (time.time() - t0))
 
 
 ##### Save Weights #####
-torch.save(net.state_dict(), current_file_path.parents[0] / 'ModelWeights' / 'Center_Weights' + ".pth")
+torch.save(net.state_dict(), current_file_path.parents[0] / 'ModelWeights' / 'Center_Weights.pth')
