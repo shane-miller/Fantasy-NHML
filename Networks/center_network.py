@@ -128,8 +128,6 @@ for epoch in range(100):
         outputs = net(stats)
         outputs = torch.reshape(outputs, (-1,))
 
-        breakpoint()
-        
         loss = criterion(outputs, points)
         running_loss_eval.append(loss.item())
 
