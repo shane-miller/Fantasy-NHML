@@ -351,8 +351,8 @@ def main():
 				_, current_year_data = filter_stats(current_year_data)
 				current_year_data = convert_data_to_float(current_year_data)
 
-				running_data_list[records[2]].append(current_year_data)
-				running_points_list[records[2]].append(next_year_points)
+				running_data_list[records[2]] = running_data_list[records[2]] + current_year_data
+				running_points_list[records[2]] = running_points_list[records[2]] + next_year_points
 			else:
 				player_names, current_year_data = filter_stats(current_year_data)
 				most_recent_data[records[2]] = convert_data_to_float(current_year_data)
