@@ -47,9 +47,9 @@ train_all = PlayerDataset(data_train, points_train)
 test_all = PlayerDataset(data_train, points_train)
 val_all = PlayerDataset(data_val, points_val)
 
-train_loader = data.DataLoader(train_all, batch_size=64, shuffle=True)
-test_loader = data.DataLoader(test_all, batch_size=64, shuffle=True)
-val_loader = data.DataLoader(val_all, batch_size=64, shuffle=True)
+train_loader = data.DataLoader(train_all, batch_size=200, shuffle=True)
+test_loader = data.DataLoader(test_all, batch_size=200, shuffle=True)
+val_loader = data.DataLoader(val_all, batch_size=200, shuffle=True)
 
 
 ##### Neural Network Definition #####
@@ -57,14 +57,20 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
 
-        self.fc1 = nn.Linear(190, 25600)
-        self.fc2 = nn.Linear(25600, 6400)
-        self.fc3 = nn.Linear(6400, 1)
+        self.fc1 = nn.Linear(190, 256)
+        self.fc2 = nn.Linear(256, 128)
+        self.fc3 = nn.Linear(128, 64)
+        self.fc4 = nn.Linear(64, 32)
+        self.fc5 = nn.Linear(32, 16)
+        self.fc6 = nn.Linear(16, 1)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
-        x = self.fc3(x)
+        x = F.relu(self.fc3(x))
+        x = F.relu(self.fc4(x))
+        x = F.relu(self.fc5(x))
+        x = self.fc6(x)
 
         return x
 
@@ -76,14 +82,14 @@ if cuda.is_available():
     net = net.cuda()
 
 criterion = nn.MSELoss()
-optimizer = optim.SGD(net.parameters(), lr=0.00000001, momentum=0, weight_decay=0)
+optimizer = optim.SGD(net.parameters(), lr=0.0000001, momentum=0, weight_decay=0)
 
 
 ##### Training Loop #####
 t0 = time.time()
 
 print('Beginning Training:')
-for epoch in range(100):
+for epoch in range(10000):
     net.train()
     running_loss_train = []
     for i, data in enumerate(train_loader, 0):
@@ -135,12 +141,13 @@ for epoch in range(100):
             prediction = outputs[j]
             ground_truth = points[j]
 
-            difference_array.append(np.absolute(ground_truth.detach().numpy() - prediction.detach().numpy()))
+            difference_array.append(np.absolute(ground_truth.cpu().detach().numpy() - prediction.cpu().detach().numpy()))
 
     eval_avg_loss = np.mean(np.array([running_loss_eval]))
     val_accuracy = np.average(difference_array)
 
-    print('Epoch:', epoch, '| Avg Loss:', avg_loss,
+    print('Epoch:', epoch,
+          '\n         | Avg Loss:', avg_loss,
           '\n         | Eval Avg Loss:', eval_avg_loss,
           '\n         | Eval Avg Difference:', val_accuracy)
 
