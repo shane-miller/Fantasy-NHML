@@ -72,9 +72,13 @@ except:
     os.remove(current_file_path / 'center_report.txt')
     file = open(current_file_path / 'center_report.txt', 'x')
 
+max_name_len = max(len(player[0]) for player in predictions)
+name_str = 'Player Name'
+file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
+
 predictions.sort(key = lambda x: -x[1])
 for player in predictions:
-    file.write(player[0] + ';\tPredicted Points: ' + str(math.ceil(player[1])) + '\n')
+    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
 
 file.close()
 
