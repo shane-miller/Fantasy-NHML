@@ -74,4 +74,7 @@ except:
 
 predictions.sort(key = lambda x: -x[1])
 for player in predictions:
-    file.write('Player: ' + player[0] + '; Predicted Points: ' + str(math.ceil(player[1])) + '\n')
+    file.write(player[0] + ';\tPredicted Points: ' + str(math.ceil(player[1])) + '\n')
+
+file.close()
+
