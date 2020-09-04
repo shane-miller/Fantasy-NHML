@@ -1,4 +1,4 @@
-# Fantasy-NHML
+# Fantasy-NHML (In Progress)
 ### A machine learning based fantasy hockey draft helper.
 
 #### Info:
