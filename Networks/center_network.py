@@ -57,9 +57,9 @@ class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
 
-        self.fc1 = nn.Linear(190, 256)
-        self.fc2 = nn.Linear(256, 64)
-        self.fc3 = nn.Linear(64, 1)
+        self.fc1 = nn.Linear(190, 25600)
+        self.fc2 = nn.Linear(25600, 6400)
+        self.fc3 = nn.Linear(6400, 1)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
@@ -76,7 +76,7 @@ if cuda.is_available():
     net = net.cuda()
 
 criterion = nn.MSELoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.002, weight_decay=0)
+optimizer = optim.SGD(net.parameters(), lr=0.00000001, momentum=0, weight_decay=0)
 
 
 ##### Training Loop #####
