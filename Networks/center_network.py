@@ -141,7 +141,7 @@ for epoch in range(100):
     val_accuracy = np.average(difference_array)
 
     print('Epoch:', epoch, '| Avg Loss:', avg_loss,
-          '\n         | Test Avg Loss:', eval_avg_loss,
+          '\n         | Eval Avg Loss:', eval_avg_loss,
           '\n         | Eval Avg Difference:', val_accuracy)
 
     if cuda.is_available():
@@ -182,7 +182,7 @@ test_accuracy = np.average(difference_array)
 
 ##### Results #####
 print('Test Loss =', test_avg_loss)
-print('Test Accuracy =', test_accuracy)
+print('Test Avg Difference =', test_accuracy)
 print('Time taken =', (time.time() - t0))
 
 
