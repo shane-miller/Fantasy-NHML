@@ -2,7 +2,7 @@
 ### A machine learning based fantasy hockey draft helper.
 
 #### Info:
-- Utilizes a supervised regression model to predict the upcoming year's fantasy values when given the player data from the previous years.
+- Predicts the upcoming year's fantasy values when given the player data from the previous years.
 - In order to handle player injuries or other misc reasons games had to be missed, the fantasy point value for skaters used for training will be the following equation:
 
   ![equation](https://latex.codecogs.com/gif.latex?a%20%3D%20%5Ctextrm%7Btotal%20number%20of%20fantasy%20points%20earned%20in%20a%20season%7D)
