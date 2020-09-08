@@ -146,10 +146,11 @@ for epoch in range(10000):
     eval_avg_loss = np.mean(np.array([running_loss_eval]))
     val_accuracy = np.average(difference_array)
 
-    print('Epoch:', epoch,
-          '\n         | Avg Loss:', avg_loss,
-          '\n         | Eval Avg Loss:', eval_avg_loss,
-          '\n         | Eval Avg Difference:', val_accuracy)
+    if epoch % 100 == 0:
+        print('Epoch:', epoch,
+              '\n         | Avg Loss:', avg_loss,
+              '\n         | Eval Avg Loss:', eval_avg_loss,
+              '\n         | Eval Avg Difference:', val_accuracy)
 
     if cuda.is_available():
         cuda.empty_cache()
