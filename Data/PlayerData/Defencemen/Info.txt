@@ -1,6 +1,6 @@
-This folder contains basic data for defencemen for the last 5 years.
+This folder contains basic data for defensemen for the last 5 years.
 
-Order of defenceman data:
+Order of defenseman data:
 
 skaterFullName
 lastName
