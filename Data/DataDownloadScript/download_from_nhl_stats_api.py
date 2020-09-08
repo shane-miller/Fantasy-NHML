@@ -96,7 +96,7 @@ center_tag = ['C', 'Centers']
 defenceman_tag = ['D', 'Defencemen']
 goalie_tag = ['G', 'Goalies']
 
-num_years = 10
+num_years = 2
 
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
@@ -118,10 +118,7 @@ scalable_data = ['assists', 'assists5v5', 'blockedShots', 'defensiveZoneFaceoffL
                  'satTotal', 'secondaryAssists5v5', 'shAssists', 'shFaceoffs', 'shFaceoffsLost', 'shFaceoffsWon', 'shGoals', 'shIndividualSatFor',
                  'shPoints', 'shPrimaryAssists', 'shSecondaryAssists', 'shShots', 'shTimeOnIce', 'shifts', 'shortHandedGoalsAgainst', 'shortHandedGoalsFor',
                  'shots', 'takeaways', 'timeOnIce', 'totalFaceoffLosses', 'totalFaceoffWins', 'totalFaceoffs', 'totalPrimaryAssists', 'totalSecondaryAssists',
-                 'usatAgainst', 'usatAhead', 'usatBehind', 'usatClose', 'usatFor', 'usatRelative', 'usatTied', 'usatTotal', 'completeGames', 'evGoalsAgainst',
-                 'evSaves', 'evShotsAgainst', 'gamesStarted', 'goalsAgainst', 'goalsAgainstAverage', 'goalsFor', 'goalsForAverage', 'incompleteGames',
-                 'losses', 'otLosses', 'ppGoalsAgainst', 'ppSaves', 'ppShotsAgainst', 'qualityStart', 'regulationLosses', 'regulationWins', 'saves',
-                 'shGoalsAgainst', 'shSaves', 'shShotsAgainst', 'shotsAgainst', 'shutouts', 'wins']
+                 'usatAgainst', 'usatAhead', 'usatBehind', 'usatClose', 'usatFor', 'usatRelative', 'usatTied', 'usatTotal']
 
 
 # With the help of api_helper this queries the nhle api the required number of times and joins the data into one json record
@@ -137,6 +134,8 @@ def api_main(base_url, tag, report_list, num_years):
 		temp = api_helper(base_url, tag, report_list, seasonId)
 		final_records.update({'data': final_records.get('data') + temp.get('data')})
 		final_records.update({'total': final_records.get('total') + temp.get('total')})
+	
+	print()
 
 	return final_records
 
@@ -183,6 +182,17 @@ def api_helper(base_url, tag, report_list, year_bound):
 	return records
 
 
+def extrapolate_data(players):
+	for player in players:
+		starting_gp = player.get('gamesPlayed')
+		keys = player.keys()
+		for key in keys:
+			if key in scalable_data:
+				a = player.get(key)
+				b = starting_gp
+				player.update({key:  ((2*a*b) + 246*a)/(5*b)})
+
+
 # Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
 def calculate_fantasy_points(players, tag):
 	fantasy_points_list = []
@@ -205,12 +215,6 @@ def calculate_fantasy_points(players, tag):
 
 		for key in key_names:
 			fantasy_total = fantasy_total + (player.get(key[0]) * key[1])
-
-		if(tag != 'goalie'):
-			# See readme for explanation on this equation
-			a = fantasy_total
-			b = int(player.get('gamesPlayed'))
-			fantasy_total = ((2*a*b) + 246*a)/(5*b)
 
 		fantasy_points_list.append(fantasy_total)
 
@@ -283,19 +287,15 @@ def filter_stats(player_list):
 	return non_stat_list, temp_player_list
 
 #converts all data to a float and replaces None value with 0
-def convert_data_to_float(player_list):
-	final_list = []
-	for player in player_list:
-		temp_list = []
-		for value in player:
+def convert_data_to_float(player_dict):
+	for player in player_dict:
+		keys = player.keys()
+		for key in keys:
+			value = player.get(key)
 			if (value == None):
-				temp_list.append(0.0)
-			else:
-				temp_list.append(float(value))
-
-		final_list.append(temp_list)
-
-	return final_list
+				player.update({key:  0.0})
+			elif not isinstance(value, str):
+				player.update({key: float(value)})
 
 
 # Saves player data and fantasy points into their Data/{position} folders
@@ -358,22 +358,29 @@ def main():
 			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
 			
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
+
+			convert_data_to_float(current_year_data)
+			extrapolate_data(current_year_data)
+
 			current_year_data = sort_dictionary_data(current_year_data, records[1])
 
 			if(year != 1):
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
+
+				convert_data_to_float(next_year_data)
+				extrapolate_data(next_year_data)
+
 				current_year_data, next_year_data = remove_players(current_year_data, next_year_data)
 
 				next_year_points = calculate_fantasy_points(next_year_data, records[1])
 
 				_, current_year_data = filter_stats(current_year_data)
-				current_year_data = convert_data_to_float(current_year_data)
 
 				running_data_list[records[2]] = running_data_list[records[2]] + current_year_data
 				running_points_list[records[2]] = running_points_list[records[2]] + next_year_points
 			else:
 				player_names, current_year_data = filter_stats(current_year_data)
-				most_recent_data[records[2]] = convert_data_to_float(current_year_data)
+				most_recent_data[records[2]] = current_year_data
 				most_recent_data_names[records[2]] = player_names
 
 	save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names)
