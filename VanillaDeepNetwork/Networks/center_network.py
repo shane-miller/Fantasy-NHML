@@ -181,7 +181,7 @@ for i, data in enumerate(val_loader, 0):
         prediction = outputs[j]
         ground_truth = points[j]
 
-        difference_array.append(np.absolute(ground_truth.detach().numpy() - prediction.detach().numpy()))
+        difference_array.append(np.absolute(ground_truth.cpu().detach().numpy() - prediction.cpu().detach().numpy()))
 
 test_avg_loss = np.mean(np.array([running_loss_test]))
 test_accuracy = np.average(difference_array)
