@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model, metrics
 import numpy as np
+import pathlib
 
 ##### Load Data #####
 current_file_path = pathlib.Path(__file__).parent.absolute()
@@ -18,3 +19,5 @@ data_train, data_test, points_train, points_test = train_test_split(stats, point
 reg = linear_model.LinearRegression()
 
 reg.fit(data_train, points_train)
+
+print('Variance score: {}'.format(reg.score(data_test, points_test)))
