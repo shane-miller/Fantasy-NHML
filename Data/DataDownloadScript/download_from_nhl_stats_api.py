@@ -283,7 +283,7 @@ def convert_data_to_float(player_list):
 # Saves player data and fantasy points into their Data/{position} folders
 def save_files(running_data_list, running_points_list, most_recent_data, most_recent_data_names):
 	current_file_path = pathlib.Path(__file__).parent.absolute()
-	path = current_file_path.parents[0] / 'Data'
+	path = current_file_path.parents[0] / 'PlayerData'
 
 	center_path = path / 'Centers'
 	wing_path = path / 'Wings'

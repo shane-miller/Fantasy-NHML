@@ -11,7 +11,7 @@ import os
 
 
 current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'Data'
+path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
 
 stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
 stats = stats[0]
