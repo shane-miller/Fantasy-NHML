@@ -101,9 +101,27 @@ num_years = 10
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
-# skater_report_list is commented out because NHL api crashes on sat_count when sorting alphabetically by name. Will fix when they fix.
-skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession, skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
+skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession,
+                      skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
 goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
+
+scalable_data = ['assists', 'assists5v5', 'blockedShots', 'defensiveZoneFaceoffLosses', 'defensiveZoneFaceoffWins', 'defensiveZoneFaceoffs',
+                 'emptyNetAssists', 'emptyNetGoals', 'emptyNetPoints', 'evFaceoffs', 'evFaceoffsLost', 'evFaceoffsWon', 'evGoals', 'evPoints',
+                 'evTimeOnIce', 'evenStrengthGoalDifference', 'evenStrengthGoalsAgainst', 'evenStrengthGoalsFor', 'firstGoals', 'gameMisconductPenalties',
+                 'gameWinningGoals', 'gamesPlayed', 'giveaways', 'goals', 'goals5v5', 'hits', 'majorPenalties', 'matchPenalties', 'minorPenalties',
+                 'misconductPenalties', 'missedShotCrossbar', 'missedShotGoalpost', 'missedShotOverNet', 'missedShotWideOfNet', 'missedShots',
+                 'netPenalties', 'neutralZoneFaceoffLosses', 'neutralZoneFaceoffWins', 'neutralZoneFaceoffs', 'offensiveZoneFaceoffLosses',
+                 'offensiveZoneFaceoffWins', 'offensiveZoneFaceoffs', 'otGoals', 'otTimeOnIce', 'penalties', 'penaltiesDrawn', 'penaltyMinutes',
+                 'plusMinus', 'points', 'points5v5', 'powerPlayGoalFor', 'powerPlayGoalsAgainst', 'ppAssists', 'ppFaceoffs', 'ppFaceoffsLost',
+                 'ppFaceoffsWon', 'ppGoals', 'ppIndividualSatFor', 'ppPoints', 'ppPrimaryAssists', 'ppSecondaryAssists', 'ppShots', 'ppTimeOnIce',
+                 'primaryAssists5v5', 'satAgainst', 'satAhead', 'satBehind', 'satClose', 'satFor', 'satRelative', 'satRelative5v5', 'satTied',
+                 'satTotal', 'secondaryAssists5v5', 'shAssists', 'shFaceoffs', 'shFaceoffsLost', 'shFaceoffsWon', 'shGoals', 'shIndividualSatFor',
+                 'shPoints', 'shPrimaryAssists', 'shSecondaryAssists', 'shShots', 'shTimeOnIce', 'shifts', 'shortHandedGoalsAgainst', 'shortHandedGoalsFor',
+                 'shots', 'takeaways', 'timeOnIce', 'totalFaceoffLosses', 'totalFaceoffWins', 'totalFaceoffs', 'totalPrimaryAssists', 'totalSecondaryAssists',
+                 'usatAgainst', 'usatAhead', 'usatBehind', 'usatClose', 'usatFor', 'usatRelative', 'usatTied', 'usatTotal', 'completeGames', 'evGoalsAgainst',
+                 'evSaves', 'evShotsAgainst', 'gamesStarted', 'goalsAgainst', 'goalsAgainstAverage', 'goalsFor', 'goalsForAverage', 'incompleteGames',
+                 'losses', 'otLosses', 'ppGoalsAgainst', 'ppSaves', 'ppShotsAgainst', 'qualityStart', 'regulationLosses', 'regulationWins', 'saves',
+                 'shGoalsAgainst', 'shSaves', 'shShotsAgainst', 'shotsAgainst', 'shutouts', 'wins']
 
 
 # With the help of api_helper this queries the nhle api the required number of times and joins the data into one json record
