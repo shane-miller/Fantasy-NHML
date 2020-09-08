@@ -47,9 +47,9 @@ train_all = PlayerDataset(data_train, points_train)
 test_all = PlayerDataset(data_train, points_train)
 val_all = PlayerDataset(data_val, points_val)
 
-train_loader = data.DataLoader(train_all, batch_size=200, shuffle=True)
-test_loader = data.DataLoader(test_all, batch_size=200, shuffle=True)
-val_loader = data.DataLoader(val_all, batch_size=200, shuffle=True)
+train_loader = data.DataLoader(train_all, batch_size=100, shuffle=True)
+test_loader = data.DataLoader(test_all, batch_size=100, shuffle=True)
+val_loader = data.DataLoader(val_all, batch_size=100, shuffle=True)
 
 
 ##### Neural Network Definition #####
@@ -82,14 +82,14 @@ if cuda.is_available():
     net = net.cuda()
 
 criterion = nn.MSELoss()
-optimizer = optim.SGD(net.parameters(), lr=0.0000001, momentum=0, weight_decay=0)
+optimizer = optim.SGD(net.parameters(), lr=0.00000005, momentum=0.00001, weight_decay=0)
 
 
 ##### Training Loop #####
 t0 = time.time()
 
 print('Beginning Training:')
-for epoch in range(10000):
+for epoch in range(1000):
     net.train()
     running_loss_train = []
     for i, data in enumerate(train_loader, 0):
@@ -146,7 +146,7 @@ for epoch in range(10000):
     eval_avg_loss = np.mean(np.array([running_loss_eval]))
     val_accuracy = np.average(difference_array)
 
-    if epoch % 100 == 0:
+    if epoch % 10 == 0:
         print('Epoch:', epoch,
               '\n         | Avg Loss:', avg_loss,
               '\n         | Eval Avg Loss:', eval_avg_loss,
