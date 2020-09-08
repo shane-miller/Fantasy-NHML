@@ -14,9 +14,9 @@ current_file_path = pathlib.Path(__file__).parent.absolute()
 path = current_file_path.parents[0].parents[0].parents[0] / 'Data' / 'PlayerData'
 
 stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[1]
+stats = stats[2]
 names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[1]
+names = names[2]
 
 #stats_loader = data.DataLoader(stats, batch_size=1, shuffle=False)
 
@@ -49,7 +49,7 @@ net = Net()
 if cuda.is_available():
     net = net.cuda()
 
-state_dict = torch.load(current_file_path.parents[0].parents[0] / 'ModelWeights' / 'Wing_Weights.pth')
+state_dict = torch.load(current_file_path.parents[0].parents[0] / 'ModelWeights' / 'Defenceman_Weights.pth')
 net.load_state_dict(state_dict)
 
 
@@ -67,10 +67,10 @@ for i, player in enumerate(stats, 0):
 
 file = None
 try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'wing_report.txt', 'x')
+    file = open(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt', 'x')
 except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'wing_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'wing_report.txt', 'x')
+    os.remove(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt')
+    file = open(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt', 'x')
 
 max_name_len = max(len(player[0]) for player in predictions)
 name_str = 'Player Name'
