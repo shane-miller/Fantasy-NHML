@@ -4,7 +4,7 @@ import numpy as np
 
 ##### Load Data #####
 current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'Data' / 'Centers'
+path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / 'Centers'
 
 stats = np.load(path / 'player_data.npy', allow_pickle=True)
 points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
@@ -16,3 +16,5 @@ data_train, data_test, points_train, points_test = train_test_split(stats, point
 
 ##### Create and Train the Model #####
 reg = linear_model.LinearRegression()
+
+reg.fit(data_train, points_train)
