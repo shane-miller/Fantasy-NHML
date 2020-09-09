@@ -3,9 +3,9 @@
 
 #### Info:
 - Predicts the upcoming year's fantasy values when given the player data from the previous years.
-- In order to handle player injuries or other misc reasons games had to be missed, the fantasy point value for skaters used for training will be the following equation:
+- In order to handle player injuries or other misc reasons games had to be missed, the scalable individual statistics and fantasy point value for skaters used for training will be the following equation:
 
-  ![equation](https://latex.codecogs.com/gif.latex?a%20%3D%20%5Ctextrm%7Btotal%20number%20of%20fantasy%20points%20earned%20in%20a%20season%7D)
+  ![equation](https://latex.codecogs.com/gif.latex?a%20%3D%20%5Ctextrm%7Bstat%20value%2Ffantasy%20points%7D)
 
   ![equation](https://latex.codecogs.com/gif.latex?b%20%3D%20%5Ctextrm%7Bnumber%20of%20games%20played%7D)
 
