@@ -1,4 +1,4 @@
 .DS_Store
 *.pth
 *.npy
-*.txt
+*report.txt
