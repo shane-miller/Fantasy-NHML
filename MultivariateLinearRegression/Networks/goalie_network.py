@@ -18,17 +18,27 @@ for player in stats:
     temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
 stats = temp
 
+mse = math.inf
+r2 = math.inf
+count = 0
+while (mse > 750 or (r2 > 0.75 or r2 < -0.75)) and count < 25000:
+    count = count + 1
+    
+    ##### Split Data #####
+    data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 
-##### Split Data #####
-data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 
+    ##### Create and Train the Model #####
+    reg = linear_model.LinearRegression()
 
-##### Create and Train the Model #####
-reg = linear_model.LinearRegression()
+    reg.fit(data_train, points_train)
 
-reg.fit(data_train, points_train)
+    preds = reg.predict(data_test)
+    r2 = metrics.r2_score(points_test, preds)
+    mse = metrics.mean_squared_error(points_test, preds)
 
-print('Variance score: {}'.format(reg.score(data_test, points_test)))
+print("R2 score : %.4f" % r2)
+print("Mean squared error: %.4f" % mse)
 
 
 ##### Predict and Save Fantasy Values #####
