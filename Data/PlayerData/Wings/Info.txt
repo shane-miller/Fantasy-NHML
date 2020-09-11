@@ -2,10 +2,6 @@ This folder contains basic data for wings for the last 5 years.
 
 Order of wing data:
 
-skaterFullName
-lastName
-playerId
-seasonId
 assists
 assists5v5
 assistsPer605v5

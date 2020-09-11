@@ -2,10 +2,6 @@ This folder contains basic data for goalies for the last 5 years.
 
 Order of goalie data:
 
-goalieFullName
-lastName
-playerId
-seasonId
 assists
 completeGamePct
 completeGames
