@@ -18,7 +18,6 @@ stats = stats[1]
 names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
 names = names[1]
 
-#stats_loader = data.DataLoader(stats, batch_size=1, shuffle=False)
 
 ##### Neural Network Definition #####
 class Net(nn.Module):
