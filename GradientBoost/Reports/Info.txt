@@ -1,0 +1,1 @@
+Folder to hold the generated reports from the gradient boost predictions.
