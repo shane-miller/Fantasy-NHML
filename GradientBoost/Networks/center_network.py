@@ -15,15 +15,14 @@ stats = np.load(path / 'player_data.npy', allow_pickle=True)
 points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
 
-mse = math.inf
-r2 = math.inf
+mse = 0
+r2 = 0
 count = 0
-while (mse > 1100 or (r2 > 0.75 or r2 < -0.75)) and count < 50:
+while r2 < 0.65 and count < 50:
     count = count + 1
 
     ##### Split Data #####
     data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
-
 
     ##### Create and Train the Model #####
     reg = GradientBoostingRegressor(learning_rate=0.075, n_estimators=200, max_depth=4)
@@ -33,8 +32,8 @@ while (mse > 1100 or (r2 > 0.75 or r2 < -0.75)) and count < 50:
     r2 = metrics.r2_score(points_test, preds)
     mse = metrics.mean_squared_error(points_test, preds)
 
-print("R2 score : %.4f" % r2)
-print("Mean squared error: %.4f" % mse)
+print("R2 Score : %.4f" % r2)
+print("Root Mean Squared Error: %.4f" % np.sqrt(mse))
 
 
 ##### Predict and Save Fantasy Values #####

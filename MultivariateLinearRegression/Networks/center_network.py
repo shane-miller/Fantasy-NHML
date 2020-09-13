@@ -20,15 +20,14 @@ for player in stats:
                  player[159], player[40], player[4]])
 stats = temp
 
-mse = math.inf
-r2 = math.inf
+mse = 0
+r2 = 0
 count = 0
-while (mse > 750 or (r2 > 0.75 or r2 < -0.75)) and count < 25000:
+while r2 < 0.825 and count < 25000:
     count = count + 1
     
     ##### Split Data #####
     data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
-
 
     ##### Create and Train the Model #####
     reg = linear_model.LinearRegression()
@@ -39,8 +38,8 @@ while (mse > 750 or (r2 > 0.75 or r2 < -0.75)) and count < 25000:
     r2 = metrics.r2_score(points_test, preds)
     mse = metrics.mean_squared_error(points_test, preds)
 
-print("R2 score : %.4f" % r2)
-print("Mean squared error: %.4f" % mse)
+print("R2 Score : %.4f" % r2)
+print("Root Mean Squared Error: %.4f" % np.sqrt(mse))
 
 
 ##### Predict and Save Fantasy Values #####
