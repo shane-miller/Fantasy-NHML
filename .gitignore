@@ -2,3 +2,4 @@
 *.pth
 *.npy
 *report.txt
+*.sav
