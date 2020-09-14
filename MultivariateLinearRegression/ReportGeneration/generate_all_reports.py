@@ -1,3 +1,24 @@
+from sklearn import linear_model
+import numpy as np
+import pathlib
+import pickle
+import math
+import os
+
+
+##### Load Model #####
+current_file_path = pathlib.Path(__file__).parent.absolute()
+path = current_file_path.parents[0] / 'SavedModels'
+
+file = None
+try:
+    file = open(path / 'center_model.sav', 'rb')
+except:
+    raise Exception('Missing center_model.sav')
+
+reg = pickle.load(file)
+
+
 ##### Predict and Save Fantasy Values #####
 path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
 
