@@ -40,44 +40,15 @@ print("R2 Score : %.4f" % r2)
 print("Root Mean Squared Error: %.4f" % np.sqrt(mse))
 
 
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
-
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[3]
-
-temp = []
-for player in stats:
-    temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
-stats = temp
-
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[3]
-
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
-    else:
-        value = math.ceil(value)
-
-    predictions.append((player[0], value))
+##### Save Model #####
+path = current_file_path.parents[0] / 'SavedModels'
 
 file = None
 try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
+    file = open(path / 'goalie_model.sav', 'wb')
 except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
+    os.remove(path / 'goalie_model.sav')
+    file = open(path / 'goalie_model.sav', 'wb')
 
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
-
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
-
+pickle.dump(reg, file)
 file.close()
