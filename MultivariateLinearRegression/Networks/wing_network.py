@@ -2,6 +2,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import linear_model, metrics
 import numpy as np
 import pathlib
+import pickle
 import math
 import os
 
