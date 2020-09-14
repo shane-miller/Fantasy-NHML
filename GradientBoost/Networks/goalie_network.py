@@ -18,7 +18,7 @@ points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 mse = 0
 r2 = 0
 count = 0
-while r2 < 0.5 and count < 100:
+while r2 < 0.4 and count < 100:
     count = count + 1
 
     ##### Split Data #####
