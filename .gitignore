@@ -3,3 +3,4 @@
 *.npy
 *report.txt
 *.sav
+*.pyc
