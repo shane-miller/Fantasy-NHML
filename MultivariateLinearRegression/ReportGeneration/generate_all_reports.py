@@ -5,236 +5,141 @@ import pickle
 import math
 import os
 
-########## CENTERS ##########
-##### Load Model #####
-current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'SavedModels'
-
-file = None
-try:
-    file = open(path / 'center_model.sav', 'rb')
-except:
-    raise Exception('Missing center_model.sav')
-
-reg = pickle.load(file)
-
-
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
-
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[0]
-
-temp = []
-for player in stats:
-    temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
-                 player[136], player[131], player[140], player[31], player[170], player[169], player[152],
-                 player[159], player[40], player[4]])
-stats = temp
-
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[0]
-
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
+##### SKATERS #####
+def generate_skater_reports(position_str):
+    index = None
+    if position_str == 'center':
+        index = 0
+    elif position_str == 'wing':
+        index = 1
     else:
-        value = math.ceil(value)
+        index = 2
 
-    predictions.append((player[0], value))
+    ##### Load Model #####
+    current_file_path = pathlib.Path(__file__).parent.absolute()
+    path = current_file_path.parents[0] / 'SavedModels'
 
-file = None
-try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'center_report.txt', 'x')
-except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'center_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'center_report.txt', 'x')
+    file = None
+    try:
+        file = open(path / (position_str + '_model.sav'), 'rb')
+    except:
+        raise Exception('Missing ' + position_str + '_model.sav')
 
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
-
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
-
-file.close()
+    reg = pickle.load(file)
 
 
+    ##### Predict and Save Fantasy Values #####
+    path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
 
-########## Wings ##########
-##### Load Model #####
-current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'SavedModels'
+    stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
+    stats = stats[index]
 
-file = None
-try:
-    file = open(path / 'wing_model.sav', 'rb')
-except:
-    raise Exception('Missing wing_model.sav')
+    temp = []
+    for player in stats:
+        temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
+                     player[136], player[131], player[140], player[31], player[170], player[169], player[152],
+                     player[159], player[40], player[4]])
+    stats = temp
 
-reg = pickle.load(file)
+    names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
+    names = names[index]
 
+    predictions = []
+    temp = reg.predict(stats)
+    for i, player in enumerate(names):
+        value = temp[i]
+        if value < 0:
+            value = 0
+        else:
+            value = math.ceil(value)
 
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
+        predictions.append((player[0], value))
 
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[1]
+    file = None
+    filename = position_str + '_report.txt'
+    try:
+        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
+    except:
+        os.remove(current_file_path.parents[0] / 'Reports' / filename)
+        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
 
-temp = []
-for player in stats:
-    temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
-                 player[136], player[131], player[140], player[31], player[170], player[169], player[152],
-                 player[159], player[40], player[4]])
-stats = temp
+    max_name_len = max(len(player[0]) for player in predictions)
+    name_str = 'Player Name'
+    file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
 
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[1]
+    predictions.sort(key = lambda x: -x[1])
+    for player in predictions:
+        file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
 
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
-    else:
-        value = math.ceil(value)
-
-    predictions.append((player[0], value))
-
-file = None
-try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'wing_report.txt', 'x')
-except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'wing_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'wing_report.txt', 'x')
-
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
-
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
-
-file.close()
+    file.close()
 
 
-########## DEFENCEMEN ##########
-##### Load Model #####
-current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'SavedModels'
+##### GOALIES #####
+def generate_goalie_report():
+    ##### Load Model #####
+    current_file_path = pathlib.Path(__file__).parent.absolute()
+    path = current_file_path.parents[0] / 'SavedModels'
 
-file = None
-try:
-    file = open(path / 'defenceman_model.sav', 'rb')
-except:
-    raise Exception('Missing defenceman_model.sav')
+    file = None
+    try:
+        file = open(path / 'goalie_model.sav', 'rb')
+    except:
+        raise Exception('Missing goalie_model.sav')
 
-reg = pickle.load(file)
-
-
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
-
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[2]
-
-temp = []
-for player in stats:
-    temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
-                 player[136], player[131], player[140], player[31], player[170], player[169], player[152],
-                 player[159], player[40], player[4]])
-stats = temp
-
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[2]
-
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
-    else:
-        value = math.ceil(value)
-
-    predictions.append((player[0], value))
-
-file = None
-try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt', 'x')
-except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'defenceman_report.txt', 'x')
-
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
-
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
-
-file.close()
+    reg = pickle.load(file)
 
 
-########## GOALIES ##########
-##### Load Model #####
-current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0] / 'SavedModels'
+    ##### Predict and Save Fantasy Values #####
+    path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
 
-file = None
-try:
-    file = open(path / 'goalie_model.sav', 'rb')
-except:
-    raise Exception('Missing goalie_model.sav')
+    stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
+    stats = stats[3]
 
-reg = pickle.load(file)
+    temp = []
+    for player in stats:
+        temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
+    stats = temp
+
+    names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
+    names = names[3]
+
+    predictions = []
+    temp = reg.predict(stats)
+    for i, player in enumerate(names):
+        value = temp[i]
+        if value < 0:
+            value = 0
+        else:
+            value = math.ceil(value)
+
+        predictions.append((player[0], value))
+
+    file = None
+    try:
+        file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
+    except:
+        os.remove(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt')
+        file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
+
+    max_name_len = max(len(player[0]) for player in predictions)
+    name_str = 'Player Name'
+    file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
+
+    predictions.sort(key = lambda x: -x[1])
+    for player in predictions:
+        file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
+
+    file.close()
 
 
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
 
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[3]
+def main():
+    generate_skater_reports('center')
+    generate_skater_reports('wing')
+    generate_skater_reports('defenceman')
+    generate_goalie_report()
 
-temp = []
-for player in stats:
-    temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
-stats = temp
 
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[3]
-
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
-    else:
-        value = math.ceil(value)
-
-    predictions.append((player[0], value))
-
-file = None
-try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
-except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
-
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
-
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
-
-file.close()
+if __name__ == "__main__":
+    main()
+    
