@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model, metrics
+from tqdm import tqdm
 import numpy as np
 import pathlib
 import pickle
@@ -8,7 +9,6 @@ import os
 
 
 def main():
-    print('Generating Goalie Model')
     ##### Load Data #####
     current_file_path = pathlib.Path(__file__).parent.absolute()
     path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / 'Goalies'
@@ -24,7 +24,7 @@ def main():
     mse = -math.inf
     r2 = -math.inf
     best_reg = None
-    for i in range(10000):
+    for i in tqdm(range(10000), desc='Generating Goalie Model'):
         ##### Split Data #####
         data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 

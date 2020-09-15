@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model, metrics
+from tqdm import tqdm
 import numpy as np
 import pathlib
 import pickle
@@ -8,7 +9,6 @@ import os
 
 
 def main():
-    print('Generating Defenceman Model')
     ##### Load Data #####
     current_file_path = pathlib.Path(__file__).parent.absolute()
     path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / 'Defencemen'
@@ -26,7 +26,7 @@ def main():
     mse = -math.inf
     r2 = -math.inf
     best_reg = None
-    for i in range(5000):
+    for i in tqdm(range(5000), desc='Generating Defenceman Model'):
         ##### Split Data #####
         data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 
