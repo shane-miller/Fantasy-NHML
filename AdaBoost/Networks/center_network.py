@@ -18,7 +18,6 @@ def main():
     stats = np.load(path / 'player_data.npy', allow_pickle=True)
     points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
-
     mse = -math.inf
     r2 = -math.inf
     best_reg = None

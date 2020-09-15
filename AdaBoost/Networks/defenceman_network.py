@@ -22,7 +22,6 @@ def main():
     r2 = -math.inf
     best_reg = None
     for i in tqdm(range(50), desc='Generating Defencemen Model'):
-
         ##### Split Data #####
         data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 

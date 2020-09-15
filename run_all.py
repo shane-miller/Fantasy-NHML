@@ -2,6 +2,7 @@ from MultivariateLinearRegression import run_all as mlr
 from GradientBoost import run_all as gb
 from AdaBoost import run_all as ab
 from RandomForest import run_all as rf
+from XGBoost import run_all as xgb
 from shutil import rmtree
 import pathlib
 
@@ -15,6 +16,8 @@ def main():
     ab.main()
     print()
     gb.main()
+    print()
+    xgb.main()
     print()
 
     ##### Remove __pycache__ Folders #####
@@ -30,6 +33,9 @@ def main():
     rmtree(path)
 
     path = current_file_path / 'AdaBoost' / '__pycache__'
+    rmtree(path)
+
+    path = current_file_path / 'XGBoost' / '__pycache__'
     rmtree(path)
 
 
