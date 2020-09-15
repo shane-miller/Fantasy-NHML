@@ -1,74 +1,57 @@
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn import metrics
+from tqdm import tqdm
 import numpy as np
 import pathlib
+import pickle
 import math
 import os
 
 
-##### Load Data #####
-current_file_path = pathlib.Path(__file__).parent.absolute()
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / 'Centers'
+def main():
+    ##### Load Data #####
+    current_file_path = pathlib.Path(__file__).parent.absolute()
+    path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / 'Centers'
 
-stats = np.load(path / 'player_data.npy', allow_pickle=True)
-points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
-
-
-mse = 0
-r2 = 0
-count = 0
-while r2 < 0.65 and count < 50:
-    count = count + 1
-
-    ##### Split Data #####
-    data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
-
-    ##### Create and Train the Model #####
-    reg = GradientBoostingRegressor(learning_rate=0.075, n_estimators=200, max_depth=4)
-    reg.fit(data_train, points_train)
-
-    preds = reg.predict(data_test)
-    r2 = metrics.r2_score(points_test, preds)
-    mse = metrics.mean_squared_error(points_test, preds)
-
-print("R2 Score : %.4f" % r2)
-print("Root Mean Squared Error: %.4f" % np.sqrt(mse))
+    stats = np.load(path / 'player_data.npy', allow_pickle=True)
+    points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
 
-##### Predict and Save Fantasy Values #####
-path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
+    mse = -math.inf
+    r2 = -math.inf
+    best_reg = None
+    for i in tqdm(range(50), desc='Generating Center Model'):
+        ##### Split Data #####
+        data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 
-stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-stats = stats[0]
+        ##### Create and Train the Model #####
+        reg = GradientBoostingRegressor(learning_rate=0.075, n_estimators=200, max_depth=4)
+        reg.fit(data_train, points_train)
 
-names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-names = names[0]
+        preds = reg.predict(data_test)
+        if metrics.r2_score(points_test, preds) > r2:
+            best_reg = reg
+            r2 = metrics.r2_score(points_test, preds)
+            mse = metrics.mean_squared_error(points_test, preds)
 
-predictions = []
-temp = reg.predict(stats)
-for i, player in enumerate(names):
-    value = temp[i]
-    if value < 0:
-        value = 0
-    else:
-        value = math.ceil(value)
+    print("\tR2 Score : %.4f" % r2)
+    print("\tRoot Mean Squared Error: %.4f" % np.sqrt(mse))
 
-    predictions.append((player[0], value))
 
-file = None
-try:
-    file = open(current_file_path.parents[0] / 'Reports' / 'center_report.txt', 'x')
-except:
-    os.remove(current_file_path.parents[0] / 'Reports' / 'center_report.txt')
-    file = open(current_file_path.parents[0] / 'Reports' / 'center_report.txt', 'x')
+    ##### Save Model #####
+    path = current_file_path.parents[0] / 'SavedModels'
 
-max_name_len = max(len(player[0]) for player in predictions)
-name_str = 'Player Name'
-file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
+    file = None
+    try:
+        file = open(path / 'center_model.sav', 'wb')
+    except:
+        os.remove(path / 'center_model.sav')
+        file = open(path / 'center_model.sav', 'wb')
 
-predictions.sort(key = lambda x: -x[1])
-for player in predictions:
-    file.write(f'{player[0]:>{max_name_len}}' + ' | ' + str(math.ceil(player[1])) + '\n')
+    pickle.dump(best_reg, file)
+    file.close()
 
-file.close()
+
+if __name__ == "__main__":
+    main()
