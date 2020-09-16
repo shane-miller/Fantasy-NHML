@@ -20,7 +20,7 @@ def main():
     mse = -math.inf
     r2 = -math.inf
     best_reg = None
-    for i in tqdm(range(100), desc='Generating Goalie Model'):
+    for i in tqdm(range(150), desc='Generating Goalie Model'):
         ##### Split Data #####
         data_train, data_test, points_train, points_test = train_test_split(stats, points, test_size=0.3)
 
