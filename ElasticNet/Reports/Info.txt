@@ -1,0 +1,1 @@
+Folder to hold the generated reports from the elastic net predictions.
