@@ -1,8 +1,8 @@
-from Networks import center_network
-from Networks import wing_network
-from Networks import defenceman_network
-from Networks import goalie_network
-from ReportGeneration import generate_all_reports
+from PassiveAggressiveRegression.Networks import center_network
+from PassiveAggressiveRegression.Networks import wing_network
+from PassiveAggressiveRegression.Networks import defenceman_network
+from PassiveAggressiveRegression.Networks import goalie_network
+from PassiveAggressiveRegression.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
 
