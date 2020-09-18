@@ -35,13 +35,7 @@ def main():
 
     ##### Run All Networks #####
     if not (run_mlr or run_par or run_en or run_rf or run_ab or run_gb or run_xgb):
-        run_mlr = True
-        run_par = True
-        run_en  = True
-        run_rf  = True
-        run_ab  = True
-        run_gb  = True
-        run_xgb = True
+        run_mlr = run_par = run_en = run_rf = run_ab = run_gb = run_xgb = True
 
     if run_mlr:
         print()
