@@ -12,15 +12,15 @@ import pathlib
 
 def main():
     ##### PARSER #####
-    parser = argparse.ArgumentParser(description = 'Use these if you don\'t want every model to run.')
+    parser = argparse.ArgumentParser(description = 'Use these tags if you don\'t want every model to run.')
 
-    parser.add_argument('--mlr', type = bool, default = False, help = 'Add if you want to run MultivariateLinearRegression')
-    parser.add_argument('--par', type = bool, default = False, help = 'Add if you want to run PassiveAggressiveRegression')
-    parser.add_argument('--en',  type = bool, default = False, help = 'Add if you want to run ElasticNet')
-    parser.add_argument('--rf',  type = bool, default = False, help = 'Add if you want to run RandomForest')
-    parser.add_argument('--ab',  type = bool, default = False, help = 'Add if you want to run AdaBoost')
-    parser.add_argument('--gb',  type = bool, default = False, help = 'Add if you want to run GradientBoost')
-    parser.add_argument('--xgb', type = bool, default = False, help = 'Add if you want to run XGBoost')
+    parser.add_argument('--mlr', action = 'store_true', help = 'Add tag if you want to run MultivariateLinearRegression')
+    parser.add_argument('--par', action = 'store_true', help = 'Add tag if you want to run PassiveAggressiveRegression')
+    parser.add_argument('--en',  action = 'store_true', help = 'Add tag if you want to run ElasticNet')
+    parser.add_argument('--rf',  action = 'store_true', help = 'Add tag if you want to run RandomForest')
+    parser.add_argument('--ab',  action = 'store_true', help = 'Add tag if you want to run AdaBoost')
+    parser.add_argument('--gb',  action = 'store_true', help = 'Add tag if you want to run GradientBoost')
+    parser.add_argument('--xgb', action = 'store_true', help = 'Add tag if you want to run XGBoost')
 
     args = parser.parse_args()
 
