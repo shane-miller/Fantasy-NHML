@@ -1,10 +1,101 @@
+import numpy as np
 import argparse
 import pathlib
+import pickle
+import math
 
 def process_model(model_str, index):
-    #returns tuple with all position indices appended together
-    #returns after predictions were made
-    pass
+    ### Load Models ###
+    current_file_path = pathlib.Path(__file__).parent.absolute()
+    path = current_file_path / model_str / 'SavedModels'
+
+    center_reg = None
+    if 0 in index:
+        file = None
+        try:
+            file = open(path / 'center_model.sav', 'rb')
+        except:
+            raise Exception('Missing ' + model_str + '\'s center_model.sav')
+
+        center_reg = pickle.load(file)
+
+    wing_reg = None
+    if 1 in index:
+        file = None
+        try:
+            file = open(path / 'wing_model.sav', 'rb')
+        except:
+            raise Exception('Missing ' + model_str + '\'s wing_model.sav')
+
+        wing_reg = pickle.load(file)
+
+    def_reg = None
+    if 2 in index:
+        file = None
+        try:
+            file = open(path / 'defenceman_model.sav', 'rb')
+        except:
+            raise Exception('Missing ' + model_str + '\'s defenceman_model.sav')
+
+        def_reg = pickle.load(file)
+
+    goalie_reg = None
+    if 3 in index:
+        file = None
+        try:
+            file = open(path / 'goalie_model.sav', 'rb')
+        except:
+            raise Exception('Missing ' + model_str + '\'s goalie_model.sav')
+
+        goalie_reg = pickle.load(file)
+
+
+    ### Predict and Save Fantasy Values ###
+    predictions = []
+
+    current_file_path = pathlib.Path(__file__).parent.absolute()
+    path = current_file_path / 'Data' / 'PlayerData'
+
+    stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
+    names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
+    for i in index:
+        curr_stats = stats[i]
+        filter_stats = ['MultivariateLinearRegression', 'PassiveAggressiveRegression', 'ElasticNet']
+        if model_str in filter_stats:
+            temp = []
+            for player in curr_stats:
+                if i == 3:
+                    temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
+                else:
+                    temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
+                                 player[136], player[131], player[140], player[31], player[170], player[169], player[152],
+                                 player[159], player[40], player[4]])
+            curr_stats = temp
+        curr_stats = np.asarray(curr_stats)
+
+        curr_names = names[i]
+
+        reg = None
+        if i == 0:
+            reg = center_reg
+        elif i == 1:
+            reg = wing_reg
+        elif i == 2:
+            reg = def_reg
+        else:
+            reg = goalie_reg
+
+        temp = reg.predict(curr_stats)
+        for j, player in enumerate(curr_names):
+            value = temp[j]
+            if value < 0:
+                value = 0
+            else:
+                value = math.ceil(value)
+
+            predictions.append((player[0], value))
+
+    return predictions
 
 
 def generate_report(models, file, position_str):
@@ -13,7 +104,7 @@ def generate_report(models, file, position_str):
         index = [0]
     elif position_str == 'Wing':
         index = [1]
-    elif position_str == 'Defencemen':
+    elif position_str == 'Defenceman':
         index = [2]
     elif position_str == 'Goalie':
         index = [3]
@@ -49,7 +140,7 @@ def generate_report(models, file, position_str):
 
     max_name_len = max(len(player[0]) for player in final_predictions)
     name_str = 'Player Name'
-    file.write(f'{position_str:>{(max_name_len + 2)}}' + ' ' + 'Predictions' + '\n\n')
+    file.write('\n\n' + f'{position_str:>{(max_name_len + 1)}}' + ' ' + 'Predictions' + '\n\n')
     file.write(f'{name_str:>{max_name_len}}' + ' | ' + 'Predicted Fantasy Points' + '\n\n')
 
     final_predictions.sort(key = lambda x: -x[1])
@@ -68,7 +159,7 @@ def main():
     parser.add_argument('--ab',  action = 'store_true', help = 'Add tag if you want to use AdaBoost for predictions.')
     parser.add_argument('--gb',  action = 'store_true', help = 'Add tag if you want to use GradientBoost for predictions.')
     parser.add_argument('--xgb', action = 'store_true', help = 'Add tag if you want to use XGBoost for predictions.')
-    parser.add_argument('--format', type = str, choices = ['sg', 'fdg', 'cwdg'], default = 'fdg', help = 'sg for skater/goalie, fdg for foward/defence/goalie, cwdg for center/wing/defence/goalie')
+    parser.add_argument('--format', type = str, choices = ['sg', 'fdg', 'cwdg'], default = 'fdg', help = 'sg for skater/goalie, fdg for forward/defence/goalie, cwdg for center/wing/defence/goalie')
 
     args = parser.parse_args()
 
@@ -79,9 +170,9 @@ def main():
     if report_format == 'sg':
         positions = ['Skater', 'Goalie']
     elif report_format == 'fdg':
-        positions = ['Foward', 'Defencemen', 'Goalie']
+        positions = ['Forward', 'Defenceman', 'Goalie']
     else:
-        positions = ['Center', 'Wing', 'Defencemen', 'Goalie']
+        positions = ['Center', 'Wing', 'Defenceman', 'Goalie']
 
     if not any(models):
         models = [True, True, True, True, True, True, True]
