@@ -1,9 +1,9 @@
-# Fantasy-NHML (In Progress)
+# Fantasy-NHML
 ### A machine learning based fantasy hockey draft helper.
 
 #### Info:
 - Predicts the upcoming year's fantasy values when given the player data from the previous years.
-- In order to handle player injuries or other misc reasons games had to be missed, the scalable individual statistics and fantasy point value for skaters used for training will be the following equation:
+- In order to handle player injuries or other misc reasons games had to be missed, the scalable individual statistics and fantasy point value for skaters used for training will be extrapolated using the following equation:
 
   ![equation](https://latex.codecogs.com/gif.latex?a%20%3D%20%5Ctextrm%7Bstat%20value%7D)
 
@@ -16,4 +16,5 @@
   ![equation](https://latex.codecogs.com/gif.latex?%28%5Cfrac%7B2ab&plus;246a%7D%7B5b%7D%29)
 
 #### How to Run:
-- Run download_from_nhl_stats.py to download last 10 years of stats for active players to respective data folders.
+- Run `pip3 install -r requirements.txt` to download the required modules. Feel free to remove the requirement for torch unless you want to mess with the VanillaDeepNetwork. It was added not really to be used, but rather to demonstrate that it would be much worse at predicting than the other algorithms.
+- Run `python3 Data/DataDownloadScript/download_from_nhl_stats.py` from the base project folder. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
