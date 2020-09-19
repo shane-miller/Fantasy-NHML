@@ -54,13 +54,7 @@ def generate_skater_reports(position_str):
 
         predictions.append((player[0], value))
 
-    file = None
-    filename = position_str + '_report.txt'
-    try:
-        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
-    except:
-        os.remove(current_file_path.parents[0] / 'Reports' / filename)
-        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
+    file = open(current_file_path.parents[0] / 'Reports' / (position_str + '_report.txt'), 'w')
 
     max_name_len = max(len(player[0]) for player in predictions)
     name_str = 'Player Name'
@@ -113,12 +107,7 @@ def generate_goalie_report():
 
         predictions.append((player[0], value))
 
-    file = None
-    try:
-        file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
-    except:
-        os.remove(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt')
-        file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'x')
+    file = open(current_file_path.parents[0] / 'Reports' / 'goalie_report.txt', 'w')
 
     max_name_len = max(len(player[0]) for player in predictions)
     name_str = 'Player Name'

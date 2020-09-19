@@ -41,13 +41,8 @@ def main():
     ##### Save Model #####
     path = current_file_path.parents[0] / 'SavedModels'
 
-    file = None
-    try:
-        file = open(path / 'goalie_model.sav', 'wb')
-    except:
-        os.remove(path / 'goalie_model.sav')
-        file = open(path / 'goalie_model.sav', 'wb')
-
+    file = open(path / 'goalie_model.sav', 'wb')
+    
     pickle.dump(best_reg, file)
     file.close()
 

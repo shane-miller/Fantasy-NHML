@@ -49,13 +49,7 @@ def generate_reports(position_str):
 
         predictions.append((player[0], value))
 
-    file = None
-    filename = position_str + '_report.txt'
-    try:
-        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
-    except:
-        os.remove(current_file_path.parents[0] / 'Reports' / filename)
-        file = open(current_file_path.parents[0] / 'Reports' / filename, 'x')
+    file = open(current_file_path.parents[0] / 'Reports' / (position_str + '_report.txt'), 'w')
 
     max_name_len = max(len(player[0]) for player in predictions)
     name_str = 'Player Name'
