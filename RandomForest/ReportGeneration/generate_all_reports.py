@@ -2,7 +2,6 @@ import numpy as np
 import pathlib
 import pickle
 import math
-import os
 
 ##### SKATERS #####
 def generate_reports(position_str):
