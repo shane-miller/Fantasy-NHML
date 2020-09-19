@@ -96,7 +96,7 @@ center_tag = ['C', 'Centers']
 defenceman_tag = ['D', 'Defencemen']
 goalie_tag = ['G', 'Goalies']
 
-num_years = 2
+num_years = 10
 
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
