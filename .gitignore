@@ -1,6 +1,5 @@
 .DS_Store
 *.pth
-*.npy
 *report.txt
 *.sav
 *.pyc
