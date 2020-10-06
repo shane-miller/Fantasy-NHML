@@ -15,13 +15,7 @@ def main():
 
     stats = np.load(path / 'player_data.npy', allow_pickle=True)
     points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
-
-    temp = []
-    for player in stats:
-        temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
-                     player[136], player[131], player[140], player[31], player[170], player[169], player[152],
-                     player[159], player[40], player[4]])
-    stats = temp
+    
 
     mse = -math.inf
     r2 = -math.inf

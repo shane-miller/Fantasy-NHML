@@ -60,17 +60,6 @@ def process_model(model_str, index):
     names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
     for i in index:
         curr_stats = stats[i]
-        filter_stats = ['MultivariateLinearRegression', 'PassiveAggressiveRegression', 'ElasticNet']
-        if model_str in filter_stats:
-            temp = []
-            for player in curr_stats:
-                if i == 3:
-                    temp.append([player[8], player[37], player[15], player[33], player[10], player[28], player[35], player[16], player[23]])
-                else:
-                    temp.append([player[35], player[0], player[80], player[79], player[75], player[92], player[87], player[98],
-                                 player[136], player[131], player[140], player[31], player[170], player[169], player[152],
-                                 player[159], player[40], player[4]])
-            curr_stats = temp
         curr_stats = np.asarray(curr_stats)
 
         curr_names = names[i]
