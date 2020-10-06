@@ -183,6 +183,18 @@ def api_helper(base_url, tag, report_list, year_bound):
 
 
 def extrapolate_data(players):
+	# Extrapolates Shortened Seasons
+	max_gp = max([player.get('gamesPlayed') for player in players])
+	if max_gp < 82:
+		scale_multiplier = 82 / max_gp
+		for player in players:
+			keys = player.keys()
+			for key in keys:
+				if key in scalable_data:
+					val = player.get(key)
+					player.update({key:  val * scale_multiplier})
+
+	# Extrapolates for Injuries Using Method Described in README
 	for player in players:
 		starting_gp = player.get('gamesPlayed')
 		keys = player.keys()
