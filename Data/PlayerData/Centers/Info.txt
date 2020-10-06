@@ -1,6 +1,31 @@
 This folder contains basic data for centers for the last 5 years.
 
-Order of center data:
+
+Order for center data used filtered from the ipynb in StatFiltering:
+
+assists
+evGoals
+evPoints
+evTimeOnIce
+evTimeOnIcePerGame
+giveaways
+goals
+missedShotWideOfNet
+missedShots
+otTimeOnIce
+otTimeOnIcePerOtGame
+points
+pointsPerGame
+ppGoals
+ppPoints
+shifts
+shiftsPerGame
+shots
+takeaways
+timeOnIcePerGame
+
+
+Order of complete center data:
 
 assists
 assists5v5
