@@ -244,8 +244,25 @@ def filter_list_by_year(player_list, year):
 # Changes player dictionary into a list and sorts the list according to the info.txt file in the data folder
 def sort_dictionary_data(player_list, tag):
 	final_list = []
+
+	key_list = []
+	if tag == 'center':
+		key_list = ['assists', 'evGoals', 'evPoints', 'evTimeOnIce', 'evTimeOnIcePerGame', 'giveaways', 'goals', 'missedShotWideOfNet', 'missedShots',
+					'otTimeOnIce', 'otTimeOnIcePerOtGame', 'points', 'pointsPerGame', 'ppGoals', 'ppPoints', 'shifts', 'shiftsPerGame', 'shots', 'takeaways',
+					'timeOnIcePerGame']
+	elif tag == 'wing':
+		key_list = ['evGoals', 'evPoints', 'evTimeOnIce', 'evTimeOnIcePerGame', 'goals', 'hits', 'hitsPer60', 'missedShots', 'otTimeOnIce', 'otTimeOnIcePerOtGame',
+					'points', 'pointsPerGame', 'ppPoints', 'shifts', 'shiftsPerGame', 'shots', 'timeOnIcePerGame']
+	elif tag == 'defenceman':
+		key_list = ['assists', 'blockedShots', 'evPoints', 'evTimeOnIce', 'evTimeOnIcePerGame', 'goals', 'hitsPer60', 'missedShotWideOfNet', 'missedShots',
+					'otTimeOnIce', 'otTimeOnIcePerOtGame', 'points', 'pointsPerGame', 'ppPoints', 'shifts', 'shiftsPerGame', 'shots', 'takeaways', 'timeOnIcePerGame']
+	else:
+		key_list = ['gamesStarted', 'losses', 'saves', 'shotsAgainst', 'shutouts', 'timeOnIce', 'wins']
+
 	for player in player_list:
 		temp_list = []
+
+		filtered_player = { key_name: player[key_name] for key_name in key_list }
 
 		if(tag == 'goalie'):
 			temp_list.append(player.pop('goalieFullName'))
@@ -255,8 +272,8 @@ def sort_dictionary_data(player_list, tag):
 		temp_list.append(player.pop('lastName'))
 		temp_list.append(player.pop('playerId'))
 		temp_list.append(player.pop('seasonId'))
-		
-		player_stats_list = [(k,v) for k,v in player.items()]
+
+		player_stats_list = [(k,v) for k,v in filtered_player.items()]
 		player_stats_list.sort(key=lambda x: x[0])
 		
 		for stat in player_stats_list:
