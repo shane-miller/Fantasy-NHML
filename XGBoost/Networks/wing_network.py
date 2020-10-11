@@ -18,7 +18,7 @@ def main():
     parameters = {'n_estimators' : [50, 100, 150, 200, 250],
                   'learning_rate' : [0.1, 0.25, 0.5, 0.75, 0.9],
                   'max_depth' : [3, 4, 5],
-                  'booster' : ['gbtree', 'gblinear', 'dart']}
+                  'objective' : ['reg:squarederror']}
 
     ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
     reg = XGBRegressor()
