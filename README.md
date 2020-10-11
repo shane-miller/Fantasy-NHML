@@ -18,15 +18,21 @@
   ![equation](https://latex.codecogs.com/gif.latex?%28%5Cfrac%7B2ab&plus;246a%7D%7B5b%7D%29)
 
 #### How to Run:
-- Run `pip3 install -r requirements.txt` to download the required modules.
-- Run `python3 Data/DataDownloadScript/download_from_nhl_stats.py` from the base project folder. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
-- Run `python3 run_all.py` from the base project folder. This generates the all the models to make predictions from.
-  - If you want to run only specific models, you can add their tag in the command line. No tags will run them all, but if you add a tag it will only run the models tagged.
-  - Tags are as follows:
-    - `--mlr` for MultivariateLinearRegression
-    - `--par` for PassiveAgressiveRegression
-    - `--en` for ElasticNet
-    - `--rf` for RandomForest
-    - `--ab` for AdaBoost
-    - `--gb` for GradientBoost
-    - `--xgb` for XGBoost
+- #Downloading Required Modules#
+  - Run `pip3 install -r requirements.txt` to download the required modules.
+- #Downloading Player Data History#
+  - Run `python3 Data/DataDownloadScript/download_from_nhl_stats.py` from the base project folder. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
+- #Generate Models for Predictions#
+  - Run `python3 run_all.py` from the base project folder. This generates the all the models to make predictions from.
+    - If you want to run only specific models, you can add their tag in the command line. No tags will run them all, but if you add a tag it will only run the models tagged.
+    - Tags are as follows:
+      - `--mlr` for MultivariateLinearRegression
+      - `--par` for PassiveAgressiveRegression
+      - `--en` for ElasticNet
+      - `--rf` for RandomForest
+      - `--ab` for AdaBoost
+      - `--gb` for GradientBoost
+      - `--xgb` for XGBoost
+    - Ex: To run only ElasticNet, AdaBoost, and XGBoost you would type `python3 run_all.py --en --ab --xgb`.
+- #Generate Predictions#
+  - Run `python3 generate_final_report.py` from the base project folder. This will generate a report of fantasy predictions in a new file named `final_report.txt`. That file will be in the base project folder.
