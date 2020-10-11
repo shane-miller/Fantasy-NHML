@@ -29,7 +29,7 @@ parser.add_argument('--shft', type = int, default = 0, help = 'Shifts Multiplier
 parser.add_argument('--sog',  type = int, default = 0, help = 'Shots on Goal Multiplier')
 parser.add_argument('--hit',  type = int, default = 0, help = 'Hits Multiplier')
 parser.add_argument('--blk',  type = int, default = 0, help = 'Blocked Shots Multiplier')
-parser.add_argument('--defp', type = int, default = 0, help = 'Defensemen Points Multiplier')
+parser.add_argument('--defp', type = int, default = 0, help = 'Defenceman Points Multiplier')
 parser.add_argument('--gs',   type = int, default = 0, help = 'Games Started Multiplier')
 parser.add_argument('--w',    type = int, default = 0, help = 'Wins Multiplier')
 parser.add_argument('--l',    type = int, default = 0, help = 'Losses Multiplier')

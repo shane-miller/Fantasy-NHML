@@ -7,7 +7,7 @@ def main():
     print('----- Processing XGBoost Regression -----')
     ##### Generate Models #####
     xgb.generate_model('centers')
-    xbg.generate_model('wings')
+    xgb.generate_model('wings')
     xgb.generate_model('defencemen')
     xgb.generate_model('goalies')
 
