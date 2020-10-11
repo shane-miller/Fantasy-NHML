@@ -13,7 +13,7 @@ def process_model(model_str, index):
     if 0 in index:
         file = None
         try:
-            file = open(path / 'center_model.sav', 'rb')
+            file = open(path / 'centers_model.sav', 'rb')
         except:
             raise Exception('Missing ' + model_str + '\'s center_model.sav')
 
@@ -23,7 +23,7 @@ def process_model(model_str, index):
     if 1 in index:
         file = None
         try:
-            file = open(path / 'wing_model.sav', 'rb')
+            file = open(path / 'wings_model.sav', 'rb')
         except:
             raise Exception('Missing ' + model_str + '\'s wing_model.sav')
 
@@ -33,7 +33,7 @@ def process_model(model_str, index):
     if 2 in index:
         file = None
         try:
-            file = open(path / 'defenceman_model.sav', 'rb')
+            file = open(path / 'defencemen_model.sav', 'rb')
         except:
             raise Exception('Missing ' + model_str + '\'s defenceman_model.sav')
 
@@ -43,7 +43,7 @@ def process_model(model_str, index):
     if 3 in index:
         file = None
         try:
-            file = open(path / 'goalie_model.sav', 'rb')
+            file = open(path / 'goalies_model.sav', 'rb')
         except:
             raise Exception('Missing ' + model_str + '\'s goalie_model.sav')
 
