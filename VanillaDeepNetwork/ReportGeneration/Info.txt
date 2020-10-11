@@ -1,1 +1,0 @@
-Uses the networks in the ModelWeights folder and the current data from the Data folder to generate an ordered report of the best players to pick for your fantasy hockey league by position.
