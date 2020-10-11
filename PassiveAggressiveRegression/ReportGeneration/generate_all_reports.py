@@ -5,11 +5,11 @@ import math
 
 def generate_reports(position_str):
     index = None
-    if position_str == 'center':
+    if position_str == 'centers':
         index = 0
-    elif position_str == 'wing':
+    elif position_str == 'wings':
         index = 1
-    elif position_str == 'defenceman':
+    elif position_str == 'defencemen':
         index = 2
     else:
         index = 3
@@ -61,10 +61,10 @@ def generate_reports(position_str):
 
 
 def main():
-    generate_reports('center')
-    generate_reports('wing')
-    generate_reports('defenceman')
-    generate_reports('goalie')
+    generate_reports('centers')
+    generate_reports('wings')
+    generate_reports('defencemen')
+    generate_reports('goalies')
 
 
 if __name__ == "__main__":

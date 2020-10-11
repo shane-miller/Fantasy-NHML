@@ -1,7 +1,4 @@
-from RandomForest.Networks import center_network
-from RandomForest.Networks import wing_network
-from RandomForest.Networks import defenceman_network
-from RandomForest.Networks import goalie_network
+from RandomForest.Networks import generate_model as rf
 from RandomForest.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,10 +6,10 @@ import pathlib
 def main():
     print('----- Processing Random Forest Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
+    rf.generate_model('centers')
+    rf.generate_model('wings')
+    rf.generate_model('defencemen')
+    rf.generate_model('goalies')
 
 
     ##### Generate Reports #####

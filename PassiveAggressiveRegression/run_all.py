@@ -1,7 +1,4 @@
-from PassiveAggressiveRegression.Networks import center_network
-from PassiveAggressiveRegression.Networks import wing_network
-from PassiveAggressiveRegression.Networks import defenceman_network
-from PassiveAggressiveRegression.Networks import goalie_network
+from PassiveAggressiveRegression.Networks import generate_model as par
 from PassiveAggressiveRegression.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,10 +6,10 @@ import pathlib
 def main():
     print('----- Processing Passive Aggressive Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
+    par.generate_model('centers')
+    par.generate_model('wings')
+    par.generate_model('defencemen')
+    par.generate_model('goalies')
 
 
     ##### Generate Reports #####

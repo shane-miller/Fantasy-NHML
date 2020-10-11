@@ -1,7 +1,4 @@
-from MultivariateLinearRegression.Networks import center_network
-from MultivariateLinearRegression.Networks import wing_network
-from MultivariateLinearRegression.Networks import defenceman_network
-from MultivariateLinearRegression.Networks import goalie_network
+from MultivariateLinearRegression.Networks import generate_model as mlr
 from MultivariateLinearRegression.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,11 +6,10 @@ import pathlib
 def main():
     print('----- Processing Multivariate Linear Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
-
+    mlr.generate_model('centers')
+    mlr.generate_model('wings')
+    mlr.generate_model('defencemen')
+    mlr.generate_model('goalies')
 
     ##### Generate Reports #####
     generate_all_reports.main()

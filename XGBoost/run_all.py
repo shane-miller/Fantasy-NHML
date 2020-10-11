@@ -1,7 +1,4 @@
-from XGBoost.Networks import center_network
-from XGBoost.Networks import wing_network
-from XGBoost.Networks import defenceman_network
-from XGBoost.Networks import goalie_network
+from XGBoost.Networks import generate_model as xgb
 from XGBoost.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,10 +6,10 @@ import pathlib
 def main():
     print('----- Processing XGBoost Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
+    xgb.generate_model('centers')
+    xbg.generate_model('wings')
+    xgb.generate_model('defencemen')
+    xgb.generate_model('goalies')
 
 
     ##### Generate Reports #####

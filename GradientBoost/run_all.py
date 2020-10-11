@@ -1,7 +1,4 @@
-from GradientBoost.Networks import center_network
-from GradientBoost.Networks import wing_network
-from GradientBoost.Networks import defenceman_network
-from GradientBoost.Networks import goalie_network
+from GradientBoost.Networks import generate_model as gb
 from GradientBoost.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,10 +6,10 @@ import pathlib
 def main():
     print('----- Processing Gradient Boost Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
+    gb.generate_model('centers')
+    gb.generate_model('wings')
+    gb.generate_model('defencemen')
+    gb.generate_model('goalies')
 
 
     ##### Generate Reports #####

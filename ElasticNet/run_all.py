@@ -1,7 +1,4 @@
-from ElasticNet.Networks import center_network
-from ElasticNet.Networks import wing_network
-from ElasticNet.Networks import defenceman_network
-from ElasticNet.Networks import goalie_network
+from ElasticNet.Networks import generate_model as en
 from ElasticNet.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
@@ -9,10 +6,10 @@ import pathlib
 def main():
     print('----- Processing Elastic Net Regression -----')
     ##### Generate Models #####
-    center_network.main()
-    wing_network.main()
-    defenceman_network.main()
-    goalie_network.main()
+    en.generate_model('centers')
+    en.generate_model('wings')
+    en.generate_model('defencemen')
+    en.generate_model('goalies')
 
 
     ##### Generate Reports #####
