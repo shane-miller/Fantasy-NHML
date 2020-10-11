@@ -23,6 +23,37 @@
   - Run `pip3 install -r requirements.txt` to download the required modules.
 - **Downloading Player Data History**
   - Run `python3 Data/DataDownloadScript/download_from_nhl_stats.py` from the base project folder. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
+    - Add tags to set the point multipliers your league is using. You only need to set the tags if they are being used in your league as the opther tags will default to a multiplier of zero and will not be considered when making predictions. If you do not set any tags here, every prediction will be zero.
+    - The tags for skaters are as follows:
+      - `--g` for Goals
+      - `--a` for Assists
+      - `--pts` for Points
+      - `--pm` for Plus/Minus
+      - `--pim` for Penalty Minutes
+      - `--ppg` for Power Play Goals
+      - `--ppa` for Power play Assists
+      - `--ppp` for Power Play Points
+      - `--shg` for Short Handed Goals
+      - `--sha` for Short Handed Assists
+      - `--shp` for Short Handed Assists
+      - `--gwg` for Game Winning Goals
+      - `--fow` for Faceoffs Won
+      - `--fol` for Faceoffs Lost
+      - `--shft` for Shifts
+      - `--sog` for Shots on Goal
+      - `--hit` for Hits
+      - `--blk` for Blocks
+      - `--defp` for Defenceman Points
+    - The tags for goalies are as follows:
+      - `--gs` for Games Started
+      - `--w` for Wins
+      - `--l` for Losses
+      - `--sa` for Shots Against
+      - `--ga` for Goals Against
+      - `--sv` for Saves
+      - `--so` for Shutouts
+      - `--otl` for Overtime Losses
+    - Ex: For a league that gives players 3 fantasy points per goal, 2 per assist, and -1 per penalty minute and goalies 5 fantasy points per win, 3 extra for a shutout, and 2 for an overtime loss, you would run `python3 Data/DataDownloadScript/download_from_nhl_stats.py --g=3 --a=2 --pim=-1 --w=5 --so=3 --otl=2`.
 - **Generate Models for Predictions**
   - Run `python3 run_all.py` from the base project folder. This generates the all the models to make predictions from.
     - If you want to run only specific models, you can add their tag in the command line. No tags will run them all, but if you add a tag it will only run the models tagged.
