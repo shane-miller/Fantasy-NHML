@@ -17,6 +17,7 @@
 
   ![equation](https://latex.codecogs.com/gif.latex?%28%5Cfrac%7B2ab&plus;246a%7D%7B5b%7D%29)
 
+- This project implements a large amount of regression models and averages their guesses in an attempt to mitigate any mistakes or deficiencies that appear in any individual model. 
 #### How to Run:
 - **Downloading Required Modules**
   - Run `pip3 install -r requirements.txt` to download the required modules.
@@ -36,3 +37,8 @@
     - Ex: To run only ElasticNet, AdaBoost, and XGBoost you would type `python3 run_all.py --en --ab --xgb`.
 - **Generate Predictions**
   - Run `python3 generate_final_report.py` from the base project folder. This will generate a report of fantasy predictions in a new file named `final_report.txt`. That file will be in the base project folder.
+    - If you do not want to use every model generated you can use the same tags as in the step above to limit what models are used for predictions. However, in order to use any given model it must have been previously generated with the `run_all.py` above. Providing no model tags will use all models for predictions.
+    - There are three formats you can choose to have your final report generated with. The options are as follows:
+      - `--format=sg` To Group Predictions Into Skater/Goalie Sections
+      - `--format=fdg` To Group Predictions Into Forward/Defenceman/Goalie Sections (This Is the Default If `--format` Is Not Set)
+      - `--format=cwdg` To Group Predictions Into Center/Wing/Defenceman/Goalie Sections
