@@ -39,6 +39,6 @@
   - Run `python3 generate_final_report.py` from the base project folder. This will generate a report of fantasy predictions in a new file named `final_report.txt`. That file will be in the base project folder.
     - If you do not want to use every model generated you can use the same tags as in the step above to limit what models are used for predictions. However, in order to use any given model it must have been previously generated with the `run_all.py` above. Providing no model tags will use all models for predictions.
     - There are three formats you can choose to have your final report generated with. The options are as follows:
-      - `--format=sg` To Group Predictions Into Skater/Goalie Sections
-      - `--format=fdg` To Group Predictions Into Forward/Defenceman/Goalie Sections (This Is the Default If `--format` Is Not Set)
-      - `--format=cwdg` To Group Predictions Into Center/Wing/Defenceman/Goalie Sections
+      - `--format=sg` to Group Predictions Into Skater/Goalie Sections
+      - `--format=fdg` to Group Predictions Into Forward/Defenceman/Goalie Sections (This is the Default if `--format` is Not Set)
+      - `--format=cwdg` to Group Predictions Into Center/Wing/Defenceman/Goalie Sections
