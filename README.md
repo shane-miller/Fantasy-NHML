@@ -1,7 +1,7 @@
 # Fantasy-NHML
-### A machine learning based fantasy hockey draft helper.
+## A machine learning based fantasy hockey draft helper.
 
-#### Info:
+### Info:
 - This project is designed to predict the upcoming year's fantasy values when given the player data from the previous years.
 - In the case of a shortened season, all players scalable stats will be scaled according to the maximum number of games played by any player in that shortened season.
   - Ex: If the max number of games played by any player in a shortened season was 41 games, then every player will have their stats multiplied by 2 (aka 82/41).
@@ -18,7 +18,7 @@
   ![equation](https://latex.codecogs.com/gif.latex?%28%5Cfrac%7B2ab&plus;246a%7D%7B5b%7D%29)
   
 - This project implements a large amount of regression models and averages their guesses in an attempt to mitigate any mistakes or deficiencies that appear in any individual model. 
-#### How to Run:
+### How to Run:
 - **Downloading Required Modules**
   - Run `pip3 install -r requirements.txt` to download the required modules.
 - **Downloading Player Data History**
