@@ -3,9 +3,9 @@
 
 ### Info:
 - This project is designed to predict the upcoming year's fantasy values when given the player data from the previous years.
-- In the case of a shortened season, all players scalable stats will be scaled according to the maximum number of games played by any player in that shortened season.
+- In the case of a shortened season, all skaters scalable stats will be scaled according to the maximum number of games played by any player in that shortened season when extrapolated out to being a full 82 game season. Goalies are scaled as well, but only scales to a goalie max of 68 games (approximate max goalies play each year) assuming no goalie has reached 68 games.
   - Ex: If the max number of games played by any player in a shortened season was 41 games, then every player will have their stats multiplied by 2 (aka 82/41).
-- In order to handle player injuries or other misc reasons games had to be missed, the scalable individual statistics and fantasy point value for skaters used for training will be extrapolated using the following equation:
+- In order to handle player injuries or other misc reasons games had to be missed, the scalable individual statistics and fantasy point value used for training will be extrapolated using the following equation:
 
   ![equation](https://latex.codecogs.com/gif.latex?a%20%3D%20%5Ctextrm%7Bstat%20value%7D)
   
