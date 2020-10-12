@@ -98,27 +98,31 @@ goalie_tag = ['G', 'Goalies']
 
 num_years = 10
 
-base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=25&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
-base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=15&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=10&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
+base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=5&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 
 skater_report_list = [skater_toi, skater_scoring_per_game, skater_scoring_per_60, skater_sat_percentages, skater_sat_count, skater_puck_possession,
                       skater_pp, skater_pk, skater_penalties, skater_misc, skater_gfga, skater_fo_wl, skater_fo_percentage, skater_summary]
 goalie_report_list = [goalie_saves_by_strength, goalie_advanced, goalie_summary]
 
-scalable_data = ['assists', 'assists5v5', 'blockedShots', 'defensiveZoneFaceoffLosses', 'defensiveZoneFaceoffWins', 'defensiveZoneFaceoffs',
-                 'emptyNetAssists', 'emptyNetGoals', 'emptyNetPoints', 'evFaceoffs', 'evFaceoffsLost', 'evFaceoffsWon', 'evGoals', 'evPoints',
-                 'evTimeOnIce', 'evenStrengthGoalDifference', 'evenStrengthGoalsAgainst', 'evenStrengthGoalsFor', 'firstGoals', 'gameMisconductPenalties',
-                 'gameWinningGoals', 'gamesPlayed', 'giveaways', 'goals', 'goals5v5', 'hits', 'majorPenalties', 'matchPenalties', 'minorPenalties',
-                 'misconductPenalties', 'missedShotCrossbar', 'missedShotGoalpost', 'missedShotOverNet', 'missedShotWideOfNet', 'missedShots',
-                 'netPenalties', 'neutralZoneFaceoffLosses', 'neutralZoneFaceoffWins', 'neutralZoneFaceoffs', 'offensiveZoneFaceoffLosses',
-                 'offensiveZoneFaceoffWins', 'offensiveZoneFaceoffs', 'otGoals', 'otTimeOnIce', 'penalties', 'penaltiesDrawn', 'penaltyMinutes',
-                 'plusMinus', 'points', 'points5v5', 'powerPlayGoalFor', 'powerPlayGoalsAgainst', 'ppAssists', 'ppFaceoffs', 'ppFaceoffsLost',
-                 'ppFaceoffsWon', 'ppGoals', 'ppIndividualSatFor', 'ppPoints', 'ppPrimaryAssists', 'ppSecondaryAssists', 'ppShots', 'ppTimeOnIce',
-                 'primaryAssists5v5', 'satAgainst', 'satAhead', 'satBehind', 'satClose', 'satFor', 'satRelative', 'satRelative5v5', 'satTied',
-                 'satTotal', 'secondaryAssists5v5', 'shAssists', 'shFaceoffs', 'shFaceoffsLost', 'shFaceoffsWon', 'shGoals', 'shIndividualSatFor',
-                 'shPoints', 'shPrimaryAssists', 'shSecondaryAssists', 'shShots', 'shTimeOnIce', 'shifts', 'shortHandedGoalsAgainst', 'shortHandedGoalsFor',
-                 'shots', 'takeaways', 'timeOnIce', 'totalFaceoffLosses', 'totalFaceoffWins', 'totalFaceoffs', 'totalPrimaryAssists', 'totalSecondaryAssists',
-                 'usatAgainst', 'usatAhead', 'usatBehind', 'usatClose', 'usatFor', 'usatRelative', 'usatTied', 'usatTotal']
+skater_scalable_data = ['assists', 'assists5v5', 'blockedShots', 'defensiveZoneFaceoffLosses', 'defensiveZoneFaceoffWins', 'defensiveZoneFaceoffs',
+                		'emptyNetAssists', 'emptyNetGoals', 'emptyNetPoints', 'evFaceoffs', 'evFaceoffsLost', 'evFaceoffsWon', 'evGoals', 'evPoints',
+                		'evTimeOnIce', 'evenStrengthGoalDifference', 'evenStrengthGoalsAgainst', 'evenStrengthGoalsFor', 'firstGoals', 'gameMisconductPenalties',
+                		'gameWinningGoals', 'giveaways', 'goals', 'goals5v5', 'hits', 'majorPenalties', 'matchPenalties', 'minorPenalties',
+                		'misconductPenalties', 'missedShotCrossbar', 'missedShotGoalpost', 'missedShotOverNet', 'missedShotWideOfNet', 'missedShots',
+                		'netPenalties', 'neutralZoneFaceoffLosses', 'neutralZoneFaceoffWins', 'neutralZoneFaceoffs', 'offensiveZoneFaceoffLosses',
+                		'offensiveZoneFaceoffWins', 'offensiveZoneFaceoffs', 'otGoals', 'otTimeOnIce', 'penalties', 'penaltiesDrawn', 'penaltyMinutes',
+               			'plusMinus', 'points', 'points5v5', 'powerPlayGoalFor', 'powerPlayGoalsAgainst', 'ppAssists', 'ppFaceoffs', 'ppFaceoffsLost',
+                		'ppFaceoffsWon', 'ppGoals', 'ppIndividualSatFor', 'ppPoints', 'ppPrimaryAssists', 'ppSecondaryAssists', 'ppShots', 'ppTimeOnIce',
+                		'primaryAssists5v5', 'satAgainst', 'satAhead', 'satBehind', 'satClose', 'satFor', 'satRelative', 'satRelative5v5', 'satTied',
+                		'satTotal', 'secondaryAssists5v5', 'shAssists', 'shFaceoffs', 'shFaceoffsLost', 'shFaceoffsWon', 'shGoals', 'shIndividualSatFor',
+                		'shPoints', 'shPrimaryAssists', 'shSecondaryAssists', 'shShots', 'shTimeOnIce', 'shifts', 'shortHandedGoalsAgainst', 'shortHandedGoalsFor',
+                		'shots', 'takeaways', 'timeOnIce', 'totalFaceoffLosses', 'totalFaceoffWins', 'totalFaceoffs', 'totalPrimaryAssists', 'totalSecondaryAssists',
+               			'usatAgainst', 'usatAhead', 'usatBehind', 'usatClose', 'usatFor', 'usatRelative', 'usatTied', 'usatTotal', 'gamesPlayed']
+goalie_scalable_data = ['assists', 'completeGames', 'evGoalsAgainst', 'evSaves', 'evShotsAgainst', 'gamesStarted', 'goals', 'goalsAgainst', 'goalsFor',
+						'incompleteGames', 'losses', 'otLosses', 'penaltyMinutes', 'points', 'ppGoalsAgainst', 'ppSaves', 'ppShotsAgainst', 'qualityStart',
+						'regulationLosses', 'regulationWins', 'saves', 'shGoalsAgainst', 'shSavePct', 'shSaves', 'shShotsAgainst', 'shotsAgainst', 'shutouts',
+						'timeOnIce', 'wins', 'gamesPlayed']
 
 
 # With the help of api_helper this queries the nhle api the required number of times and joins the data into one json record
@@ -182,11 +186,17 @@ def api_helper(base_url, tag, report_list, year_bound):
 	return records
 
 
-def extrapolate_data(players):
+def extrapolate_data(players, tag):
+	scalable_data = skater_scalable_data
+	expected_games = 82
+	if tag == 'goalie':
+		scalable_data = goalie_scalable_data
+		expected_games = 68
+
 	# Extrapolates Shortened Seasons
 	max_gp = max([player.get('gamesPlayed') for player in players])
-	if max_gp < 82:
-		scale_multiplier = 82 / max_gp
+	if max_gp < expected_games:
+		scale_multiplier = expected_games / max_gp
 		for player in players:
 			keys = player.keys()
 			for key in keys:
@@ -194,15 +204,22 @@ def extrapolate_data(players):
 					val = player.get(key)
 					player.update({key:  val * scale_multiplier})
 
-	# Extrapolates for Injuries Using Method Described in README
-	for player in players:
-		starting_gp = player.get('gamesPlayed')
-		keys = player.keys()
-		for key in keys:
-			if key in scalable_data:
-				a = player.get(key)
-				b = starting_gp
-				player.update({key:  ((2*a*b) + 246*a)/(5*b)})
+	if tag != 'goalie':
+		# Extrapolates for Injuries Using Method Described in README
+		for player in players:
+			starting_gp = player.get('gamesPlayed')
+			keys = player.keys()
+			for key in keys:
+				if key in scalable_data and key != 'gamesPlayed':
+					a = player.get(key)
+					b = starting_gp
+					player.update({key:  ((0.5*a) + (0.5*((82*a)/b)))})
+
+
+# Remove players with games played under a certain threshold.
+def remove_too_few_gp(removal_threshold, players):
+	filtered_players = [player for player in players if player.get('gamesPlayed') >= removal_threshold]
+	return filtered_players
 
 
 # Calculates the total number of fantasy points a player had in a given season based on the values returned from the arg parser
@@ -382,6 +399,11 @@ def main():
 	most_recent_data_names = [[], [], [], []]
 	records_list = [[center_records, 'center', 0], [wing_records, 'wing', 1], [defenceman_records, 'defenceman', 2], [goalie_records, 'goalie', 3]]
 	for records in records_list:
+		#Define games played threshold players much reach to be included
+		removal_threshold = 25
+		if records[1] == 'goalie':
+			removal_threshold = 15
+
 		for year in range(num_years, 0, -1):
 			season_id = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
 			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
@@ -389,7 +411,8 @@ def main():
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
 
 			convert_data_to_float(current_year_data)
-			extrapolate_data(current_year_data)
+			extrapolate_data(current_year_data, records[1])
+			current_year_data = remove_too_few_gp(removal_threshold, current_year_data)
 
 			current_year_data = sort_dictionary_data(current_year_data, records[1])
 
@@ -397,7 +420,8 @@ def main():
 				next_year_data = filter_list_by_year(records[0].get('data'), next_season_id)
 
 				convert_data_to_float(next_year_data)
-				extrapolate_data(next_year_data)
+				extrapolate_data(next_year_data, records[1])
+				next_year_data = remove_too_few_gp(removal_threshold, next_year_data)
 
 				current_year_data, next_year_data = remove_players(current_year_data, next_year_data)
 
