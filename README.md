@@ -55,7 +55,6 @@
     - If you want to run only specific models, you can add their tag in the command line. No tags will run them all, but if you add a tag it will only run the models tagged.
     - Tags are as follows:
       - `--mlr` for MultivariateLinearRegression
-      - `--par` for PassiveAgressiveRegression
       - `--en` for ElasticNet
       - `--rf` for RandomForest
       - `--ab` for AdaBoost
