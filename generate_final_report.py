@@ -106,16 +106,14 @@ def generate_report(models, file, position_str):
     if models[0]:
         predictions_list.append(process_model('MultivariateLinearRegression', index))
     if models[1]:
-        predictions_list.append(process_model('PassiveAggressiveRegression', index))
-    if models[2]:
         predictions_list.append(process_model('ElasticNet', index))
-    if models[3]:
+    if models[2]:
         predictions_list.append(process_model('RandomForest', index))
-    if models[4]:
+    if models[3]:
         predictions_list.append(process_model('AdaBoost', index))
-    if models[5]:
+    if models[4]:
         predictions_list.append(process_model('GradientBoost', index))
-    if models[6]:
+    if models[5]:
         predictions_list.append(process_model('XGBoost', index))
 
     final_predictions = []
@@ -142,7 +140,6 @@ def main():
     parser = argparse.ArgumentParser(description = 'Set models used for predictions and report format.')
 
     parser.add_argument('--mlr', action = 'store_true', help = 'Add tag if you want to use MultivariateLinearRegression for predictions.')
-    parser.add_argument('--par', action = 'store_true', help = 'Add tag if you want to use PassiveAggressiveRegression for predictions.')
     parser.add_argument('--en',  action = 'store_true', help = 'Add tag if you want to use ElasticNet for predictions.')
     parser.add_argument('--rf',  action = 'store_true', help = 'Add tag if you want to use RandomForest for predictions.')
     parser.add_argument('--ab',  action = 'store_true', help = 'Add tag if you want to use AdaBoost for predictions.')
@@ -152,7 +149,7 @@ def main():
 
     args = parser.parse_args()
 
-    models = [args.mlr, args.par, args.en, args.rf, args.ab, args.gb, args.xgb]
+    models = [args.mlr, args.en, args.rf, args.ab, args.gb, args.xgb]
     report_format = args.format
 
     positions = None
