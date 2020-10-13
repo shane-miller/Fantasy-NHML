@@ -213,7 +213,7 @@ def extrapolate_data(players, tag):
 				if key in scalable_data and key != 'gamesPlayed':
 					a = player.get(key)
 					b = starting_gp
-					player.update({key:  ((0.5*a) + (0.5*((82*a)/b)))})
+					player.update({key:  ((0.4*a) + (0.6*((82*a)/b)))})
 
 
 # Remove players with games played under a certain threshold.
