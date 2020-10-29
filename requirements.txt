@@ -1,5 +1,6 @@
 numpy==1.18.1
-xgboost==1.2.0
-tqdm==4.45.0
+scipy==1.4.1
 requests==2.24.0
+tqdm==4.45.0
+xgboost==1.2.0
 scikit_learn==0.23.2
