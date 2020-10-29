@@ -265,17 +265,17 @@ def sort_dictionary_data(player_list, tag):
 	key_list = []
 	if tag == 'center':
 		key_list = ['shPoints', 'shots', 'evTimeOnIcePerGame', 'shAssists', 'points', 'otTimeOnIcePerOtGame', 'giveaways', 'evPoints', 'hits',
-					'missedShots', 'shGoals', 'penaltyMinutes', 'takeaways', 'ppPoints', 'totalFaceOffWins', 'totalFaceoffLosses', 'ppAssists',
+					'missedShots', 'shGoals', 'penaltyMinutes', 'takeaways', 'ppPoints', 'totalFaceoffWins', 'totalFaceoffLosses', 'ppAssists',
 					'pointsPerGame', 'evGoals', 'evTimeOnIce', 'shiftsPerGame', 'plusMinus', 'shifts', 'blockedShots', 'assists', 'otTimeOnIce',
 					'ppGoals', 'timeOnIcePerGame', 'gameWinningGoals', 'goals', 'missedShotWideOfNet']
 	elif tag == 'wing':
 		key_list = ['shPoints', 'shots', 'evTimeOnIcePerGame', 'shAssists', 'points', 'otTimeOnIcePerOtGame', 'giveaways', 'evPoints', 'hits',
-					'missedShots', 'hitsPer60', 'shGoals', 'penaltyMinutes', 'ppPoints', 'totalFaceOffWins', 'totalFaceoffLosses', 'ppAssists',
+					'missedShots', 'hitsPer60', 'shGoals', 'penaltyMinutes', 'ppPoints', 'totalFaceoffWins', 'totalFaceoffLosses', 'ppAssists',
 					'pointsPerGame', 'evGoals', 'evTimeOnIce', 'shiftsPerGame', 'plusMinus', 'shifts', 'blockedShots', 'assists', 'otTimeOnIce',
 					'ppGoals', 'timeOnIcePerGame', 'gameWinningGoals', 'goals', 'missedShotWideOfNet']
 	elif tag == 'defenceman':
 		key_list = ['shPoints', 'shots', 'evTimeOnIcePerGame', 'shAssists', 'points', 'otTimeOnIcePerOtGame', 'evPoints', 'hits', 'missedShots',
-					'shGoals', 'penaltyMinutes', 'ppPoints', 'totalFaceOffWins', 'totalFaceoffLosses', 'ppAssists', 'pointsPerGame', 'evTimeOnIce',
+					'shGoals', 'penaltyMinutes', 'ppPoints', 'totalFaceoffWins', 'totalFaceoffLosses', 'ppAssists', 'pointsPerGame', 'evTimeOnIce',
 					'shiftsPerGame', 'plusMinus', 'shifts', 'blockedShots', 'assists', 'otTimeOnIce', 'ppGoals', 'timeOnIcePerGame', 'gameWinningGoals',
 					'goals', 'missedShotWideOfNet']
 	else:
