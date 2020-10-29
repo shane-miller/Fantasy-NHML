@@ -1,5 +1,6 @@
 from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import uniform, randint
 import numpy as np
 import pathlib
 import pickle
@@ -15,20 +16,20 @@ def generate_model(position_str):
     points = np.load(path / 'fantasy_points_data.npy', allow_pickle=True)
 
     ##### Define Parameters for Grid Search #####
-    parameters = {'learning_rate' : [0.01, 0.05, 0.075, 0.1, 0.125, 0.15, 0.25],
-                  'n_estimators' : [50, 100, 150, 200, 250],
-                  'tol' : [0.00001, 0.0001, 0.001],
-                  'max_depth' : [None, 4, 8]}
+    parameters = {'learning_rate' : uniform(loc=0.001, scale=0.399),
+                  'n_estimators' : randint(low=25, high=350),
+                  'tol' : uniform(loc=0.00001, scale=0.0099),
+                  'max_depth' : randint(low=1, high=10)}
 
     ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
     reg = GradientBoostingRegressor()
 
-    grid = GridSearchCV(estimator=reg, param_grid=parameters, scoring='r2', n_jobs=5, verbose=1)
-    grid.fit(stats, points)
+    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=100, scoring='r2', n_jobs=5, verbose=1)
+    search.fit(stats, points)
 
-    print('Best R2 Score:', grid.best_score_)
+    print('Best R2 Score:', search.best_score_)
 
-    best_reg = grid.best_estimator_
+    best_reg = search.best_estimator_
 
     ##### Save Model #####
     path = current_file_path.parents[0] / 'SavedModels'

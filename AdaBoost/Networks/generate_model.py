@@ -1,6 +1,7 @@
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
+from scipy.stats import uniform, randint
 import numpy as np
 import pathlib
 import pickle
@@ -17,19 +18,19 @@ def generate_model(position_str):
 
     ##### Define Parameters for Grid Search #####
     parameters = {'base_estimator' : [DecisionTreeRegressor(max_depth=2), DecisionTreeRegressor(max_depth=3), DecisionTreeRegressor(max_depth=4), DecisionTreeRegressor(max_depth=5)],
-                  'n_estimators' : [25, 50, 75, 100, 150, 250],
-                  'learning_rate' : [0.1, 0.5, 0.8, 1.0, 1.2, 1.5],
+                  'n_estimators' : randint(low=25, high=350),
+                  'learning_rate' : uniform(loc=0.1, scale=1.4),
                   'loss' : ['linear', 'square', 'exponential']}
 
     ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
     reg = AdaBoostRegressor()
 
-    grid = GridSearchCV(estimator=reg, param_grid=parameters, scoring='r2', n_jobs=5, verbose=1)
-    grid.fit(stats, points)
+    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=150, scoring='r2', n_jobs=5, verbose=1)
+    search.fit(stats, points)
 
-    print('Best R2 Score:', grid.best_score_)
+    print('Best R2 Score:', search.best_score_)
 
-    best_reg = grid.best_estimator_
+    best_reg = search.best_estimator_
 
     ##### Save Model #####
     path = current_file_path.parents[0] / 'SavedModels'

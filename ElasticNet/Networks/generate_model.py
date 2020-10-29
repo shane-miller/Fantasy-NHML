@@ -1,5 +1,6 @@
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from sklearn.linear_model import ElasticNet
+from scipy.stats import uniform
 import numpy as np
 import pathlib
 import pickle
@@ -19,22 +20,22 @@ def generate_model(position_str):
     if(position_str == 'goalies') :
         max_iter = 1000000
 
-    parameters = {'alpha' : [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3],
-                  'l1_ratio' : [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7],
+    parameters = {'alpha' : uniform(loc=0.5, scale=1),
+                  'l1_ratio' : uniform(loc=0.25, scale=0.5),
                   'normalize' : [False, True],
                   'max_iter' : [max_iter],
-                  'tol' : [0.00001, 0.00005, 0.0001, 0.0005, 0.001, 0.005, 0.01],
+                  'tol' : uniform(loc=0.0001, scale=0.0099),
                   'selection' : ['cyclic', 'random']}
 
     ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
     reg = ElasticNet()
 
-    grid = GridSearchCV(estimator=reg, param_grid=parameters, scoring='r2', n_jobs=5, verbose=1)
-    grid.fit(stats, points)
+    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=200, scoring='r2', n_jobs=5, verbose=1)
+    search.fit(stats, points)
 
-    print('Best R2 Score:', grid.best_score_)
+    print('Best R2 Score:', search.best_score_)
 
-    best_reg = grid.best_estimator_
+    best_reg = search.best_estimator_
 
     ##### Save Model #####
     path = current_file_path.parents[0] / 'SavedModels'
