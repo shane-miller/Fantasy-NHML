@@ -3,13 +3,23 @@ This folder contains basic data for goalies for the last 5 years.
 
 Order of goalie data used filtered from the ipynb in StatFiltering:
 
-gamesStarted
+shSaves
+evGoalsAgainst
 losses
-saves
 shotsAgainst
+goalsAgainst
+saves
+ppSaves
+ppShotsAgainst
+gamesStarted
+wins
+evShotsAgainst
+gamesPlayed
+shShotsAgainst
+evSaves
 shutouts
 timeOnIce
-wins
+otLosses
 
 
 Order of complete goalie data:

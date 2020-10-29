@@ -3,25 +3,34 @@ This folder contains basic data for defencemen for the last 5 years.
 
 Order of defenceman data used filtered from the ipynb in StatFiltering:
 
-assists
-blockedShots
-evPoints
-evTimeOnIce
-evTimeOnIcePerGame
-goals
-hitsPer60
-missedShotWideOfNet
-missedShots
-otTimeOnIce
-otTimeOnIcePerOtGame
-points
-pointsPerGame
-ppPoints
-shifts
-shiftsPerGame
+shPoints
 shots
-takeaways
+evTimeOnIcePerGame
+shAssists
+points
+otTimeOnIcePerOtGame
+evPoints
+hits
+missedShots
+shGoals
+penaltyMinutes
+ppPoints
+totalFaceOffWins
+totalFaceoffLosses
+ppAssists
+pointsPerGame
+evTimeOnIce
+shiftsPerGame
+plusMinus
+shifts
+blockedShots
+assists
+otTimeOnIce
+ppGoals
 timeOnIcePerGame
+gameWinningGoals
+goals
+missedShotWideOfNet
 
 
 Order of complete defenceman data:

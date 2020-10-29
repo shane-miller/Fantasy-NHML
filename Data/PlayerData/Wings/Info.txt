@@ -3,23 +3,37 @@ This folder contains basic data for wings for the last 5 years.
 
 Order of wing data used filtered from the ipynb in StatFiltering:
 
-evGoals
-evPoints
-evTimeOnIce
-evTimeOnIcePerGame
-goals
-hits
-hitsPer60
-missedShots
-otTimeOnIce
-otTimeOnIcePerOtGame
-points
-pointsPerGame
-ppPoints
-shifts
-shiftsPerGame
+shPoints
 shots
+evTimeOnIcePerGame
+shAssists
+points
+otTimeOnIcePerOtGame
+giveaways
+evPoints
+hits
+missedShots
+hitsPer60
+shGoals
+penaltyMinutes
+ppPoints
+totalFaceOffWins
+totalFaceoffLosses
+ppAssists
+pointsPerGame
+evGoals
+evTimeOnIce
+shiftsPerGame
+plusMinus
+shifts
+blockedShots
+assists
+otTimeOnIce
+ppGoals
 timeOnIcePerGame
+gameWinningGoals
+goals
+missedShotWideOfNet
 
 
 Order of complete wing data:
