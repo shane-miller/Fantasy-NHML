@@ -30,7 +30,7 @@ def generate_model(position_str):
     ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
     reg = ElasticNet()
 
-    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=200, scoring='r2', n_jobs=5, verbose=1)
+    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=200, scoring='r2', n_jobs=-1, verbose=1)
     search.fit(stats, points)
 
     print('Best R2 Score:', search.best_score_)

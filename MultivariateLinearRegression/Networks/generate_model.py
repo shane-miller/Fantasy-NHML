@@ -20,7 +20,7 @@ def generate_model(position_str):
     ##### Create and Train the Model #####
     reg = LinearRegression()
 
-    grid = GridSearchCV(estimator=reg, param_grid=parameters, scoring='r2', n_jobs=5, verbose=1)
+    grid = GridSearchCV(estimator=reg, param_grid=parameters, scoring='r2', n_jobs=-1, verbose=1)
     grid.fit(stats, points)
 
     print('Best R2 Score:', grid.best_score_)
