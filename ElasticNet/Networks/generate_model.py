@@ -18,7 +18,7 @@ def generate_model(position_str):
     ##### Define Parameters for Grid Search #####
     max_iter = 10000
     if(position_str == 'goalies') :
-        max_iter = 1000000
+        max_iter = 10000000
 
     parameters = {'alpha' : uniform(loc=0.5, scale=1),
                   'l1_ratio' : uniform(loc=0.25, scale=0.5),
