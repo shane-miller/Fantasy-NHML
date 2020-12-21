@@ -18,7 +18,7 @@
 - **Downloading Required Modules**
   - Run `pip3 install -r requirements.txt` from the base project folder to download the required modules.
 - **Downloading Player Data History**
-  - Run `python3 Data/DataDownloadScript/download_from_nhl_stats.py` from the base project folder along with any desired tags as described below. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
+  - Run `python3 Data/DataDownloadScript/download_from_nhl_stats/api.py` from the base project folder along with any desired tags as described below. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
     - Add tags to set the point multipliers your league is using. You only need to set the tags if they are being used in your league as the other tags will default to a multiplier of zero and will not be considered when making predictions. If you do not set any tags here, every prediction will be zero.
     - The tags for skaters are as follows:
       - `--g` for Goals
@@ -49,7 +49,7 @@
       - `--sv` for Saves
       - `--so` for Shutouts
       - `--otl` for Overtime Losses
-    - Ex: For a league that gives players 3 fantasy points per goal, 2 per assist, and -1 per penalty minute and goalies 5 fantasy points per win, 3 extra for a shutout, and 2 for an overtime loss, you would run `python3 Data/DataDownloadScript/download_from_nhl_stats.py --g=3 --a=2 --pim=-1 --w=5 --so=3 --otl=2`.
+    - Ex: For a league that gives players 3 fantasy points per goal, 2 per assist, and -1 per penalty minute and goalies 5 fantasy points per win, 3 extra for a shutout, and 2 for an overtime loss, you would run `python3 Data/DataDownloadScript/download_from_nhl_stats_api.py --g=3 --a=2 --pim=-1 --w=5 --so=3 --otl=2`.
 - **Generate Models for Predictions**
   - Run `python3 run_all.py` from the base project folder along with any desired tags as described below. This generates the all the models to make predictions from.
     - If you want to run only specific models, you can add their tag in the command line. Adding no tags will run them all, but if you add a tag it will only run the models tagged.
