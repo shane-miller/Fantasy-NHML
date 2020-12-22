@@ -18,7 +18,7 @@
 - **Downloading Required Modules**
   - Run `pip3 install -r requirements.txt` from the base project folder to download the required modules.
 - **Downloading Player Data History**
-  - Run `python3 Data/DataDownloadScript/download_from_nhl_stats/api.py` from the base project folder along with any desired tags as described below. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
+  - Run `python3 Data/DataDownloadScript/download_from_nhl_stats_api.py` from the base project folder along with any desired tags as described below. This will take some time as it is downloading the last 10 years of stats for players for training and the most recent seaon data to make the predictions from.
     - Add tags to set the point multipliers your league is using. You only need to set the tags if they are being used in your league as the other tags will default to a multiplier of zero and will not be considered when making predictions. If you do not set any tags here, every prediction will be zero.
     - The tags for skaters are as follows:
       - `--g` for Goals
