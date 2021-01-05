@@ -23,7 +23,7 @@
     - The tags for skaters are as follows:
       - `--g` for Goals
       - `--a` for Assists
-      - `--pts` for Points
+      - `--p` for Points
       - `--pm` for Plus/Minus
       - `--pim` for Penalty Minutes
       - `--ppg` for Power Play Goals
