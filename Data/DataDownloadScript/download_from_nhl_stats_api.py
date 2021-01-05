@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description = 'Fantasy Settings')
 
 parser.add_argument('--g',    type = int, default = 0, help = 'Goals Multiplier')
 parser.add_argument('--a',    type = int, default = 0, help = 'Assists Multiplier')
-parser.add_argument('--pts',  type = int, default = 0, help = 'Points Multiplier')
+parser.add_argument('--p',    type = int, default = 0, help = 'Points Multiplier')
 parser.add_argument('--pm',   type = int, default = 0, help = '+/- Multiplyer')
 parser.add_argument('--pim',  type = int, default = 0, help = 'Penalty Minutes Multiplier')
 parser.add_argument('--ppg',  type = int, default = 0, help = 'Power Play Goals Multiplier')
@@ -43,7 +43,7 @@ args = parser.parse_args()
 
 g_multiplier    = args.g
 a_multiplier    = args.a
-pts_multiplier  = args.pts
+p_multiplier    = args.p
 pm_multiplier   = args.pm
 pim_multiplier  = args.pim
 ppg_multiplier  = args.ppg
@@ -233,7 +233,7 @@ def calculate_fantasy_points(players, tag):
 			key_names = [['gamesStarted', gs_multiplier], ['wins', w_multiplier], ['losses', l_multiplier], ['shotsAgainst', sa_multiplier],
 						 ['goalsAgainst', ga_multiplier], ['saves', sv_multiplier], ['shutouts', so_multiplier], ['otLosses', otl_multiplier]]
 		else:
-			key_names = [['goals', g_multiplier], ['assists', a_multiplier], ['points', pts_multiplier], ['plusMinus', pm_multiplier],
+			key_names = [['goals', g_multiplier], ['assists', a_multiplier], ['points', p_multiplier], ['plusMinus', pm_multiplier],
 						 ['penaltyMinutes', pim_multiplier], ['ppGoals', ppg_multiplier], ['ppAssists', ppa_multiplier], ['ppPoints', ppp_multiplier],
 						 ['shGoals', shg_multiplier], ['shAssists', sha_multiplier], ['shPoints', shp_multiplier], ['gameWinningGoals', gwg_multiplier],
 						 ['totalFaceoffWins', fow_multiplier], ['totalFaceoffLosses', fol_multiplier], ['shifts', shft_multiplier], ['shots', sog_multiplier],
