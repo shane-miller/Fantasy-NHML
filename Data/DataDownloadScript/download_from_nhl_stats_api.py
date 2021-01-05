@@ -132,15 +132,12 @@ def api_main(base_url, tag, report_list, num_years):
 		'total': 0
 	}
 
-	print('Processing ' + tag[1] + ':')
-	for i in range(num_years, 0, -1):
 	curr_year = datetime.now().year if datetime.now().month >= 5 else datetime.now().year - 1
+	for i in tqdm(range(num_years, 0, -1), desc='Processing ' + tag[1], position=0):
 		season_id = f'{curr_year - i}{curr_year - (i - 1)}'
 		temp = api_helper(base_url, tag, report_list, season_id)
 		final_records.update({'data': final_records.get('data') + temp.get('data')})
 		final_records.update({'total': final_records.get('total') + temp.get('total')})
-	
-	print()
 
 	return final_records
 
@@ -154,7 +151,7 @@ def api_helper(base_url, tag, report_list, year_bound):
 	total_length = int(temp.get('total'))
 	records = {'total': total_length}
 
-	for i in tqdm(report_list, desc='Batch Querying for seasonId ' + year_bound):
+	for i in tqdm(report_list, desc='    Batch Querying for SeasonID ' + year_bound, position=1, leave=False):
 		temp = {}
 		for j in range(0, total_length + 1, 100):
 			temp2 = {}
