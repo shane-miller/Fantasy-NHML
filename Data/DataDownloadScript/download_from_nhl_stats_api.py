@@ -134,8 +134,9 @@ def api_main(base_url, tag, report_list, num_years):
 
 	print('Processing ' + tag[1] + ':')
 	for i in range(num_years, 0, -1):
-		seasonId = f'{datetime.now().year - i}{datetime.now().year - (i - 1)}'
-		temp = api_helper(base_url, tag, report_list, seasonId)
+	curr_year = datetime.now().year if datetime.now().month >= 5 else datetime.now().year - 1
+		season_id = f'{curr_year - i}{curr_year - (i - 1)}'
+		temp = api_helper(base_url, tag, report_list, season_id)
 		final_records.update({'data': final_records.get('data') + temp.get('data')})
 		final_records.update({'total': final_records.get('total') + temp.get('total')})
 	
@@ -411,9 +412,10 @@ def main():
 		if records[1] == 'goalie':
 			removal_threshold = 15
 
+		curr_year = datetime.now().year if datetime.now().month >= 5 else datetime.now().year - 1
 		for year in range(num_years, 0, -1):
-			season_id = f'{datetime.now().year - year}{datetime.now().year - (year - 1)}'
-			next_season_id = f'{datetime.now().year - (year - 1)}{datetime.now().year - (year - 2)}'
+			season_id = f'{curr_year - year}{curr_year - (year - 1)}'
+			next_season_id = f'{curr_year - (year - 1)}{curr_year - (year - 2)}'
 			
 			current_year_data = filter_list_by_year(records[0].get('data'), season_id)
 
