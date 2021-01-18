@@ -152,23 +152,32 @@ def api_helper(base_url, tag, report_list, year_bound):
 	records = {'total': total_length}
 
 	for i in tqdm(report_list, desc='    Batch Querying for SeasonID ' + year_bound, position=1, leave=False):
-		temp = {}
-		for j in range(0, total_length + 1, 100):
-			temp2 = {}
-			if(tag == goalie_tag):
-				temp2 = requests.get(base_url.format(i, j, year_bound, year_bound)).json()
-			else:
-				temp2 = requests.get(base_url.format(i, j, tag[0], year_bound, year_bound)).json()
-			if(temp.get('data') == None):
-				temp.update({'data': temp2.get('data')})
-			else:
-				temp.update({'data': temp.get('data') + temp2.get('data')})
+		# Attempt to download the data from the API up to 5 times before failing.
+		for attempt in range(5):
+			temp = {}
+			for j in range(0, total_length + 1, 100):
+				temp2 = {}
+				if(tag == goalie_tag):
+					temp2 = requests.get(base_url.format(i, j, year_bound, year_bound)).json()
+				else:
+					temp2 = requests.get(base_url.format(i, j, tag[0], year_bound, year_bound)).json()
+				if(temp.get('data') == None):
+					temp.update({'data': temp2.get('data')})
+				else:
+					temp.update({'data': temp.get('data') + temp2.get('data')})
 
-		for k in range(total_length):
-			if(records.get('data') == None):
-				records.update({'data': temp.get('data')})
-			else:
-				records.get('data')[k].update(temp.get('data')[k])
+			# If the download did not fail add records and break out of re-attempt loop
+			if len(temp.get('data')) == total_length:
+				for k in range(total_length):
+					if(records.get('data') == None):
+						records.update({'data': temp.get('data')})
+					else:
+						records.get('data')[k].update(temp.get('data')[k])
+
+				break
+		else:
+			# If the data was not downloaded in 5 attempts, raise an exception
+			raise Exception('Data Download Failed. Please try again.')
 
 	if(tag == goalie_tag):
 		for player in records.get('data'):
