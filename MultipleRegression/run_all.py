@@ -1,15 +1,15 @@
-from MultivariateLinearRegression.Networks import generate_model as mlr
-from MultivariateLinearRegression.ReportGeneration import generate_all_reports
+from MultipleRegression.Networks import generate_model as mr
+from MultipleRegression.ReportGeneration import generate_all_reports
 from shutil import rmtree
 import pathlib
 
 def main():
-    print('----- Processing Multivariate Linear Regression -----')
+    print('----- Processing Multiple Regression -----')
     ##### Generate Models #####
-    mlr.generate_model('centers')
-    mlr.generate_model('wings')
-    mlr.generate_model('defencemen')
-    mlr.generate_model('goalies')
+    mr.generate_model('centers')
+    mr.generate_model('wings')
+    mr.generate_model('defencemen')
+    mr.generate_model('goalies')
 
     ##### Generate Reports #####
     generate_all_reports.main()

@@ -54,7 +54,7 @@
   - Run `python3 run_all.py` from the base project folder along with any desired tags as described below. This generates the all the models to make predictions from.
     - If you want to run only specific models, you can add their tag in the command line. Adding no tags will run them all, but if you add a tag it will only run the models tagged.
     - Tags are as follows:
-      - `--mlr` for MultivariateLinearRegression
+      - `--mr` for MultipleRegression
       - `--en` for ElasticNet
       - `--rf` for RandomForest
       - `--ab` for AdaBoost
