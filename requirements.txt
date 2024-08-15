@@ -1,5 +1,5 @@
 numpy==1.22.0
-requests==2.31.0
+requests==2.32.2
 scipy==1.10.0
 tqdm==4.45.0
 xgboost==1.2.0
