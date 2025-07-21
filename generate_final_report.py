@@ -4,117 +4,72 @@ import pathlib
 import pickle
 import math
 
-def process_model(model_str, index):
+def process_model(model_str, positions):
     ### Load Models ###
     current_file_path = pathlib.Path(__file__).parent.absolute()
     path = current_file_path / model_str / 'SavedModels'
 
-    center_reg = None
-    if 0 in index:
-        file = None
-        try:
-            file = open(path / 'centers_model.sav', 'rb')
-        except:
-            raise Exception('Missing ' + model_str + '\'s center_model.sav')
-
-        center_reg = pickle.load(file)
-
-    wing_reg = None
-    if 1 in index:
-        file = None
-        try:
-            file = open(path / 'wings_model.sav', 'rb')
-        except:
-            raise Exception('Missing ' + model_str + '\'s wing_model.sav')
-
-        wing_reg = pickle.load(file)
-
-    def_reg = None
-    if 2 in index:
-        file = None
-        try:
-            file = open(path / 'defencemen_model.sav', 'rb')
-        except:
-            raise Exception('Missing ' + model_str + '\'s defenceman_model.sav')
-
-        def_reg = pickle.load(file)
-
-    goalie_reg = None
-    if 3 in index:
-        file = None
-        try:
-            file = open(path / 'goalies_model.sav', 'rb')
-        except:
-            raise Exception('Missing ' + model_str + '\'s goalie_model.sav')
-
-        goalie_reg = pickle.load(file)
+    # Map position string to model file and data folder
+    position_map = {
+        'Center': ('centers_model.sav', 'Centers'),
+        'Wing': ('wings_model.sav', 'Wings'),
+        'Defenceman': ('defencemen_model.sav', 'Defencemen'),
+        'Goalie': ('goalies_model.sav', 'Goalies'),
+        'Forward': [('centers_model.sav', 'Centers'), ('wings_model.sav', 'Wings')],
+        'Skater': [('centers_model.sav', 'Centers'), ('wings_model.sav', 'Wings'), ('defencemen_model.sav', 'Defencemen')]
+    }
 
 
-    ### Predict and Save Fantasy Values ###
     predictions = []
-
     current_file_path = pathlib.Path(__file__).parent.absolute()
-    path = current_file_path / 'Data' / 'PlayerData'
+    base_path = current_file_path / 'Data' / 'PlayerData'
 
-    stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-    names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-    for i in index:
-        curr_stats = stats[i]
-        curr_stats = np.asarray(curr_stats)
-
-        curr_names = names[i]
-
-        reg = None
-        if i == 0:
-            reg = center_reg
-        elif i == 1:
-            reg = wing_reg
-        elif i == 2:
-            reg = def_reg
-        else:
-            reg = goalie_reg
-
+    # Handle multi-group positions (Forward, Skater)
+    if isinstance(position_map[positions], list):
+        for model_file, folder in position_map[positions]:
+            reg = pickle.load(open(path / model_file, 'rb'))
+            stats = np.load(base_path / folder / 'most_recent_season_data.npy', allow_pickle=True)
+            names = np.load(base_path / folder / 'most_recent_season_data_names.npy', allow_pickle=True)
+            curr_stats = np.asarray(stats)
+            temp = reg.predict(curr_stats)
+            for j, player in enumerate(names):
+                value = temp[j]
+                if value < 0:
+                    value = 0
+                else:
+                    value = math.ceil(value)
+                predictions.append((player[0], value))
+    else:
+        model_file, folder = position_map[positions]
+        reg = pickle.load(open(path / model_file, 'rb'))
+        stats = np.load(base_path / folder / 'most_recent_season_data.npy', allow_pickle=True)
+        names = np.load(base_path / folder / 'most_recent_season_data_names.npy', allow_pickle=True)
+        curr_stats = np.asarray(stats)
         temp = reg.predict(curr_stats)
-        for j, player in enumerate(curr_names):
+        for j, player in enumerate(names):
             value = temp[j]
             if value < 0:
                 value = 0
             else:
                 value = math.ceil(value)
-
             predictions.append((player[0], value))
-
     return predictions
 
 
 def generate_report(models, file, position_str):
-    index = None
-    if position_str == 'Center':
-        index = [0]
-    elif position_str == 'Wing':
-        index = [1]
-    elif position_str == 'Defenceman':
-        index = [2]
-    elif position_str == 'Goalie':
-        index = [3]
-    elif position_str == 'Forward':
-        index = [0, 1]
-    else:
-        index = [0, 1, 2]
-
     predictions_list = []
     if models[0]:
-        predictions_list.append(process_model('MultipleRegression', index))
+        predictions_list.append(process_model('MultipleRegression', position_str))
     if models[1]:
-        predictions_list.append(process_model('ElasticNet', index))
+        predictions_list.append(process_model('ElasticNet', position_str))
     if models[2]:
-        predictions_list.append(process_model('RandomForest', index))
+        predictions_list.append(process_model('RandomForest', position_str))
     if models[3]:
-        predictions_list.append(process_model('AdaBoost', index))
+        predictions_list.append(process_model('AdaBoost', position_str))
     if models[4]:
-        predictions_list.append(process_model('GradientBoost', index))
+        predictions_list.append(process_model('GradientBoost', position_str))
     if models[5]:
-        predictions_list.append(process_model('XGBoost', index))
+        predictions_list.append(process_model('XGBoost', position_str))
 
     final_predictions = []
     for i in range(len(predictions_list[0])):

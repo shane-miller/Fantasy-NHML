@@ -1,5 +1,7 @@
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.linear_model import ElasticNet
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from scipy.stats import uniform
 import numpy as np
 import pathlib
@@ -18,19 +20,23 @@ def generate_model(position_str):
     ##### Define Parameters for Grid Search #####
     max_iter = 10000
     if(position_str == 'goalies') :
-        max_iter = 10000000
+        max_iter = 100000
+    parameters = {
+        'reg__alpha' : uniform(loc=0.5, scale=1),
+        'reg__l1_ratio' : uniform(loc=0.25, scale=0.5),
+        'reg__fit_intercept': [True, False],
+        'reg__max_iter': [max_iter],
+        'reg__tol': uniform(loc=0.0001, scale=0.0099),
+        'reg__selection': ['cyclic', 'random']
+    }
 
-    parameters = {'alpha' : uniform(loc=0.5, scale=1),
-                  'l1_ratio' : uniform(loc=0.25, scale=0.5),
-                  'normalize' : [False, True],
-                  'max_iter' : [max_iter],
-                  'tol' : uniform(loc=0.0001, scale=0.0099),
-                  'selection' : ['cyclic', 'random']}
+    ##### Create Pipeline and Train the Model Using Grid Search #####
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),
+        ('reg', ElasticNet())
+    ])
 
-    ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
-    reg = ElasticNet()
-
-    search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=200, scoring='r2', n_jobs=-1, verbose=1)
+    search = RandomizedSearchCV(estimator=pipeline, param_distributions=parameters, n_iter=200, scoring='r2', n_jobs=-1, verbose=1)
     search.fit(stats, points)
 
     print('Best R2 Score:', search.best_score_)

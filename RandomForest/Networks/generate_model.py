@@ -17,10 +17,10 @@ def generate_model(position_str):
 
     ##### Define Parameters for Grid Search #####
     parameters = {'n_estimators' : randint(low=25, high=350),
-                  'criterion' : ['mse', 'mae'],
+                  'criterion' : ['squared_error', 'absolute_error', 'friedman_mse'],
                   'max_depth' : randint(low=1, high=10)}
 
-    ##### Create and Train the Model Finding Best Parameters Using Grid Search #####
+    ##### Create and Train the Model Finding Best Parameters Using Randomized Search #####
     reg = RandomForestRegressor()
 
     search = RandomizedSearchCV(estimator=reg, param_distributions=parameters, n_iter=50, scoring='r2', n_jobs=-1, verbose=1)

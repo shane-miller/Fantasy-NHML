@@ -4,3 +4,4 @@
 *report.txt
 *.sav
 *.pyc
+__pycache__/

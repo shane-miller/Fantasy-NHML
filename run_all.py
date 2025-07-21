@@ -4,9 +4,7 @@ from RandomForest import run_all as rf
 from ElasticNet import run_all as en
 from AdaBoost import run_all as ab
 from XGBoost import run_all as xgb
-from shutil import rmtree
 import argparse
-import pathlib
 
 
 def main():
@@ -59,28 +57,6 @@ def main():
         xgb.main()
 
     print()
-
-
-    ##### Remove __pycache__ Folders #####
-    current_file_path = pathlib.Path(__file__).parent.absolute()
-
-    path = current_file_path / 'MultipleRegression' / '__pycache__'
-    rmtree(path)
-    
-    path = current_file_path / 'ElasticNet' / '__pycache__'
-    rmtree(path)
-
-    path = current_file_path / 'RandomForest' / '__pycache__'
-    rmtree(path)
-
-    path = current_file_path / 'GradientBoost' / '__pycache__'
-    rmtree(path)
-
-    path = current_file_path / 'AdaBoost' / '__pycache__'
-    rmtree(path)
-
-    path = current_file_path / 'XGBoost' / '__pycache__'
-    rmtree(path)
 
 
 if __name__ == "__main__":

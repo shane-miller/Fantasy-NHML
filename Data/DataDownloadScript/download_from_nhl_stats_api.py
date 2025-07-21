@@ -11,33 +11,34 @@ import json
 # Get fantasy point multiplier values from the command line.
 parser = argparse.ArgumentParser(description = 'Fantasy Settings')
 
-parser.add_argument('--g',    type = float, default = 0, help = 'Goals Multiplier')
-parser.add_argument('--a',    type = float, default = 0, help = 'Assists Multiplier')
-parser.add_argument('--p',    type = float, default = 0, help = 'Points Multiplier')
-parser.add_argument('--pm',   type = float, default = 0, help = '+/- Multiplyer')
-parser.add_argument('--pim',  type = float, default = 0, help = 'Penalty Minutes Multiplier')
-parser.add_argument('--ppg',  type = float, default = 0, help = 'Power Play Goals Multiplier')
-parser.add_argument('--ppa',  type = float, default = 0, help = 'Power Play Assists Multiplier')
-parser.add_argument('--ppp',  type = float, default = 0, help = 'Power Play Points Multiplier')
-parser.add_argument('--shg',  type = float, default = 0, help = 'Short Handed Goal Multiplier')
-parser.add_argument('--sha',  type = float, default = 0, help = 'Short Handed Assist Multiplier')
-parser.add_argument('--shp',  type = float, default = 0, help = 'Short Handed Point Multiplier')
-parser.add_argument('--gwg',  type = float, default = 0, help = 'Game Winning Goal Multiplier')
-parser.add_argument('--fow',  type = float, default = 0, help = 'Faceoffs Won Multiplier')
-parser.add_argument('--fol',  type = float, default = 0, help = 'Faceoffs Lost Multiplier')
-parser.add_argument('--shft', type = float, default = 0, help = 'Shifts Multiplier')
-parser.add_argument('--sog',  type = float, default = 0, help = 'Shots on Goal Multiplier')
-parser.add_argument('--hit',  type = float, default = 0, help = 'Hits Multiplier')
-parser.add_argument('--blk',  type = float, default = 0, help = 'Blocked Shots Multiplier')
-parser.add_argument('--defp', type = float, default = 0, help = 'Defenceman Points Multiplier')
-parser.add_argument('--gs',   type = float, default = 0, help = 'Games Started Multiplier')
-parser.add_argument('--w',    type = float, default = 0, help = 'Wins Multiplier')
-parser.add_argument('--l',    type = float, default = 0, help = 'Losses Multiplier')
-parser.add_argument('--sa',   type = float, default = 0, help = 'Shots Against Multiplier')
-parser.add_argument('--ga',   type = float, default = 0, help = 'Goals Against Multiplier')
-parser.add_argument('--sv',   type = float, default = 0, help = 'Saves Multiplier')
-parser.add_argument('--so',   type = float, default = 0, help = 'Shutouts Multiplier')
-parser.add_argument('--otl',  type = float, default = 0, help = 'Overtime Losses Multiplier')
+parser.add_argument('--g',     type = float, default = 0,  help = 'Goals Multiplier')
+parser.add_argument('--a',     type = float, default = 0,  help = 'Assists Multiplier')
+parser.add_argument('--p',     type = float, default = 0,  help = 'Points Multiplier')
+parser.add_argument('--pm',    type = float, default = 0,  help = '+/- Multiplyer')
+parser.add_argument('--pim',   type = float, default = 0,  help = 'Penalty Minutes Multiplier')
+parser.add_argument('--ppg',   type = float, default = 0,  help = 'Power Play Goals Multiplier')
+parser.add_argument('--ppa',   type = float, default = 0,  help = 'Power Play Assists Multiplier')
+parser.add_argument('--ppp',   type = float, default = 0,  help = 'Power Play Points Multiplier')
+parser.add_argument('--shg',   type = float, default = 0,  help = 'Short Handed Goal Multiplier')
+parser.add_argument('--sha',   type = float, default = 0,  help = 'Short Handed Assist Multiplier')
+parser.add_argument('--shp',   type = float, default = 0,  help = 'Short Handed Point Multiplier')
+parser.add_argument('--gwg',   type = float, default = 0,  help = 'Game Winning Goal Multiplier')
+parser.add_argument('--fow',   type = float, default = 0,  help = 'Faceoffs Won Multiplier')
+parser.add_argument('--fol',   type = float, default = 0,  help = 'Faceoffs Lost Multiplier')
+parser.add_argument('--shft',  type = float, default = 0,  help = 'Shifts Multiplier')
+parser.add_argument('--sog',   type = float, default = 0,  help = 'Shots on Goal Multiplier')
+parser.add_argument('--hit',   type = float, default = 0,  help = 'Hits Multiplier')
+parser.add_argument('--blk',   type = float, default = 0,  help = 'Blocked Shots Multiplier')
+parser.add_argument('--defp',  type = float, default = 0,  help = 'Defenceman Points Multiplier')
+parser.add_argument('--gs',    type = float, default = 0,  help = 'Games Started Multiplier')
+parser.add_argument('--w',     type = float, default = 0,  help = 'Wins Multiplier')
+parser.add_argument('--l',     type = float, default = 0,  help = 'Losses Multiplier')
+parser.add_argument('--sa',    type = float, default = 0,  help = 'Shots Against Multiplier')
+parser.add_argument('--ga',    type = float, default = 0,  help = 'Goals Against Multiplier')
+parser.add_argument('--sv',    type = float, default = 0,  help = 'Saves Multiplier')
+parser.add_argument('--so',    type = float, default = 0,  help = 'Shutouts Multiplier')
+parser.add_argument('--otl',   type = float, default = 0,  help = 'Overtime Losses Multiplier')
+parser.add_argument('--n_yrs', type = int,   default = 10, help='Number of years of data to download')
 
 args = parser.parse_args()
 
@@ -69,6 +70,8 @@ sv_multiplier   = args.sv
 so_multiplier   = args.so
 otl_multiplier  = args.otl
 
+num_years = args.n_yrs
+
 
 ### CONSTANT STRINGS ###
 skater_summary = 'summary'
@@ -95,8 +98,6 @@ right_wing_tag = ['R', 'Right Wings']
 center_tag = ['C', 'Centers']
 defenceman_tag = ['D', 'Defencemen']
 goalie_tag = ['G', 'Goalies']
-
-num_years = 10
 
 base_skater_url = 'https://api.nhle.com/stats/rest/en/skater/{}?isAggregate=false&isGame=false&start={}&limit=100&factCayenneExp=gamesPlayed%3E=10&cayenneExp=gameTypeId=2%20and%20positionCode%3D%22{}%22%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
 base_goalie_url = 'https://api.nhle.com/stats/rest/en/goalie/{}?isAggregate=false&isGame=false&&start={}&limit=100&factCayenneExp=gamesPlayed%3E=5&cayenneExp=gameTypeId=2%20and%20seasonId%3C={}%20and%20seasonId%3E={}'
@@ -127,19 +128,25 @@ goalie_scalable_data = ['assists', 'completeGames', 'evGoalsAgainst', 'evSaves',
 
 # With the help of api_helper this queries the nhle api the required number of times and joins the data into one json record
 def api_main(base_url, tag, report_list, num_years):
-	final_records = {
-		'data': [],
-		'total': 0
-	}
+    final_records = {
+        'data': [],
+        'total': 0
+    }
 
-	curr_year = datetime.now().year if datetime.now().month >= 5 else datetime.now().year - 1
-	for i in tqdm(range(num_years, 0, -1), desc='Processing ' + tag[1], position=0):
-		season_id = f'{curr_year - i}{curr_year - (i - 1)}'
-		temp = api_helper(base_url, tag, report_list, season_id)
-		final_records.update({'data': final_records.get('data') + temp.get('data')})
-		final_records.update({'total': final_records.get('total') + temp.get('total')})
+    curr_year = datetime.now().year if datetime.now().month >= 5 else datetime.now().year - 1
+    for i in tqdm(range(num_years, 0, -1), desc='Processing ' + tag[1], position=0):
+        season_id = f'{curr_year - i}{curr_year - (i - 1)}'
+        for attempt in range(5):
+            temp = api_helper(base_url, tag, report_list, season_id)
+            player_ids = [player['playerId'] for player in temp.get('data')]
+            if len(player_ids) == len(set(player_ids)):
+                break
+        else:
+            raise Exception(f"Mismatch in API data: duplicate playerIds found for season {season_id} not resolved within 5 attempts.")
+        final_records.update({'data': final_records.get('data') + temp.get('data')})
+        final_records.update({'total': final_records.get('total') + temp.get('total')})
 
-	return final_records
+    return final_records
 
 
 def api_helper(base_url, tag, report_list, year_bound):
@@ -370,18 +377,23 @@ def save_files(running_data_list, running_points_list, most_recent_data, most_re
 
 	np.save(center_path / 'player_data', running_data_list[0])
 	np.save(center_path / 'fantasy_points_data', running_points_list[0])
+	np.save(center_path / 'most_recent_season_data', most_recent_data[0])
+	np.save(center_path / 'most_recent_season_data_names', most_recent_data_names[0])
 
 	np.save(wing_path / 'player_data', running_data_list[1])
 	np.save(wing_path / 'fantasy_points_data', running_points_list[1])
+	np.save(wing_path / 'most_recent_season_data', most_recent_data[1])
+	np.save(wing_path / 'most_recent_season_data_names', most_recent_data_names[1])
 
 	np.save(defenceman_path / 'player_data', running_data_list[2])
 	np.save(defenceman_path / 'fantasy_points_data', running_points_list[2])
+	np.save(defenceman_path / 'most_recent_season_data', most_recent_data[2])
+	np.save(defenceman_path / 'most_recent_season_data_names', most_recent_data_names[2])
 
 	np.save(goalie_path / 'player_data', running_data_list[3])
 	np.save(goalie_path / 'fantasy_points_data', running_points_list[3])
-
-	np.save(path / 'most_recent_season_data', most_recent_data)
-	np.save(path / 'most_recent_season_data_names', most_recent_data_names)
+	np.save(goalie_path / 'most_recent_season_data', most_recent_data[3])
+	np.save(goalie_path / 'most_recent_season_data_names', most_recent_data_names[3])
 
 
 # Prints out the json for a players stats given in a dictionary

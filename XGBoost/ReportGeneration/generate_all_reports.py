@@ -4,16 +4,6 @@ import pickle
 import math
 
 def generate_reports(position_str):
-    index = None
-    if position_str == 'centers':
-        index = 0
-    elif position_str == 'wings':
-        index = 1
-    elif position_str == 'defencemen':
-        index = 2
-    else:
-        index = 3
-
     ##### Load Model #####
     current_file_path = pathlib.Path(__file__).parent.absolute()
     path = current_file_path.parents[0] / 'SavedModels'
@@ -28,14 +18,10 @@ def generate_reports(position_str):
 
 
     ##### Predict and Save Fantasy Values #####
-    path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData'
+    path = current_file_path.parents[0].parents[0] / 'Data' / 'PlayerData' / position_str.capitalize()
 
     stats = np.load(path / 'most_recent_season_data.npy', allow_pickle=True)
-    stats = stats[index]
-    stats = np.asarray(stats)
-    
     names = np.load(path / 'most_recent_season_data_names.npy', allow_pickle=True)
-    names = names[index]
 
     predictions = []
     temp = reg.predict(stats)
