@@ -55,13 +55,10 @@
   - Run `python3 run_all.py` from the base project folder along with any desired tags as described below. This generates the all the models to make predictions from.
     - If you want to run only specific models, you can add their tag in the command line. Adding no tags will run them all, but if you add a tag it will only run the models tagged.
     - Tags are as follows:
-      - `--mr` for MultipleRegression
-      - `--en` for ElasticNet
       - `--rf` for RandomForest
       - `--ab` for AdaBoost
-      - `--gb` for GradientBoost
       - `--xgb` for XGBoost
-    - Ex: To run only ElasticNet, AdaBoost, and XGBoost you would type `python3 run_all.py --en --ab --xgb`.
+    - Ex: To run only AdaBoost and XGBoost you would type `python3 run_all.py --ab --xgb`.
 - **Generate Predictions**
   - Run `python3 generate_final_report.py` from the base project folder along with any desired tags as described below. This will generate a report of fantasy predictions in a new file named `final_report.txt`. That file will be in the base project folder.
     - If you do not want to use every model generated you can use the same tags as in the step above to limit what models are used for predictions. However, in order to use any given model it must have been previously generated with the `run_all.py` above. Providing no model tags will use all models for predictions.

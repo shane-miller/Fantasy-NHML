@@ -59,16 +59,10 @@ def process_model(model_str, positions):
 def generate_report(models, file, position_str):
     predictions_list = []
     if models[0]:
-        predictions_list.append(process_model('MultipleRegression', position_str))
-    if models[1]:
-        predictions_list.append(process_model('ElasticNet', position_str))
-    if models[2]:
         predictions_list.append(process_model('RandomForest', position_str))
-    if models[3]:
+    if models[1]:
         predictions_list.append(process_model('AdaBoost', position_str))
-    if models[4]:
-        predictions_list.append(process_model('GradientBoost', position_str))
-    if models[5]:
+    if models[2]:
         predictions_list.append(process_model('XGBoost', position_str))
 
     final_predictions = []
@@ -94,17 +88,14 @@ def main():
     ##### PARSER #####
     parser = argparse.ArgumentParser(description = 'Set models used for predictions and report format.')
 
-    parser.add_argument('--mr',  action = 'store_true', help = 'Add tag if you want to use MultipleRegression for predictions.')
-    parser.add_argument('--en',  action = 'store_true', help = 'Add tag if you want to use ElasticNet for predictions.')
     parser.add_argument('--rf',  action = 'store_true', help = 'Add tag if you want to use RandomForest for predictions.')
     parser.add_argument('--ab',  action = 'store_true', help = 'Add tag if you want to use AdaBoost for predictions.')
-    parser.add_argument('--gb',  action = 'store_true', help = 'Add tag if you want to use GradientBoost for predictions.')
     parser.add_argument('--xgb', action = 'store_true', help = 'Add tag if you want to use XGBoost for predictions.')
     parser.add_argument('--format', type = str, choices = ['sg', 'fdg', 'cwdg'], default = 'fdg', help = 'sg for skater/goalie, fdg for forward/defence/goalie, cwdg for center/wing/defence/goalie')
 
     args = parser.parse_args()
 
-    models = [args.mr, args.en, args.rf, args.ab, args.gb, args.xgb]
+    models = [args.rf, args.ab, args.xgb]
     report_format = args.format
 
     positions = None
